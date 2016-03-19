@@ -1,8 +1,6 @@
 package com.almacen.module.user.service;
 
 import com.almacen.config.AppConfig;
-import com.almacen.module.folder.Folder;
-import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.user.User;
 import com.almacen.module.userrole.service.UserRoleService;
 
@@ -31,9 +29,6 @@ public class UserServiceTests {
 
     @Inject
     UserRoleService userRoleService;
-
-    @Inject
-    FolderService folderService;
 
     @Inject
     @Qualifier("sessionFactoryMySQL")
