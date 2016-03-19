@@ -50,18 +50,13 @@ public class UserServiceTests {
 
     @Test
     public void saveUser() {
-
         User newUser = userService.findUserById(testUser.getId());
-        Folder defaultFolder = folderService.findUserDefaultFolder(newUser.getId());
 
         assertNotNull(newUser);
         assertEquals("test5@test.gmail.com", newUser.getMail());
         assertEquals("testusername5", newUser.getUsername());
         assertEquals(User.DEFAULT_ROLE, newUser.getRole().getRole());
         assertEquals("testpassword5", newUser.getPassword());
-
-        assertNotNull(defaultFolder);
-        assertEquals(defaultFolder.getOwner().getId(), newUser.getId());
     }
 
     @Test
