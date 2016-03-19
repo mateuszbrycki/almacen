@@ -1,10 +1,13 @@
 ## Start & test
 
-Build the project and launch the web app with tomcat on [http://localhost:8082](http://localhost:8082):
+Before first start all dependencies should be downloaded:
 
-    Before first start all dependencies should be downloaded:
+```
+#!java
     mvn clean install
+```
 
+Build the project and launch the web app with tomcat on [http://localhost:8082](http://localhost:8082):
     cd almacen
     mvn clean spring-boot:run  -Djavax.net.ssl.trustStore=.keystore -Djavax.net.ssl.trustStorePassword=mateusz3
 
