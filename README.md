@@ -14,6 +14,13 @@ Build the project and launch the web app with tomcat on [http://localhost:8082](
     cd almacen
     mvn clean spring-boot:run  -Djavax.net.ssl.trustStore=.keystore -Djavax.net.ssl.trustStorePassword=mateusz3
 ```
+or run:
+```
+#!java
+    cd almacen
+    ./boot.sh
+```
+
 Running unit tests (maven-surefire-plugin):
     
 
