@@ -20,7 +20,7 @@ public class UserRoleServiceImpl implements UserRoleService  {
     }
 
     @Override
-    public UserRole findByName(String role) { return userRoleRepository.findOneByRole(role); }
+    public UserRole findByRole(String role) { return userRoleRepository.findOneByRole(role); }
 
     @Override
     public UserRole findById(Integer id) { return userRoleRepository.findOne(id); }

@@ -7,7 +7,7 @@ public interface UserRoleService {
 
     void saveUserRole(UserRole userRole);
 
-    UserRole findByName(String role);
+    UserRole findByRole(String role);
 
     UserRole findById(Integer id);
 }

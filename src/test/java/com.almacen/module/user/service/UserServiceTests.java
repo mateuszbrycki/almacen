@@ -49,7 +49,7 @@ public class UserServiceTests {
         testUser = new User();
         testUser.setMail("test5@test.gmail.com");
         testUser.setUsername("testusername5");
-        testUser.setRole(userRoleService.findByName(User.DEFAULT_ROLE));
+        testUser.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
         testUser.setPassword("testpassword5");
         userService.registerUser(testUser);
     }
@@ -103,7 +103,7 @@ public class UserServiceTests {
         User testUser2 = new User();
         testUser2.setMail("test2@test.gmail.com");
         testUser2.setUsername("testusername2");
-        testUser2.setRole(userRoleService.findByName(User.DEFAULT_ROLE));
+        testUser2.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
@@ -118,7 +118,7 @@ public class UserServiceTests {
         User testUser2 = new User();
         testUser2.setMail("test2@test.gmail.com");
         testUser2.setUsername("testusername2");
-        testUser2.setRole(userRoleService.findByName(User.DEFAULT_ROLE));
+        testUser2.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
@@ -133,7 +133,7 @@ public class UserServiceTests {
         User testUser2 = new User();
         testUser2.setMail("test2@test.gmail.com");
         testUser2.setUsername("testusername2");
-        testUser2.setRole(userRoleService.findByName(User.DEFAULT_ROLE));
+        testUser2.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
@@ -150,7 +150,7 @@ public class UserServiceTests {
         User testUser2 = new User();
         testUser2.setMail("test2@test.gmail.com");
         testUser2.setUsername("testusername2");
-        testUser2.setRole(userRoleService.findByName(User.DEFAULT_ROLE));
+        testUser2.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
@@ -167,7 +167,7 @@ public class UserServiceTests {
         User testUser2 = new User();
         testUser2.setMail("test2@test.gmail.com");
         testUser2.setUsername("testusername2");
-        testUser2.setRole(userRoleService.findByName(User.DEFAULT_ROLE));
+        testUser2.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
@@ -196,7 +196,7 @@ public class UserServiceTests {
         User testUser2 = new User();
         testUser2.setMail("test2@test.gmail.com");
         testUser2.setUsername("testusername2");
-        testUser2.setRole(userRoleService.findByName(User.DEFAULT_ROLE));
+        testUser2.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
