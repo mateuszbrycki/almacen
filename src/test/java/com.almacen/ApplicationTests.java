@@ -1,6 +1,6 @@
 package com.almacen;
 
-import com.almacen.config.AppConfig;
+import com.almacen.config.test.TestAppConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes=AppConfig.class)
+@SpringApplicationConfiguration(classes=TestAppConfig.class)
 @WebIntegrationTest
 public class ApplicationTests {
     private MockMvc mockMvc;

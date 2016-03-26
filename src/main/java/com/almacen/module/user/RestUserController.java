@@ -1,6 +1,7 @@
 package com.almacen.module.user;
 
 import com.almacen.Select2Response;
+import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
 import org.springframework.http.HttpStatus;
@@ -24,14 +25,22 @@ public class RestUserController {
     @RequestMapping(value = {UserUrls.Api.USERNAME, "/"}, method = RequestMethod.GET)
     public ResponseEntity<Object> getMessage(HttpServletRequest request,
                                              HttpServletResponse response,
-                                             @RequestParam Map<String,String> allRequestParams) {
+                                             @RequestParam Map<String,String> allRequestParams)  {
 
         String usernameParameter = allRequestParams.get("username");
         Integer userId = UserUtils.getUserId(request, response);
 
         List<Select2Response> responseObject = new ArrayList<>();
 
-        for(User user : userService.findUsersByUsername(usernameParameter, userId)) {
+        List<User> users;
+
+        try {
+            users = userService.findUsersByUsername(usernameParameter, userId);
+        } catch(UserNotFoundException e) {
+            users = new ArrayList<>();
+        }
+
+        for (User user : users) {
             responseObject.add(new Select2Response(String.valueOf(user.getId()), user.getUsername()));
         }
 

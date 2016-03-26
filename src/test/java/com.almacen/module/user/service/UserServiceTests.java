@@ -1,27 +1,28 @@
 package com.almacen.module.user.service;
 
-import com.almacen.config.AppConfig;
+import com.almacen.config.test.TestAppConfig;
 import com.almacen.module.user.User;
+import com.almacen.module.user.exception.UserNotFoundException;
+import com.almacen.module.userrole.UserRole;
 import com.almacen.module.userrole.service.UserRoleService;
 
 import static org.junit.Assert.*;
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
 import org.junit.Before;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes=AppConfig.class)
+@SpringApplicationConfiguration(classes= TestAppConfig.class)
 @WebIntegrationTest
+@Transactional
 public class UserServiceTests {
 
     @Inject
@@ -30,16 +31,21 @@ public class UserServiceTests {
     @Inject
     UserRoleService userRoleService;
 
-    @Inject
-    @Qualifier("sessionFactoryMySQL")
-    SessionFactory sessionFactory;
-
     User testUser;
 
     private static final Logger logger = Logger.getLogger(UserServiceTests.class);
 
     @Before
     public void initObjects() {
+
+        UserRole userRole = new UserRole();
+        userRole.setRole("ROLE_USER");
+        userRoleService.saveUserRole(userRole);
+
+        UserRole userRole1 = new UserRole();
+        userRole1.setRole("ROLE_ADMIN");
+        userRoleService.saveUserRole(userRole1);
+
         testUser = new User();
         testUser.setMail("test5@test.gmail.com");
         testUser.setUsername("testusername5");
@@ -50,7 +56,12 @@ public class UserServiceTests {
 
     @Test
     public void saveUser() {
-        User newUser = userService.findUserById(testUser.getId());
+        User newUser = null;
+        try {
+            newUser = userService.findUserById(testUser.getId());
+        } catch(UserNotFoundException e) {
+            fail("User not found.");
+        }
 
         assertNotNull(newUser);
         assertEquals("test5@test.gmail.com", newUser.getMail());
@@ -60,28 +71,31 @@ public class UserServiceTests {
     }
 
     @Test
-    public void updateUser() {
+    public void updateUser()  {
 
         testUser.setPassword("newpassword");
 
         userService.updateUser(testUser);
 
-        User newUser = userService.findUserById(testUser.getId());
+        User newUser = null;
+        try {
+            newUser = userService.findUserById(testUser.getId());
+        } catch(UserNotFoundException e) {
+            fail("User not found.");
+        }
 
         assertNotNull(newUser);
         assertEquals("newpassword", newUser.getPassword());
 
     }
 
-    @Test
-    public void deleteUserById() {
+    @Test(expected=UserNotFoundException.class)
+    public void deleteUserById() throws UserNotFoundException {
         int temp = testUser.getId();
 
         userService.deleteUserById(testUser.getId());
 
         User deletedUser = userService.findUserById(temp);
-
-        assertNull(deletedUser);
     }
 
     @Test
@@ -115,7 +129,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void getUserIdByUsername() {
+    public void getUserIdByUsername()  {
         User testUser2 = new User();
         testUser2.setMail("test2@test.gmail.com");
         testUser2.setUsername("testusername2");
@@ -123,13 +137,16 @@ public class UserServiceTests {
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
-        assertEquals((Integer) testUser2.getId(), (Integer) userService.getUserIdByUsername("testusername2"));
-
+        try {
+            assertEquals(testUser2.getId(),userService.getUserIdByUsername("testusername2"));
+        } catch(UserNotFoundException e) {
+            fail("User not found.");
+        }
         userService.deleteUserById(testUser2.getId());
     }
 
     @Test
-    public void findUserById() {
+    public void findUserById()  {
         User testUser2 = new User();
         testUser2.setMail("test2@test.gmail.com");
         testUser2.setUsername("testusername2");
@@ -137,8 +154,11 @@ public class UserServiceTests {
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
-        assertEquals("testusername2", userService.findUserById(testUser2.getId()).getUsername());
-
+        try {
+            assertEquals("testusername2", userService.findUserById(testUser2.getId()).getUsername());
+        } catch(UserNotFoundException e) {
+            fail("User not found.");
+        }
         userService.deleteUserById(testUser2.getId());
     }
 
@@ -151,13 +171,22 @@ public class UserServiceTests {
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
-        List<User> users = userService.findUsersByUsername("testusername");
+        List<User> users = null;
+        try {
+           users = userService.findUsersByUsername("testusername");
+        } catch(UserNotFoundException e) {
+            fail("User not found.");
+        }
 
         assertEquals(2, users.size());
 
         userService.deleteUserById(testUser2.getId());
 
-        users = userService.findUsersByUsername("testusername");
+        try {
+            users = userService.findUsersByUsername("testusername");
+        } catch(UserNotFoundException e) {
+            fail("User not found.");
+        }
 
         assertEquals(1, users.size());
     }
@@ -171,21 +200,21 @@ public class UserServiceTests {
         testUser2.setPassword("testpassword2");
         userService.registerUser(testUser2);
 
-        List<User> users = userService.findUsersByUsername("testusername", testUser.getId());
-
+        List<User> users = null;
+        try {
+            users = userService.findUsersByUsername("testusername", testUser.getId());
+        } catch(UserNotFoundException e) {
+            fail("User not found.");
+        }
         assertEquals(1, users.size());
 
         userService.deleteUserById(testUser2.getId());
 
-        users = userService.findUsersByUsername("testusername", testUser.getId());
-
-        assertEquals(0, users.size());
+        users = null;
+        try {
+            users = userService.findUsersByUsername("testusername", testUser.getId());
+        } catch(UserNotFoundException e) {
+            assertNull(users);
+        }
     }
-
-    @After
-    public void clearDatabase() {
-        userService.deleteUserById(testUser.getId());
-
-    }
-
 }

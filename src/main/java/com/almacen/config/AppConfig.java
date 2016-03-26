@@ -2,11 +2,13 @@ package com.almacen.config;
 
 import com.almacen.config.factory.FactoryConfig;
 import com.almacen.config.filter.SiteMeshFilter;
+import com.almacen.config.logger.LoggerConfig;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -24,8 +26,14 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration
 @ComponentScan({"com.almacen"})
-@Import({ SecurityConfig.class, HibernateConfig.class, Pac4jConfig.class, FactoryConfig.class})
+@Import({ SecurityConfig.class,
+        HibernateConfig.class,
+        Pac4jConfig.class,
+        FactoryConfig.class,
+        LoggerConfig.class
+})
 @PropertySource(value = { "classpath:application.properties" })
+@EnableJpaRepositories("com.almacen")
 public class AppConfig extends WebMvcConfigurerAdapter {
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = new String[]{

@@ -43,7 +43,7 @@ public class UserFactory implements UserAbstractFactory {
 
             user.setRole(userRole);
         } else {
-            user.setRole(userRoleService.findById((Integer) userObject[2]));
+           user.setRole(userRoleService.findById((Integer) userObject[2]));
         }
 
         return user;

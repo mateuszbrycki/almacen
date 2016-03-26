@@ -6,19 +6,20 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="user_role")
 public class UserRole {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name="role_id")
+    private Integer id;
 
     @NotNull
-    @Column(name="role")
     private String role;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
