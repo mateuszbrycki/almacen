@@ -1,29 +1,30 @@
 package com.almacen.module.userrole.service;
 
 import com.almacen.module.userrole.UserRole;
-import com.almacen.module.userrole.dao.UserRoleDao;
+import com.almacen.module.userrole.repository.UserRoleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
+import javax.annotation.Resource;
 
 @Service("userRoleService")
-@Transactional(value = "transactionManagerMySQL")
-public class UserRoleServiceImpl implements UserRoleService {
+@Transactional
+public class UserRoleServiceImpl implements UserRoleService  {
 
-    @Inject
-    private UserRoleDao userRoleDao;
+    @Resource
+    private UserRoleRepository userRoleRepository;
 
     @Override
     public void saveUserRole(UserRole userRole) {
-        userRoleDao.saveUserRole(userRole);
+        userRoleRepository.save(userRole);
     }
 
     @Override
-    public UserRole findByName(String role) { return userRoleDao.findByName(role); }
+    public UserRole findByRole(String role) { return userRoleRepository.findOneByRole(role); }
 
     @Override
-    public UserRole findById(Integer id) { return userRoleDao.findById(id); }
+    public UserRole findById(Integer id) { return userRoleRepository.findOne(id); }
+
 
 }
 

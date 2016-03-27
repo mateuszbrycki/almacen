@@ -2,6 +2,7 @@ package com.almacen.module.user.service;
 
 
 import com.almacen.module.user.User;
+import com.almacen.module.user.exception.UserNotFoundException;
 
 import java.util.List;
 
@@ -16,15 +17,15 @@ public interface UserService {
 
     Boolean checkIfUserWithUsernameExists(String username);
 
-    User findUserById(Integer userId);
+    User findUserById(Integer userId) throws UserNotFoundException;
 
-    User findUserByUsername(String username);
+    User findUserByUsername(String username) throws UserNotFoundException;
 
-    List<User> findUsersByUsername(String username);
+    List<User> findUsersByUsername(String username) throws UserNotFoundException;
 
-    List<User> findUsersByUsername(String username, Integer userId);
+    List<User> findUsersByUsername(String username, Integer userId) throws UserNotFoundException;
 
-    Integer getUserIdByUsername(String username);
+    Integer getUserIdByUsername(String username) throws UserNotFoundException;
 
     Boolean registerUser(User user);
 

@@ -21,7 +21,7 @@ public class UserFactory implements UserAbstractFactory {
         user.setMail(userDTO.getMail());
         user.setPassword(userDTO.getPassword());
         user.setIsActive(User.DEFAULT_IS_ACTIVE);
-        user.setRole(userRoleService.findByName(User.DEFAULT_ROLE));
+        user.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
 
         return user;
     }
@@ -43,7 +43,7 @@ public class UserFactory implements UserAbstractFactory {
 
             user.setRole(userRole);
         } else {
-            user.setRole(userRoleService.findById((Integer) userObject[2]));
+           user.setRole(userRoleService.findById((Integer) userObject[2]));
         }
 
         return user;

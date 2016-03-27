@@ -2,6 +2,7 @@ package com.almacen.module.user;
 
 import com.almacen.module.base.BaseUrls;
 import com.almacen.module.user.dto.UserDTO;
+import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
 import org.apache.log4j.Logger;
@@ -93,7 +94,7 @@ public class UserController {
                                      @RequestParam("password_old") String oldPassword,
                                      @RequestParam("password") String newPassword,
                                      @RequestParam("password_repeat") String passwordRepeat,
-                                     RedirectAttributes attributes, Locale locale) {
+                                     RedirectAttributes attributes, Locale locale) throws UserNotFoundException {
 
         Integer userId = UserUtils.getUserId(request, response);
 
@@ -129,7 +130,7 @@ public class UserController {
     public String changeUsernamePage(HttpServletRequest request,
                                      HttpServletResponse response,
                                      @RequestParam("username") String username,
-                                     RedirectAttributes attributes, Locale locale) {
+                                     RedirectAttributes attributes, Locale locale)  throws UserNotFoundException  {
 
         Integer userId = UserUtils.getUserId(request, response);
 
@@ -150,7 +151,7 @@ public class UserController {
         return this.userService.checkIfUserWithUsernameExists(username);
     }
 
-    private void updateUserUsername(Integer userId, String newUsername) {
+    private void updateUserUsername(Integer userId, String newUsername)  throws UserNotFoundException   {
         User user = this.userService.findUserById(userId);
         user.setUsername(newUsername);
         this.userService.updateUser(user);
@@ -160,7 +161,7 @@ public class UserController {
     public String deleteAccountAction(HttpServletRequest request,
                                       HttpServletResponse response,
                                       @RequestParam("password") String password,
-                                      RedirectAttributes attributes, Locale locale) {
+                                      RedirectAttributes attributes, Locale locale)  throws UserNotFoundException  {
 
         Integer userId = UserUtils.getUserId(request, response);
         User user = this.userService.findUserById(userId);

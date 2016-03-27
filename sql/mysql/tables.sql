@@ -19,6 +19,12 @@ CREATE TABLE user_account (
 		ON UPDATE CASCADE
 );
 
+CREATE TABLE logger_message (
+  message_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  message TEXT NOT NULL,
+  status INTEGER NOT NULL,
+  audit_cd TIMESTAMP NOT NULL
+);
 
 --DATA
 INSERT INTO `user_role` (`id`, `role_id`) VALUES
