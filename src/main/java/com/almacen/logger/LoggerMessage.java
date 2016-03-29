@@ -1,6 +1,9 @@
 package com.almacen.logger;
 
 import com.almacen.logger.status.Status;
+import com.almacen.module.user.User;
+import com.almacen.module.userrole.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,6 +28,11 @@ public class LoggerMessage {
     @NotNull
     @Column(name="audit_cd")
     private Date date;
+
+    @OneToOne
+    @JoinColumn(name="fk_user_id")
+    @JsonIgnore
+    private User user;
 
     public int getId() {
         return id;
@@ -56,5 +64,13 @@ public class LoggerMessage {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

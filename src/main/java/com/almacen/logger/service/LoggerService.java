@@ -7,8 +7,11 @@ import java.util.List;
 
 public interface LoggerService {
     LoggerMessage create(LoggerMessage LoggerMessage);
-    LoggerMessage delete(int id) throws LoggerMessageNotFound;
-    List findAll();
+    LoggerMessage delete(Integer id) throws LoggerMessageNotFound;
     LoggerMessage update(LoggerMessage LoggerMessage) throws LoggerMessageNotFound;
-    LoggerMessage findById(int id);
+
+    LoggerMessage findById(Integer id);
+
+    List findAll();
+    List findAllByUserId(Integer id);
 }
