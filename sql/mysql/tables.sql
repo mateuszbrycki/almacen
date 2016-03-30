@@ -23,7 +23,11 @@ CREATE TABLE logger_message (
   message_id INTEGER PRIMARY KEY AUTO_INCREMENT,
   message TEXT NOT NULL,
   status INTEGER NOT NULL,
-  audit_cd TIMESTAMP NOT NULL
+  audit_cd TIMESTAMP NOT NULL,
+  fk_user_id INTEGER DEFAULT NULL,
+  FOREIGN KEY (fk_user_id)
+		REFERENCES user (user_id)
+		ON UPDATE CASCADE
 );
 
 --DATA

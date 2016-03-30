@@ -10,7 +10,7 @@
         <div style="float: right;">
             <ul class="nav navbar-nav">
                 <li type="button"  data-dismiss="modal" style="margin: 2px;">
-                    <a href="<%=UserUrls.USER_MANAGEMENT_FULL%>" id="show-add-project-form">
+                    <a href="<%=UserUrls.USER_MANAGEMENT_FULL%>">
                         <span class="glyphicon glyphicon-cog"></span>
                         <spring:message code="user.account.management" />
                     </a>

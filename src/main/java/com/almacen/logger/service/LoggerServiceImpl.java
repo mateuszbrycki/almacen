@@ -23,7 +23,7 @@ public class LoggerServiceImpl implements LoggerService {
 
     @Override
     @Transactional(rollbackFor=LoggerMessageNotFound.class)
-    public LoggerMessage delete(int id) throws LoggerMessageNotFound {
+    public LoggerMessage delete(Integer id) throws LoggerMessageNotFound {
         LoggerMessage loggerMessage = this.loggerMessageRepository.findOne(id);
 
         if(loggerMessage == null) {
@@ -37,6 +37,11 @@ public class LoggerServiceImpl implements LoggerService {
     @Override
     public List findAll() {
         return this.loggerMessageRepository.findAll();
+    }
+
+    @Override
+    public List findAllByUserId(Integer id)  {
+        return this.loggerMessageRepository.findAllByUserId(id);
     }
 
     @Override
@@ -55,7 +60,7 @@ public class LoggerServiceImpl implements LoggerService {
     }
 
     @Override
-    public LoggerMessage findById(int id) {
+    public LoggerMessage findById(Integer id) {
         return this.loggerMessageRepository.findOne(id);
     }
 }
