@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -38,7 +37,7 @@ public class FolderPolicy {
     private String viewPath = "controller/folder/";
 
 
-        @RequestMapping(value = UserUrls.FOLDER_CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = UserUrls.FOLDER_CREATE, method = RequestMethod.POST)
     public String saveUploadedFiles(HttpServletRequest request,
                                      HttpServletResponse response,
                                      @RequestParam("folder") String folder,
@@ -63,8 +62,32 @@ public class FolderPolicy {
     }
 
     @RequestMapping(value = UserUrls.FOLDER_CREATE_VIEW, method = RequestMethod.GET)
-    public String managementPage(HttpServletRequest request, HttpServletResponse response) {
+    public String createFolderPage(HttpServletRequest request, HttpServletResponse response) {
 
         return this.viewPath + "main";
     }
+
+//    @RequestMapping(value = UserUrls.FOLDER_SHOW, method = RequestMethod.GET)
+//    public String showFolderPage(HttpServletRequest request, HttpServletResponse response) {
+//
+//        return this.viewPath + "listFiles";
+//    }
+
+    @RequestMapping(value = UserUrls.FOLDER_SHOW, method = RequestMethod.GET)
+    public String listFilesAndFolders(HttpServletRequest request, HttpServletResponse response) throws UserNotFoundException {
+
+        Integer userId = UserUtils.getUserId(request, response);
+        User user = this.userService.findUserById(userId);
+        String uploadPath = FolderPolicy.UPLOAD_PATH + "/" + user.getUsername();
+        String path = request.getContextPath();
+        System.out.println(path);
+        File directory = new File(path+"/"+uploadPath);
+        System.out.println(directory);
+        //get all the files from a directory
+        File[] fList = directory.listFiles();
+        for (File file : fList){
+            System.out.println(file.getName());
+        }
+        return this.viewPath + "listFiles";
     }
+}

@@ -25,6 +25,13 @@
                     </a>
                 </li>
 
+                <li type="button"  data-dismiss="modal" style="margin: 2px;">
+                    <a href="<%=UserUrls.FOLDER_SHOW_FULL%>" id="Show_files">
+                        <span class="glyphicon glyphicon-list"></span>
+                        <spring:message code="folder.show" />
+                    </a>
+                </li>
+
             </ul>
 
             <a href="<%=UserUrls.USER_LOGOUT_FULL%>" class="btn btn-primary" style="margin-top: 10px;">
