@@ -98,6 +98,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAllUser() throws UserNotFoundException {
+        List<User> users = this.userRepository.findAll();
+
+        return users;
+    }
+
+    @Override
     public Integer getUserIdByUsername(String username) throws UserNotFoundException {
         User user = this.userRepository.findOneByUsername(username);
 

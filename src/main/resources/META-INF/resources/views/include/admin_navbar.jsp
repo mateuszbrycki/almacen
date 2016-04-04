@@ -26,6 +26,12 @@
                         <spring:message code="user.account.management"/>
                     </a>
                 </li>
+                <li type="button" data-dismiss="modal" style="margin: 2px;">
+                    <a href="<%=UserUrls.USER_MANAGEMENT_FULL%>">
+                        <span class="glyphicon glyphicon-cog"></span>
+                        <spring:message code="user.edit.management"/>
+                    </a></li>
+                </ul>
             </ul>
 
             <a href="<%=UserUrls.USER_LOGOUT_FULL%>" class="btn btn-primary" style="margin-top: 10px;">
