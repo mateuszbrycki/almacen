@@ -30,16 +30,16 @@ public class UserUrls implements UrlSpace {
     public static final String USER_DELETE = USER_MANAGEMENT + "/delete";
     public static final String USER_DELETE_FORM = USER + USER_DELETE;
 
-    public static final String USER_CHANGE_ROLE = USER_MANAGEMENT + "/changerole";
+    public static final String USER_CHANGE_ROLE = USER_EDIT_MANAGEMENT + "/changerole";
     public static final String USER_CHANGE_ROLE_FORM = USER + USER_CHANGE_ROLE;
 
-    public static final String ADMIN_PASSWORD_CHANGE = USER_MANAGEMENT + "/adminpassword";
+    public static final String ADMIN_PASSWORD_CHANGE = USER_EDIT_MANAGEMENT + "/adminpassword";
     public static final String ADMIN_PASSWORD_CHANGE_FORM = USER + ADMIN_PASSWORD_CHANGE;
 
-    public static final String ADMIN_USERNAME_CHANGE = "/adminusername";
+    public static final String ADMIN_USERNAME_CHANGE = USER_EDIT_MANAGEMENT +"/adminusername";
     public static final String ADMIN_USERNAME_CHANGE_FORM = USER + ADMIN_USERNAME_CHANGE;
 
-    public static final String ADMIN_DELETE = USER_MANAGEMENT + "/admindelete";
+    public static final String ADMIN_DELETE = USER_EDIT_MANAGEMENT + "/admindelete";
     public static final String ADMIN_DELETE_FORM = USER + ADMIN_DELETE;
 
 

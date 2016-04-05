@@ -224,7 +224,7 @@ public class UserController {
 //        return "redirect:" + UserUrls.USER_EDIT_MANAGEMENT_FULL;
 //    }
 
-//
+
 //    @RequestMapping(value = UserUrls.ADMIN_PASSWORD_CHANGE, method = RequestMethod.POST)
 //    public String changePasswordAdminPage(HttpServletRequest request,
 //                                     HttpServletResponse response,
@@ -250,7 +250,7 @@ public class UserController {
 //
 //        return "redirect:" + UserUrls.USER_EDIT_MANAGEMENT_FULL;
 //    }
-//
+
     @RequestMapping(value = UserUrls.ADMIN_USERNAME_CHANGE, method = RequestMethod.POST)
     public String changeUsernameAdminPage(HttpServletRequest request,
                                      HttpServletResponse response,
@@ -259,18 +259,14 @@ public class UserController {
                                      RedirectAttributes attributes, Locale locale)  throws UserNotFoundException  {
 
 
-        System.out.println(username+"\n"+puf);
-
-//        Integer userId = UserUtils.getUserId(request, response);
         User user = this.userService.findUserByUsername(puf);
+        Integer userId = user.getId();
 
         //check if username doesn't exist in database
         Boolean usernameExists = this.doesUserExist(username);
 
-        System.out.println(username+"\n"+puf+"\n"+user.getId());
-
         if(!usernameExists) {
-            this.updateUserUsername(user.getId(), username);
+            this.updateUserUsername(userId, username);
             attributes.addFlashAttribute("success", messageSource.getMessage("user.message.success.username", args, locale));
         } else {
             attributes.addFlashAttribute("error", messageSource.getMessage("user.message.error.username", args, locale));
@@ -278,7 +274,7 @@ public class UserController {
 
         return "redirect:" + UserUrls.USER_EDIT_MANAGEMENT_FULL;
     }
-//
+
 //    @RequestMapping(value = UserUrls.ADMIN_DELETE, method = RequestMethod.POST)
 //    public String deleteAccountAdminAction(HttpServletRequest request,
 //                                      HttpServletResponse response,

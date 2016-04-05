@@ -4,21 +4,21 @@
 
 <div class="col-xs-12 col-md-8 col-md-offset-2">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title"><spring:message code="user.choose" /></h3>
-        </div>
-        <div class="panel-body">
-            <form id='user-choose-form' method='POST' class="form-horizontal">
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="puf"><spring:message code="user.choose" />:</label>
-                    <div class="col-sm-5">
-                        <input type="text" name="puf" class="form-control" required/>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    <%--<div class="panel panel-default">--%>
+        <%--<div class="panel-heading">--%>
+            <%--<h3 class="panel-title"><spring:message code="user.choose" /></h3>--%>
+        <%--</div>--%>
+        <%--<div class="panel-body">--%>
+            <%--<form id='user-choose-form' method='POST' class="form-horizontal">--%>
+                <%--<div class="form-group">--%>
+                    <%--<label class="control-label col-sm-3" for="puf"><spring:message code="user.choose" />:</label>--%>
+                    <%--<div class="col-sm-5">--%>
+                        <%--<input type="text" name="puf" class="form-control" required/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</form>--%>
+        <%--</div>--%>
+    <%--</div>--%>
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -26,7 +26,6 @@
         </div>
         <div class="panel-body">
             <form id='user-change-password-form' action="${pageContext.request.contextPath}<%=UserUrls.ADMIN_PASSWORD_CHANGE_FORM%>" method='POST' class="form-horizontal">
-
                 <div class="form-group">
                     <label class="control-label col-sm-3" for="password"><spring:message code="user.password" />:</label>
                     <div class="col-sm-5">
@@ -52,10 +51,17 @@
             <h3 class="panel-title"><spring:message code="user.change.username" /></h3>
         </div>
         <div class="panel-body">
+
             <form id='user-username-password-form' action="${pageContext.request.contextPath}<%=UserUrls.ADMIN_USERNAME_CHANGE_FORM%>" method='POST' class="form-horizontal">
 
                 <div class="form-group">
-                    <label class="control-label col-sm-3" for="userName"><spring:message code="user.username" />:</label>
+                    <label class="control-label col-sm-3" for="puf"><spring:message code="user.choose" />:</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="puf" class="form-control" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="username"><spring:message code="user.username" />:</label>
                     <div class="col-sm-5">
                         <input type="text" name="username" class="form-control"/>
                     </div>
@@ -94,7 +100,7 @@
             <h3 class="panel-title"><spring:message code="user.delete.account" /></h3>
         </div>
         <div class="panel-body">
-            <form id='user-delete-form' action="${pageContext.request.contextPath}<%=UserUrls.ADMIN_DELETE_FORM%>" method='POST' class="form-horizontal">
+           <form id='user-delete-form' action="${pageContext.request.contextPath}<%=UserUrls.ADMIN_DELETE_FORM%>" method='POST' class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-sm-3" for="password"><spring:message code="user.password" />:</label>
                     <div class="col-sm-5">
