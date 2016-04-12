@@ -21,17 +21,18 @@
         <div style="float: right;">
             <ul class="nav navbar-nav">
                 <li type="button" data-dismiss="modal" style="margin: 2px;">
-                    <a href="<%=UserUrls.USER_MANAGEMENT_FULL%>">
+                    <a href="<%=UserUrls.USER_LIST_FULL%>">
                         <span class="glyphicon glyphicon-cog"></span>
-                        <spring:message code="user.account.management"/>
+                        <spring:message code="user.edit.management"/>
                     </a>
                 </li>
                 <li type="button" data-dismiss="modal" style="margin: 2px;">
                     <a href="<%=UserUrls.USER_MANAGEMENT_FULL%>">
                         <span class="glyphicon glyphicon-cog"></span>
-                        <spring:message code="user.edit.management"/>
-                    </a></li>
-                </ul>
+                        <spring:message code="user.account.management"/>
+                    </a>
+                </li>
+            </ul>
             </ul>
 
             <a href="<%=UserUrls.USER_LOGOUT_FULL%>" class="btn btn-primary" style="margin-top: 10px;">
