@@ -1,6 +1,4 @@
-<%@ page import="com.almacen.module.admin.AdminUrls" %>
 <%@ page import="com.almacen.module.folder.FolderUrls" %>
-<%@ page import="com.almacen.module.folder.Folder" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -32,11 +30,10 @@
 <div class="table-responsive col-xs-12 col-md-12" id="logs-list">
 <c:choose>
     <c:when test="${fn:length(folders) gt 0}">
-
         <table class="table table-hover" id="logs-table">
-            <tr>
-                <th><spring:message code="logger.user"/></th>
-            </tr>
+                <%--<tr>--%>
+                <%--<th>Twój dysk</th>--%>
+                <%--</tr>--%>
 
             <c:forEach items="${folders}" var="folder">
                 <tr>
@@ -52,7 +49,7 @@
     </c:when>
     <c:otherwise>
         <div class="logs-alert alert alert-info" role="alert">
-            <spring:message code="logger.empty"/>
+            <spring:message code="folder.empty"/>
         </div>
     </c:otherwise>
 </c:choose>

@@ -2,6 +2,7 @@ package com.almacen.module.folder;
 
 import com.almacen.logger.LoggerMessage;
 import com.almacen.module.admin.AdminUrls;
+import com.almacen.module.base.BaseController;
 import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.service.FolderService;
@@ -55,33 +56,31 @@ public class FolderController {
                                @RequestParam("folder_id") Integer folder_id,
                                RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException {
 
-        String uploadPath;
+        String upload_path;
         String default_path;
         Integer userId = UserUtils.getUserId(request, response);
         User user = this.userService.findUserById(userId);
         String parent_folder_name = this.folderService.getFolderNameByFolderId(folder_id);
-        String physical_path = folderDTO.getPhysical_path();
-        System.out.println(physical_path);
 
+        String physical_path = folderDTO.getPhysical_path();
         String path = request.getContextPath();
-        System.out.println(folder_id);
         Folder folder = folderFactory.createFromDTO(folderDTO);
         folder.setUser(user);
 
         if (!this.folderService.checkIfParentIdExists(userId, folder_id)) {
             default_path = physical_path + "/";
-            uploadPath = default_path + folder_name;
+            upload_path = default_path + folder_name;
             folder.setPhysical_path(default_path);
             folder.setParent_folder_id(folder_id);
         } else {
             default_path = physical_path + parent_folder_name + "/";
-            uploadPath = default_path + folder_name;
+            upload_path = default_path + folder_name;
             folder.setPhysical_path(default_path);
             folder.setParent_folder_id(folder_id);
         }
 
         if (!this.folderService.checkIfFolderWithNameExists(default_path, folder_name)) {
-            File file = new File(path + "/" + uploadPath);
+            File file = new File(path + "/" + upload_path);
             file.mkdirs();
             this.folderService.saveFolder(folder);
             attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.create", args, locale));
@@ -97,6 +96,19 @@ public class FolderController {
         Integer userId = UserUtils.getUserId(request, response);
         User user = this.userService.findUserById(userId);
         String user_path = FolderController.UPLOAD_PATH + "/" + user.getUsername();
+
+        if (!this.folderService.checkIfFolderWithNameExists(user_path, "0")) {
+            String path = request.getContextPath();
+            Folder mFolder = new Folder();
+            mFolder.setUser(user);
+            mFolder.setPhysical_path(user_path);
+            mFolder.setParent_folder_id(0);
+            mFolder.setFolder_name("0");
+            this.folderService.saveFolder(mFolder);
+            File file = new File(path + "/" + user_path);
+            file.mkdirs();
+        }
+
         String physical_path = user_path + "/";
         List<Folder> folders = this.folderService.findFoldersByPhysicalPath(physical_path);
         Folder parent_folder = this.folderService.findFolderByPhysicalPath(user_path);
