@@ -121,6 +121,18 @@ public class UserController {
         return password.equals(passwordRepeat);
     }
 
+    private void checkPassword(String newPassword, String passwordRepeat, User user) throws UserNotFoundException {
+        Boolean arePasswordsEqual = this.arePasswordsEqual(newPassword, passwordRepeat);
+        RedirectAttributes attributes = null;
+        Locale locale = null;
+        if (arePasswordsEqual) {
+            this.updateUserPassword(user, newPassword);
+            attributes.addFlashAttribute("success", messageSource.getMessage("user.message.success.passwords", args, locale));
+        } else {
+            attributes.addFlashAttribute("error", messageSource.getMessage("user.message.error.passwords", args, locale));
+        }
+    }
+
     private Boolean isOldPasswordCorrect(String oldPassword, User user) {
         return user.getPassword().equals(oldPassword);
     }
@@ -197,7 +209,7 @@ public class UserController {
         return this.viewPath + "userList";
     }
 
-    private void changeRole(Integer userId, int newRoleId) throws UserNotFoundException {
+    private void changeRole(Integer userId, Integer newRoleId) throws UserNotFoundException {
         User user = this.userService.findUserById(userId);
         UserRole newRole = new UserRole();
         newRole.setId(newRoleId);
@@ -208,8 +220,8 @@ public class UserController {
     @RequestMapping(value = UserUrls.ADMIN_CHANGE_ROLE, method = RequestMethod.POST)
     public String changeRolePage(HttpServletRequest request,
                                  HttpServletResponse response,
-                                 @RequestParam("userId") int userId,
-                                 @RequestParam("roleId") int roleId,
+                                 @RequestParam("userId") Integer userId,
+                                 @RequestParam("roleId") Integer roleId,
                                  RedirectAttributes attributes, Locale locale) throws UserNotFoundException {
         this.changeRole(userId, roleId);
         attributes.addFlashAttribute("success", messageSource.getMessage("user.message.success.changeRole", args, locale));
@@ -221,21 +233,24 @@ public class UserController {
     @RequestMapping(value = UserUrls.ADMIN_PASSWORD_CHANGE, method = RequestMethod.POST)
     public String changePasswordAdminPage(HttpServletRequest request,
                                           HttpServletResponse response,
-                                          @RequestParam("userId") int userId,
+                                          @RequestParam("userId") Integer userId,
                                           @RequestParam("password") String newPassword,
                                           @RequestParam("password_repeat") String passwordRepeat,
                                           RedirectAttributes attributes, Locale locale) throws UserNotFoundException {
 
         User user = this.userService.findUserById(userId);
 
-        Boolean arePasswordsEqual = this.arePasswordsEqual(newPassword, passwordRepeat);
+        checkPassword(newPassword, passwordRepeat, user);
 
-        if (arePasswordsEqual) {
-            this.updateUserPassword(user, newPassword);
-            attributes.addFlashAttribute("success", messageSource.getMessage("user.message.success.passwords", args, locale));
-        } else {
-            attributes.addFlashAttribute("error", messageSource.getMessage("user.message.error.passwords", args, locale));
-        }
+
+//        Boolean arePasswordsEqual = this.arePasswordsEqual(newPassword, passwordRepeat);
+
+//        if (arePasswordsEqual) {
+//            this.updateUserPassword(user, newPassword);
+//            attributes.addFlashAttribute("success", messageSource.getMessage("user.message.success.passwords", args, locale));
+//        } else {
+//            attributes.addFlashAttribute("error", messageSource.getMessage("user.message.error.passwords", args, locale));
+//        }
 
         return "redirect:" + UserUrls.USER_LIST_FULL;
     }
@@ -243,7 +258,7 @@ public class UserController {
     @RequestMapping(value = UserUrls.ADMIN_USERNAME_CHANGE, method = RequestMethod.POST)
     public String changeUsernameAdminPage(HttpServletRequest request,
                                           HttpServletResponse response,
-                                          @RequestParam("userId") int userId,
+                                          @RequestParam("userId") Integer userId,
                                           @RequestParam("username") String username,
                                           RedirectAttributes attributes, Locale locale) throws UserNotFoundException {
 
@@ -262,7 +277,7 @@ public class UserController {
     @RequestMapping(value = UserUrls.ADMIN_DELETE, method = RequestMethod.POST)
     public String deleteAccountAdminAction(HttpServletRequest request,
                                            HttpServletResponse response,
-                                           @RequestParam("userId") int userId,
+                                           @RequestParam("userId") Integer userId,
                                            @RequestParam("password") String password,
                                            RedirectAttributes attributes, Locale locale) throws UserNotFoundException {
 
