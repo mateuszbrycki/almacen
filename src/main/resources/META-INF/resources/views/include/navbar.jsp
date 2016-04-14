@@ -1,4 +1,5 @@
 <%@ page import="com.almacen.module.user.UserUrls" %>
+<%@ page import="com.almacen.module.folder.FolderUrls" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 
@@ -19,14 +20,7 @@
                 </li>
 
                 <li type="button"  data-dismiss="modal" style="margin: 2px;">
-                    <a href="<%=UserUrls.FOLDER_CREATE_FULL%>" id="create_folder">
-                        <span class="glyphicon glyphicon-plus"></span>
-                        <spring:message code="folder.create" />
-                    </a>
-                </li>
-
-                <li type="button"  data-dismiss="modal" style="margin: 2px;">
-                    <a href="<%=UserUrls.FOLDER_SHOW_FULL%>" id="Show_files">
+                    <a href="<%=FolderUrls.FOLDER_SHOW_FULL%>" id="Show_files">
                         <span class="glyphicon glyphicon-list"></span>
                         <spring:message code="folder.show" />
                     </a>

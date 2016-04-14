@@ -24,15 +24,6 @@ public class UserUrls implements UrlSpace {
     public static final String USER_DELETE = USER_MANAGEMENT + "/delete";
     public static final String USER_DELETE_FORM = USER + USER_DELETE;
 
-    public static final String FOLDER_CREATE_VIEW = "/folder_create_view";
-    public static final String FOLDER_CREATE_FULL = USER + FOLDER_CREATE_VIEW;
-
-    public static final String FOLDER_SHOW = "/folder_show";
-    public static final String FOLDER_SHOW_FULL = USER + FOLDER_SHOW;
-
-    public static final String FOLDER_CREATE = "/folder_create";
-    public static final String FOLDER_CREATE_FORM = USER + FOLDER_CREATE;
-
     public class Api {
         public static final String USER = "/api"  + UserUrls.USER;
 
