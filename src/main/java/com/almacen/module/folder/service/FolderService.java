@@ -14,6 +14,8 @@ public interface FolderService {
 
     void deleteFolderById(Integer id);
 
+    Boolean checkFolderName(String folder_name);
+
     Boolean checkIfParentIdExists(Integer userId, Integer folderId);
 
     Boolean checkIfFolderWithNameExists(String physical_path, String folder_name);

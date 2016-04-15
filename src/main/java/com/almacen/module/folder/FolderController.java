@@ -1,8 +1,5 @@
 package com.almacen.module.folder;
 
-import com.almacen.logger.LoggerMessage;
-import com.almacen.module.admin.AdminUrls;
-import com.almacen.module.base.BaseController;
 import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.service.FolderService;
@@ -10,7 +7,6 @@ import com.almacen.module.user.User;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
-import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -56,38 +52,43 @@ public class FolderController {
                                @RequestParam("folder_id") Integer folder_id,
                                RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException {
 
-        String upload_path;
-        String default_path;
-        Integer userId = UserUtils.getUserId(request, response);
-        User user = this.userService.findUserById(userId);
-        String parent_folder_name = this.folderService.getFolderNameByFolderId(folder_id);
-
-        String physical_path = folderDTO.getPhysical_path();
-        String path = request.getContextPath();
-        Folder folder = folderFactory.createFromDTO(folderDTO);
-        folder.setUser(user);
-
-        if (!this.folderService.checkIfParentIdExists(userId, folder_id)) {
-            default_path = physical_path + "/";
-            upload_path = default_path + folder_name;
-            folder.setPhysical_path(default_path);
-            folder.setParent_folder_id(folder_id);
-        } else {
-            default_path = physical_path + parent_folder_name + "/";
-            upload_path = default_path + folder_name;
-            folder.setPhysical_path(default_path);
-            folder.setParent_folder_id(folder_id);
+        if (this.folderService.checkFolderName(folder_name))
+        {
+            attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.name", args, locale));
         }
+        else {
+            String upload_path;
+            String default_path;
+            Integer userId = UserUtils.getUserId(request, response);
+            User user = this.userService.findUserById(userId);
+            String parent_folder_name = this.folderService.getFolderNameByFolderId(folder_id);
 
-        if (!this.folderService.checkIfFolderWithNameExists(default_path, folder_name)) {
-            File file = new File(path + "/" + upload_path);
-            file.mkdirs();
-            this.folderService.saveFolder(folder);
-            attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.create", args, locale));
-        } else
-            attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.create", args, locale));
+            String physical_path = folderDTO.getPhysical_path();
+            String path = request.getContextPath();
+            Folder folder = folderFactory.createFromDTO(folderDTO);
+            folder.setUser(user);
 
+            if (!this.folderService.checkIfParentIdExists(userId, folder_id)) {
+                default_path = physical_path + "/";
+                upload_path = default_path + folder_name;
+                folder.setPhysical_path(default_path);
+                folder.setParent_folder_id(folder_id);
+            } else {
+                default_path = physical_path + parent_folder_name + "/";
+                upload_path = default_path + folder_name;
+                folder.setPhysical_path(default_path);
+                folder.setParent_folder_id(folder_id);
+            }
 
+            if (!this.folderService.checkIfFolderWithNameExists(default_path, folder_name)) {
+                File file = new File(path + "/" + upload_path);
+                file.mkdirs();
+                this.folderService.saveFolder(folder);
+                attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.create", args, locale));
+            } else
+                attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.create", args, locale));
+
+        }
         return "redirect:" + FolderUrls.FOLDER_SHOW_FULL;
     }
 
@@ -132,7 +133,6 @@ public class FolderController {
         Folder parent_folder = this.folderService.findFolderById(folderId);
         model.addAttribute("folders", folders);
         model.addAttribute("parent_folder", parent_folder);
-
         return this.viewPath + "listFiles";
     }
 }

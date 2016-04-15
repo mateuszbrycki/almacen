@@ -32,6 +32,20 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    public Boolean checkFolderName(String folder_name) {
+        if(folder_name.contains("/")
+                ||folder_name.contains("+")
+                ||folder_name.contains(".")
+                ||folder_name.contains(",")
+                ||folder_name.contains("?")
+                ||folder_name.contains("*")
+                ||folder_name.contains("-"))
+            return true;
+        else
+            return false;
+    }
+
+    @Override
     public Boolean checkIfParentIdExists(Integer userId, Integer folderId) {
         Folder folder = this.folderRepository.findOneByUserIdAndFolderId(userId, folderId);
 

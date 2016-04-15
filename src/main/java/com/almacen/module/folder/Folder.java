@@ -8,28 +8,28 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="folder")
+@Table(name = "folder")
 public class Folder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="folder_id")
+    @Column(name = "folder_id")
     private Integer id;
 
     @NotNull
-    @Column(name="folder_name")
+    @Column(name = "folder_name")
     private String folder_name;
 
-    @Column(name="parent_folder_id")
+    @Column(name = "parent_folder_id")
     @JsonIgnore
     private Integer parent_folder_id;
 
     @NotNull
-    @Column(name="physical_path")
+    @Column(name = "physical_path")
     @JsonIgnore
     private String physical_path;
 
     @OneToOne
-    @JoinColumn(name="fk_owner_id")
+    @JoinColumn(name = "fk_owner_id")
     @JsonIgnore
     private User user;
 
@@ -53,11 +53,17 @@ public class Folder {
         return parent_folder_id;
     }
 
-    public void setParent_folder_id(int parent_folder_id) {this.parent_folder_id = parent_folder_id;}
+    public void setParent_folder_id(int parent_folder_id) {
+        this.parent_folder_id = parent_folder_id;
+    }
 
-    public String getPhysical_path() { return physical_path; }
+    public String getPhysical_path() {
+        return physical_path;
+    }
 
-    public void setPhysical_path(String physical_path) {this.physical_path = physical_path; }
+    public void setPhysical_path(String physical_path) {
+        this.physical_path = physical_path;
+    }
 
     public User getUser() {
         return user;
