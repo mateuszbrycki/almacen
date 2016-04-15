@@ -10,6 +10,12 @@
         <div style="float: right;">
             <ul class="nav navbar-nav">
                 <li type="button"  data-dismiss="modal" style="margin: 2px;">
+                    <button id="upload-file-button" style="display: inline-block;">
+                        <span class="glyphicon glyphicon-file"></span>
+                        <spring:message code="file.upload" />
+                    </button>
+                </li>
+                <li type="button"  data-dismiss="modal" style="margin: 2px;">
                     <a href="<%=UserUrls.USER_MANAGEMENT_FULL%>">
                         <span class="glyphicon glyphicon-cog"></span>
                         <spring:message code="user.account.management" />

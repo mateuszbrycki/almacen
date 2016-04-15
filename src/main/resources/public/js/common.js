@@ -21,6 +21,13 @@ function changeLoadingOverlay(flag) {
     }
 }
 
+function showUploadFileForm() {
+    var modalElement = $('#upload-file-modal');
+
+        modalElement.modal({keyboard: true});
+        modalElement.modal('show');
+}
+
 $(document).ready(function () {
 
     //language select
@@ -36,4 +43,8 @@ $(document).ready(function () {
         console.log(e.message);
     }
 
+    $(document).on('click', '#upload-file-button', function(e){
+
+        showUploadFileForm();
+    });
 });
