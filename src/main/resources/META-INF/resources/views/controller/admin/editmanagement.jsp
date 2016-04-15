@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.almacen.module.user.UserUrls" %>
+<%@ page import="com.almacen.module.admin.AdminUrls" %>
 
 <div class="col-xs-12 col-md-8 col-md-offset-2">
 
@@ -10,7 +10,7 @@
         </div>
         <div class="panel-body">
             <form id='user-change-password-form'
-                  action="${pageContext.request.contextPath}<%=UserUrls.ADMIN_PASSWORD_CHANGE_FORM%>" method='POST'
+                  action="${pageContext.request.contextPath}<%=AdminUrls.ADMIN_PASSWORD_CHANGE_FORM%>" method='POST'
                   class="form-horizontal">
                 <input type="hidden" name="userId" id="userIdPassword" value="${userId}"/>
 
@@ -42,7 +42,7 @@
         <div class="panel-body">
 
             <form id='user-username-password-form'
-                  action="${pageContext.request.contextPath}<%=UserUrls.ADMIN_USERNAME_CHANGE_FORM%>" method='POST'
+                  action="${pageContext.request.contextPath}<%=AdminUrls.ADMIN_USERNAME_CHANGE_FORM%>" method='POST'
                   class="form-horizontal">
                 <input type="hidden" name="userId" id="userIdUsername" value="${userId}"/>
                 <div class="form-group">
@@ -64,7 +64,7 @@
         </div>
         <div class="panel-body">
             <form id='user-changerole-form'
-                  action="${pageContext.request.contextPath}<%=UserUrls.ADMIN_CHANGE_ROLE_FORM%>" method='POST'
+                  action="${pageContext.request.contextPath}<%=AdminUrls.ADMIN_CHANGE_ROLE_FORM%>" method='POST'
                   class="form-horizontal">
                 <input type="hidden" name="userId" id="userIdRole" value="${userId}"/>
                 <div class="form-group">
@@ -90,7 +90,7 @@
             <h3 class="panel-title"><spring:message code="user.delete.account"/></h3>
         </div>
         <div class="panel-body">
-            <form id='user-delete-form' action="${pageContext.request.contextPath}<%=UserUrls.ADMIN_DELETE_FORM%>"
+            <form id='user-delete-form' action="${pageContext.request.contextPath}<%=AdminUrls.ADMIN_DELETE_FORM%>"
                   method='POST' class="form-horizontal">
                 <input type="hidden" name="userId" id="userIdDelete" value="${userId}"/>
                 <div class="form-group">

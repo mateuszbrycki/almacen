@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.almacen.module.user.UserUrls" %>
+<%@ page import="com.almacen.module.admin.AdminUrls" %>
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -29,7 +30,7 @@
                                 <tr>
                                     <td>${userlist.id}</td>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}<%=UserUrls.USER_EDIT_MANAGEMENT_FULL%>/${userlist.id}">
+                                        <a href="${pageContext.request.contextPath}<%=AdminUrls.ADMIN_EDIT_MANAGEMENT_FULL%>/${userlist.id}">
                                                 ${userlist.username}
                                         </a>
                                     </td>

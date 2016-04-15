@@ -27,16 +27,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping(AdminUrls.ADMIN)
-public class AdminController  {
+public class AdminController {
 
     @Inject
     private LoggerAbstract userActionLogger;
 
     @Inject
     private LoggerService loggerService;
-
-    @Inject
-    private UserService userService;
 
     private static final Logger logger = Logger.getLogger(AdminController.class);
 
