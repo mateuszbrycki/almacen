@@ -42,4 +42,9 @@ public class PropertyServiceImpl implements PropertyService {
 
         return propertyRepository.findOneByPropertyName(environment.getProperty("property.extensions.blocked.name"));
     }
+
+    public Property maximumUploadSizeFile()
+    {
+        return propertyRepository.findOneByPropertyName(environment.getProperty("file.maximum_size"));
+    }
 }

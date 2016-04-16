@@ -29,7 +29,9 @@ public class FileController {
        // userActionLogger.log(Status.INFO, LoggerMessages.ADMIN_ACCESS_FILES, request, response);
 
         Property property = this.propertyService.findBlockedFileExtensions();
+        Property propertyMaximumUploadSizeFile = this.propertyService.maximumUploadSizeFile();
         model.addAttribute("blockedExtensions", property);
+        model.addAttribute("maximumUploadSizeFile", propertyMaximumUploadSizeFile);
 
         return this.viewPath + "index";
     }

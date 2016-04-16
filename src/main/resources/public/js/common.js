@@ -85,4 +85,37 @@ $(document).ready(function () {
             });
         }
     });
+
+    $(document).on('submit', '#max-size-form', function (e) {
+        var frm = $('#max-size-form');
+        e.preventDefault();
+
+        var data = {};
+
+        data["propertyName"] = "file.maximum_size";
+        data["propertyValue"] = data["max-size"]
+
+        console.log(JSON.stringify(data));
+
+        if (frm.valid()) {
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: frm.attr('method'),
+                url: frm.attr('action'),
+                data: JSON.stringify(data),
+                success: function (callback) {
+                    console.log(callback);
+                },
+                error: function (callback) {
+                    console.log(callback);
+                }
+            });
+        }
+    });
+
+
+
+
+
 });

@@ -4,6 +4,7 @@ package com.almacen.config.specification;
 import com.almacen.module.file.UserFile;
 import com.almacen.module.file.specification.UserFileSpecification;
 import com.almacen.module.file.specification.extension.UserFileExtensionSpecification;
+import com.almacen.module.file.specification.size.UserFileSizeSpecification;
 import com.almacen.specification.Specification;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,21 @@ public class FileSpecificationConfig {
     }
 
     @Bean
-    public UserFileSpecification userFileSpecification(@Qualifier("extensionSpecification") Specification<UserFile> userFileExtensionSpecification) {
+    @Qualifier("userFileSizeSpecification")
+    public Specification<UserFile> userFileSizeSpecification() {
+        return new UserFileSizeSpecification();
+    }
+
+    @Bean
+    public UserFileSpecification userFileSpecification(
+            @Qualifier("extensionSpecification") Specification<UserFile> userFileExtensionSpecification) {
         return new UserFileSpecification(userFileExtensionSpecification);
+    }
+
+    @Bean
+    public UserFileSpecification userFileSizeSpecification(
+            @Qualifier("userFileSizeSpecification") Specification<UserFile> userFileSizeSpecification) {
+        return new UserFileSpecification(userFileSizeSpecification);
+
     }
 }

@@ -14,9 +14,4 @@ public interface FileService {
 
     List<UserFile> findUserFilesByUserId(Integer userId);
 
-    Long checkUserFileSize(UserFile userFile);
-
-    void setMaximumSize(Long size);
-
-    void getMaximumSize();
 }

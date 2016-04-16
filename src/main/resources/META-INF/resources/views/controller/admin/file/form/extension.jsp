@@ -53,7 +53,7 @@
         <div class="panel-body">
             <form id='max-size-form' action="${pageContext.request.contextPath}<%=AdminUrls.Api.ADMIN_MAXIMUM_SIZE_FILE_FULL%>" method='POST' class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label col-sm-3" for="max-size"><spring:message code="file.max_size.text" />:</label>
+                    <label class="control-label col-sm-3" for="maximumUploadSizeFile"><spring:message code="file.max_size.text" />:</label>
                     <div class="col-sm-5">
                         <input type="number" min="1" max="100" step="1" value="1" name="max-size"/>
                     </div>

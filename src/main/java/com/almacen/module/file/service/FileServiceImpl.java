@@ -34,17 +34,4 @@ public class FileServiceImpl implements FileService {
         return null; //fileRepository.findUserFilesByUserId(userId);
     }
 
-    @Override
-    public Long checkUserFileSize(UserFile userFile) {
-        return userFile.getSize();
-    }
-
-    @Override
-    public void setMaximumSize(Long size) {
-
-    }
-
-    @Override
-    public void getMaximumSize() {
-    }
 }
