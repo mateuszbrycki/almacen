@@ -22,6 +22,9 @@ public class AdminUrls implements UrlSpace {
         public static final String ADMIN_FILE_EXTENSION =  "/extensions";
         public static final String ADMIN_FILE_EXTENSION_FULL =  ADMIN_FILE + "/extensions";
 
+        public static final String ADMIN_MAXIMUM_SIZE_FILE = "/maximum_size";
+        public static final String ADMIN_MAXIMUM_SIZE_FILE_FULL = ADMIN_FILE + "/maximum_size";
+
     }
 
 }

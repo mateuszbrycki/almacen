@@ -13,4 +13,10 @@ public interface FileService {
     void deleteFileById(Integer fileId);
 
     List<UserFile> findUserFilesByUserId(Integer userId);
+
+    Long checkUserFileSize(UserFile userFile);
+
+    void setMaximumSize(Long size);
+
+    void getMaximumSize();
 }
