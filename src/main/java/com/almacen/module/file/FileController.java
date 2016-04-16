@@ -4,8 +4,8 @@ import com.almacen.module.file.service.FileService;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@RestController
+@Controller
 @RequestMapping(FileUrls.FILE)
 public class FileController {
 
@@ -23,11 +23,14 @@ public class FileController {
     private FileService fileService;
 
     @Inject
+    private Logger logger;
+
+    @Inject
     private UserService userService;
 
     @RequestMapping(value = {FileUrls.FILE_UPLOAD, "/"}, method = RequestMethod.POST)
-    public ResponseEntity<UserFile> uploadFile(HttpServletRequest request, HttpServletResponse response,
-                                               @RequestParam("file") MultipartFile file) {
+    public String uploadFile(HttpServletRequest request, HttpServletResponse response,
+                             @RequestParam("file") MultipartFile file) {
 
             UserFile userFile = new UserFile();
 
@@ -44,6 +47,8 @@ public class FileController {
 
         String path = request.getContextPath();
 
+        logger.debug(path);
+
         File filePath = new File(path + FileUrls.FILE_UPLOAD + "/" + UserUtils.getUserId(request,response) + "/");
 
         try {
@@ -58,6 +63,6 @@ public class FileController {
             e.printStackTrace();
         }
 
-        return new ResponseEntity<UserFile>(userFile, HttpStatus.OK);
+        return "redirect:";
     }
 }
