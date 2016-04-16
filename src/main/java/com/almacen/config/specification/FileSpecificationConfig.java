@@ -27,14 +27,8 @@ public class FileSpecificationConfig {
 
     @Bean
     public UserFileSpecification userFileSpecification(
-            @Qualifier("extensionSpecification") Specification<UserFile> userFileExtensionSpecification) {
-        return new UserFileSpecification(userFileExtensionSpecification);
-    }
-
-    @Bean
-    public UserFileSpecification userFileSizeSpecification(
+            @Qualifier("extensionSpecification") Specification<UserFile> userFileExtensionSpecification,
             @Qualifier("userFileSizeSpecification") Specification<UserFile> userFileSizeSpecification) {
-        return new UserFileSpecification(userFileSizeSpecification);
-
+        return new UserFileSpecification(userFileExtensionSpecification, userFileSizeSpecification);
     }
 }

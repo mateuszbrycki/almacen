@@ -93,7 +93,7 @@ $(document).ready(function () {
         var data = {};
 
         data["propertyName"] = "file.maximum_size";
-        data["propertyValue"] = data["max-size"]
+        data["propertyValue"] = data["max-size"];
 
         console.log(JSON.stringify(data));
 

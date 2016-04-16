@@ -8,7 +8,6 @@ import com.almacen.specification.AbstractSpecification;
 import javax.inject.Inject;
 
 
-
 public class UserFileSizeSpecification extends AbstractSpecification<UserFile> {
 
     @Inject
@@ -16,7 +15,7 @@ public class UserFileSizeSpecification extends AbstractSpecification<UserFile> {
 
     @Override
     public Boolean isSatisfiedBy(UserFile candidate) {
-        String maximumUploadSizeFile = propertyService.maximumUploadSizeFile().getPropertyValue();
+        String maximumUploadSizeFile = propertyService.findMaximumUploadSizeFile().getPropertyValue();
         Long maximumUpload = Long.valueOf(maximumUploadSizeFile).longValue();
         if(maximumUpload <= candidate.getSize())
             return true;

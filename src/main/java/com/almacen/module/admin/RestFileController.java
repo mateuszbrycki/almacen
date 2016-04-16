@@ -5,7 +5,6 @@ import com.almacen.module.configuration.PropertyAbstractFactory;
 import com.almacen.module.configuration.dto.PropertyDTO;
 import com.almacen.module.configuration.service.PropertyService;
 import org.apache.log4j.Logger;
-import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +27,6 @@ public class RestFileController {
 
     @Inject
     private PropertyService propertyService;
-
-    @Inject
-    private MessageSource messageSource;
 
     @Inject
     private Environment environment;
@@ -56,10 +52,10 @@ public class RestFileController {
     @RequestMapping(value = AdminUrls.Api.ADMIN_MAXIMUM_SIZE_FILE, method = RequestMethod.POST)
     public ResponseEntity<Object> changeMaximumSize(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    @RequestBody @Valid PropertyDTO maximumSize) {
+                                    @RequestBody @Valid PropertyDTO maximumUploadSizeFile) {
 
-        maximumSize.setPropertyName(environment.getProperty("property.extensions.blocked.name"));
-        Property property = this.propertyFactory.createFromDTO(maximumSize);
+        maximumUploadSizeFile.setPropertyName(environment.getProperty("property.file.maximum_size"));
+        Property property = this.propertyFactory.createFromDTO(maximumUploadSizeFile);
         propertyService.saveProperty(property);
         return new ResponseEntity<Object>(property, HttpStatus.OK);
     }

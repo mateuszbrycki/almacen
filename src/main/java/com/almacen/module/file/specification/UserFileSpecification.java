@@ -6,13 +6,19 @@ import com.almacen.specification.Specification;
 
 public class UserFileSpecification extends AbstractSpecification<UserFile> {
     Specification<UserFile> extensionSpecification;
+    Specification<UserFile> userFileSizeSpecification;
 
-    public UserFileSpecification(Specification<UserFile> extensionSpecification) {
+    public UserFileSpecification(Specification<UserFile> extensionSpecification,
+                                 Specification<UserFile> userFileSizeSpecification) {
         this.extensionSpecification = extensionSpecification;
+        this.userFileSizeSpecification = userFileSizeSpecification;
     }
 
     @Override
     public Boolean isSatisfiedBy(UserFile candidate) {
-        return extensionSpecification.isSatisfiedBy(candidate);
+        if (extensionSpecification != null)
+            return extensionSpecification.isSatisfiedBy(candidate);
+        else
+            return userFileSizeSpecification.isSatisfiedBy(candidate);
     }
 }
