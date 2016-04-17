@@ -7,6 +7,5 @@
 </head>
 <body>
 USER LOGGED
-<%--<jsp:include page="../folder/listFiles.jsp" />--%>
 </body>
 </html>

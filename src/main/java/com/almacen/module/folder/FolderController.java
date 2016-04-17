@@ -21,6 +21,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
+
 
 @Controller
 @RequestMapping(FolderUrls.FOLDER)
@@ -44,6 +46,34 @@ public class FolderController {
     private String viewPath = "controller/folder/";
 
 
+    public Folder createPath(Integer userId, Integer folder_id, FolderDTO folderDTO) throws UserNotFoundException, FolderNotFoundException {
+        String default_path;
+        User user = this.userService.findUserById(userId);
+        String parent_folder_name = this.folderService.getFolderNameByFolderId(folder_id);
+
+        String physical_path = folderDTO.getPhysical_path();
+        Folder folder = folderFactory.createFromDTO(folderDTO);
+        folder.setUser(user);
+
+        if (!this.folderService.checkIfParentIdExists(userId, folder_id)) {
+            default_path = physical_path + "/";
+            folder.setPhysical_path(default_path);
+            folder.setParent_folder_id(folder_id);
+        } else {
+            default_path = physical_path + parent_folder_name + "/";
+            folder.setPhysical_path(default_path);
+            folder.setParent_folder_id(folder_id);
+        }
+        return folder;
+    }
+
+    public Boolean saveFolder(String upload_path, Folder folder, String path) {
+        File file = new File(path + "/" + upload_path);
+        file.mkdirs();
+        this.folderService.saveFolder(folder);
+        return true;
+    }
+
     @RequestMapping(value = FolderUrls.FOLDER_CREATE, method = RequestMethod.POST)
     public String createFolder(@ModelAttribute @Valid FolderDTO folderDTO,
                                HttpServletRequest request,
@@ -52,38 +82,18 @@ public class FolderController {
                                @RequestParam("folder_id") Integer folder_id,
                                RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException {
 
-        if (this.folderService.checkFolderName(folder_name))
-        {
+        if (this.folderService.checkFolderName(folder_name)) {
             attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.name", args, locale));
-        }
-        else {
-            String upload_path;
-            String default_path;
+        } else {
             Integer userId = UserUtils.getUserId(request, response);
-            User user = this.userService.findUserById(userId);
-            String parent_folder_name = this.folderService.getFolderNameByFolderId(folder_id);
 
-            String physical_path = folderDTO.getPhysical_path();
             String path = request.getContextPath();
-            Folder folder = folderFactory.createFromDTO(folderDTO);
-            folder.setUser(user);
-
-            if (!this.folderService.checkIfParentIdExists(userId, folder_id)) {
-                default_path = physical_path + "/";
-                upload_path = default_path + folder_name;
-                folder.setPhysical_path(default_path);
-                folder.setParent_folder_id(folder_id);
-            } else {
-                default_path = physical_path + parent_folder_name + "/";
-                upload_path = default_path + folder_name;
-                folder.setPhysical_path(default_path);
-                folder.setParent_folder_id(folder_id);
-            }
+            Folder folder = createPath(userId, folder_id, folderDTO);
+            String default_path = folder.getPhysical_path();
+            String upload_path = default_path + folder_name;
 
             if (!this.folderService.checkIfFolderWithNameExists(default_path, folder_name)) {
-                File file = new File(path + "/" + upload_path);
-                file.mkdirs();
-                this.folderService.saveFolder(folder);
+                saveFolder(upload_path, folder, path);
                 attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.create", args, locale));
             } else
                 attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.create", args, locale));
