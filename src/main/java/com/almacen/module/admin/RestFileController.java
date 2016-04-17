@@ -38,8 +38,8 @@ public class RestFileController {
 
     @RequestMapping(value = AdminUrls.Api.ADMIN_FILE_EXTENSION, method = RequestMethod.POST)
     public ResponseEntity<Object> saveProperty(HttpServletRequest request,
-                                             HttpServletResponse response,
-                                              @RequestBody @Valid PropertyDTO blockedExtensions) {
+                                               HttpServletResponse response,
+                                               @RequestBody @Valid PropertyDTO blockedExtensions) {
 
         blockedExtensions.setPropertyName(environment.getProperty("property.extensions.blocked.name"));
         Property property = this.propertyFactory.createFromDTO(blockedExtensions);
@@ -51,8 +51,8 @@ public class RestFileController {
 
     @RequestMapping(value = AdminUrls.Api.ADMIN_MAXIMUM_SIZE_FILE, method = RequestMethod.POST)
     public ResponseEntity<Object> changeMaximumSize(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    @RequestBody @Valid PropertyDTO maximumUploadSizeFile) {
+                                                    HttpServletResponse response,
+                                                    @RequestBody @Valid PropertyDTO maximumUploadSizeFile) {
 
         maximumUploadSizeFile.setPropertyName(environment.getProperty("property.file.maximum_size"));
         Property property = this.propertyFactory.createFromDTO(maximumUploadSizeFile);
