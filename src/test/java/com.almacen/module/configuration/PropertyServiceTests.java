@@ -46,6 +46,7 @@ public class PropertyServiceTests {
 
     @Test
     public void getPropertyByName() {
+        propertyService.saveProperty(property);
         Property foundProperty = propertyService.findOneByPropertyName(PROPERTY_NAME);
 
         assertEquals(foundProperty.getPropertyValue(), PROPERTY_VALUE);

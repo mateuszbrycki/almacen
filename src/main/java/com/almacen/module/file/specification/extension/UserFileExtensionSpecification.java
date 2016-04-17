@@ -17,6 +17,8 @@ public class UserFileExtensionSpecification extends AbstractSpecification<UserFi
     public Boolean isSatisfiedBy(UserFile candidate) {
         String[] blockedExtensions = propertyService.findBlockedFileExtensions().getPropertyValue().split(";");
 
-        return Arrays.asList(blockedExtensions).contains(candidate.getExtension());
+        // file extension shouldn't be on blocked list
+        // so if it is specification is not satisfied => return false
+        return !Arrays.asList(blockedExtensions).contains(candidate.getExtension());
     }
 }
