@@ -217,4 +217,33 @@ public class UserServiceTests {
             assertNull(users);
         }
     }
+
+    @Test
+    public void findAllUser(){
+        User testUser2 = new User();
+        testUser2.setMail("test2@test.gmail.com");
+        testUser2.setUsername("testusername2");
+        testUser2.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
+        testUser2.setPassword("testpassword2");
+        userService.registerUser(testUser2);
+
+        List<User> users = null;
+        try {
+            users = userService.findAllUser();
+        } catch (UserNotFoundException e) {
+            fail("Users not found.");
+        }
+
+        assertEquals(2, users.size());
+
+        userService.deleteUserById(testUser2.getId());
+
+        try {
+            users = userService.findAllUser();
+        } catch(UserNotFoundException e) {
+            fail("Users not found.");
+        }
+
+        assertEquals(1, users.size());
+    }
 }
