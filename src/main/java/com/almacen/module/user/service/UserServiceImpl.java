@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public Boolean checkIfUserWithMailExists(String mail) {
         User user = this.userRepository.findOneByMail(mail);
 
-        if(user != null) {
+        if (user != null) {
             return true;
         }
 
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public Boolean checkIfUserWithUsernameExists(String username) {
         User user = this.userRepository.findOneByUsername(username);
 
-        if(user != null) {
+        if (user != null) {
             return true;
         }
 
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     public User findUserById(Integer userId) throws UserNotFoundException {
         User user = this.userRepository.findOne(userId);
 
-        if(user == null) {
+        if (user == null) {
             throw new UserNotFoundException();
         }
 
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     public User findUserByUsername(String username) throws UserNotFoundException {
         User user = this.userRepository.findOneByUsername(username);
 
-        if(user == null) {
+        if (user == null) {
             throw new UserNotFoundException();
         }
 
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findUsersByUsername(String username) throws UserNotFoundException {
         List<User> users = this.userRepository.findAllByUsernameContaining(username);
 
-        if(users == null) {
+        if (users == null) {
             throw new UserNotFoundException();
         }
 
@@ -87,12 +87,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUsersByUsername(String username, Integer userId) throws UserNotFoundException  {
+    public List<User> findUsersByUsername(String username, Integer userId) throws UserNotFoundException {
         List<User> users = this.userRepository.findAllByIdAndUsernameContaining(username, userId);
 
-        if(users == null) {
+        if (users == null) {
             throw new UserNotFoundException();
         }
+
+        return users;
+    }
+
+    @Override
+    public List<User> findAllUser() throws UserNotFoundException {
+        List<User> users = this.userRepository.findAllUser();
 
         return users;
     }
@@ -101,7 +108,7 @@ public class UserServiceImpl implements UserService {
     public Integer getUserIdByUsername(String username) throws UserNotFoundException {
         User user = this.userRepository.findOneByUsername(username);
 
-        if(user == null) {
+        if (user == null) {
             throw new UserNotFoundException();
         }
 
@@ -114,7 +121,7 @@ public class UserServiceImpl implements UserService {
         Boolean userMailExists = this.checkIfUserWithMailExists(user.getMail());
         Boolean usernameExist = this.checkIfUserWithUsernameExists(user.getUsername());
 
-        if(userMailExists || usernameExist) {
+        if (userMailExists || usernameExist) {
             return false;
         }
 

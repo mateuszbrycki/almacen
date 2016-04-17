@@ -25,7 +25,7 @@ public class UserUrls implements UrlSpace {
     public static final String USER_DELETE_FORM = USER + USER_DELETE;
 
     public class Api {
-        public static final String USER = "/api"  + UserUrls.USER;
+        public static final String USER = "/api" + UserUrls.USER;
 
         public static final String USER_USERNAME = UserUrls.Api.USER + "/{username}";
         public static final String USERNAME = "/{username}";

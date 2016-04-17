@@ -25,6 +25,8 @@ public interface UserService {
 
     List<User> findUsersByUsername(String username, Integer userId) throws UserNotFoundException;
 
+    List<User> findAllUser() throws UserNotFoundException;
+
     Integer getUserIdByUsername(String username) throws UserNotFoundException;
 
     Boolean registerUser(User user);
