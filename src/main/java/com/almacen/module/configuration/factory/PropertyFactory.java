@@ -12,8 +12,11 @@ public class PropertyFactory extends PropertyAbstractFactory {
     @Override
     public Property createFromDTO(PropertyDTO propertyDTO) {
         String preparedValue = propertyDTO.getPropertyValue().replaceAll(", ", ";");
+
         Property property = new Property();
+        property.setPropertyName(propertyDTO.getPropertyName());
         property.setPropertyValue(preparedValue);
+
         return property;
     }
 

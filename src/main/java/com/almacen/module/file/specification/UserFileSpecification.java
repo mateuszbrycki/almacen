@@ -16,9 +16,6 @@ public class UserFileSpecification extends AbstractSpecification<UserFile> {
 
     @Override
     public Boolean isSatisfiedBy(UserFile candidate) {
-        if (extensionSpecification != null)
-            return extensionSpecification.isSatisfiedBy(candidate);
-        else
-            return userFileSizeSpecification.isSatisfiedBy(candidate);
+        return extensionSpecification.and(userFileSizeSpecification).isSatisfiedBy(candidate);
     }
 }
