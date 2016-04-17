@@ -15,4 +15,6 @@ public interface PropertyService {
     Property findOneByPropertyName(String propertyName);
 
     Property findBlockedFileExtensions() ;
+
+    Property findMaximumUploadSizeFile();
 }

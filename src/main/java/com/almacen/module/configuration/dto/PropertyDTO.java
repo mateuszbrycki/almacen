@@ -6,6 +6,7 @@ public class PropertyDTO {
     private String propertyName;
     private String propertyValue;
 
+
     public String getPropertyName() {
         return propertyName;
     }
