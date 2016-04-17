@@ -1,5 +1,7 @@
 package com.almacen.config.factory;
 
+import com.almacen.module.folder.FolderAbstractFactory;
+import com.almacen.module.folder.factory.FolderFactory;
 import com.almacen.module.user.UserAbstractFactory;
 import com.almacen.module.user.factory.UserFactory;
 import org.springframework.context.annotation.Bean;
@@ -12,5 +14,8 @@ public class FactoryConfig {
     public UserAbstractFactory userAbstractFactory() {
         return new UserFactory();
     }
+
+    @Bean
+    public FolderAbstractFactory folderAbstractFactory() { return new FolderFactory(); }
 
 }

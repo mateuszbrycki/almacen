@@ -1,5 +1,6 @@
 package com.almacen.module.base;
 
+import com.almacen.module.folder.FolderUrls;
 import com.almacen.util.UserUtils;
 import org.pac4j.core.exception.RequiresHttpAction;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,8 @@ public class BaseController {
     public String root(HttpServletRequest request, HttpServletResponse response, Map<String, Object> map) throws RequiresHttpAction {
 
         if(UserUtils.isAutheniticated(request, response)) {
-            return "redirect:" + BaseUrls.APPLICATION;
+//            return "redirect:" + BaseUrls.APPLICATION;
+            return "redirect:" + FolderUrls.FOLDER_SHOW_FULL;
         }
 
         return this.viewPath + "main";

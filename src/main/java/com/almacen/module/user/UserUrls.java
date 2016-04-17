@@ -31,4 +31,6 @@ public class UserUrls implements UrlSpace {
         public static final String USERNAME = "/{username}";
 
     }
+
+
 }
