@@ -92,6 +92,12 @@ $(document).ready(function () {
 
         var data = {};
 
+        $.each(this, function (i, v) {
+            var input = $(v);
+            data[input.attr("name")] = input.val();
+            delete data["undefined"];
+        });
+
         data["propertyName"] = "file.maximum_size";
         data["propertyValue"] = data["max-size"];
 
