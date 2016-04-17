@@ -15,6 +15,13 @@
                         <spring:message code="admin.logs"/>
                     </a>
                 </li>
+
+                <li type="button" style="margin: 2px;">
+                    <a href="<%=AdminUrls.ADMIN_FILE_FULL%>">
+                        <span class="glyphicon glyphicon-file"></span>
+                        <spring:message code="admin.file"/>
+                    </a>
+                </li>
             </ul>
         </div>
 

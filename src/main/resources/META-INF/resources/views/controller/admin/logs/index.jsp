@@ -20,7 +20,7 @@
                 <tr class="logs-element-${message.status}" message-id="${message.id}">
                     <td class="logs-status-${message.status}"></td>
                     <td>
-                        <a href="${pageContext.request.contextPath}<%=AdminUrls.ADMIN_LOGS_FULL%>/${message.user.id}">
+                        <a href="${pageContext.request.contextPath}<%=AdminUrls.ADMIN_LOGS_FULL%>${message.user.id}">
                             ${message.user.username}
                         </a>
                     </td>

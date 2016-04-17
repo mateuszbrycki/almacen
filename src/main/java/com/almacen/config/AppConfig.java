@@ -3,6 +3,7 @@ package com.almacen.config;
 import com.almacen.config.factory.FactoryConfig;
 import com.almacen.config.filter.SiteMeshFilter;
 import com.almacen.config.logger.LoggerConfig;
+import com.almacen.config.specification.FileSpecificationConfig;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -30,7 +31,8 @@ import java.util.Locale;
         HibernateConfig.class,
         Pac4jConfig.class,
         FactoryConfig.class,
-        LoggerConfig.class
+        LoggerConfig.class,
+        FileSpecificationConfig.class
 })
 @PropertySource(value = { "classpath:application.properties" })
 @EnableJpaRepositories("com.almacen")

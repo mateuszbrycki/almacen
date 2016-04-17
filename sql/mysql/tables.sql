@@ -50,7 +50,14 @@ CREATE TABLE file (
       ON UPDATE CASCADE
 );
 
+CREATE TABLE system_configuration (
+  property_name  VARCHAR(255) PRIMARY KEY,
+  property_value VARCHAR(255) NOT NULL,
+  audit_cd TIMESTAMP NOT NULL
+);
+
 --DROP TABLE user_account;
 --DROP TABLE user_role;
 --DROP TABLE file;
+--DROP TABLE system_configuration;
 
