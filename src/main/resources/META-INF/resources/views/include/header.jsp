@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-colorpicker.min.css" />">
     <link rel="stylesheet" href="<c:url value="/css/select2.min.css" />">
     <link rel="stylesheet" href="<c:url value="/css/context.bootstrap.css" />">
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap-tagsinput.css" />">
+
 
     <script src="<c:url value="/js/lib/jquery-2.1.0.js" />" type="text/javascript"></script>
     <script src="<c:url value="/js/lib/bootstrap_3_2_0_min.js" />" type="text/javascript"></script>
@@ -29,7 +31,9 @@
     <script src="<c:url value="/js/lib/select2.full.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/js/lib/context.js" />" type="text/javascript"></script>
     <script src="<c:url value="/js/lib/sidebar.min.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/js/lib/bootstrap-tagsinput.js" />" type="text/javascript"></script>
     <script src="<c:url value="/js/common.js" />" type="text/javascript"></script>
+
 
     <script>
         var ctx = "${pageContext.request.contextPath}";

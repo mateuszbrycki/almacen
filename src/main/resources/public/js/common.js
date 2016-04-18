@@ -47,4 +47,81 @@ $(document).ready(function () {
 
         showUploadFileForm();
     });
+
+    $("#blocked-extensions-input").tagsinput({
+        confirmKeys: [32]
+    });
+
+    $(document).on('submit', '#blocked-extension-form', function (e) {
+        var frm = $('#blocked-extension-form');
+        e.preventDefault();
+
+        var data = {};
+
+        $.each(this, function (i, v) {
+            var input = $(v);
+            data[input.attr("name")] = input.val();
+            delete data["undefined"];
+        });
+
+        data["propertyName"] = "file.blocked.extensions";
+        data["propertyValue"] = data["blocked-extensions"].split(", ").join(";");
+
+        console.log(JSON.stringify(data));
+
+        if (frm.valid()) {
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: frm.attr('method'),
+                url: frm.attr('action'),
+                data: JSON.stringify(data),
+                success: function (callback) {
+                    console.log(callback);
+                },
+                error: function (callback) {
+                    console.log(callback);
+                }
+            });
+        }
+    });
+
+    $(document).on('submit', '#max-size-form', function (e) {
+        var frm = $('#max-size-form');
+        e.preventDefault();
+
+        var data = {};
+
+        $.each(this, function (i, v) {
+            var input = $(v);
+            data[input.attr("name")] = input.val();
+            delete data["undefined"];
+        });
+
+        data["propertyName"] = "file.maximum_size";
+        data["propertyValue"] = data["max-size"];
+
+        console.log(JSON.stringify(data));
+
+        if (frm.valid()) {
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: frm.attr('method'),
+                url: frm.attr('action'),
+                data: JSON.stringify(data),
+                success: function (callback) {
+                    console.log(callback);
+                },
+                error: function (callback) {
+                    console.log(callback);
+                }
+            });
+        }
+    });
+
+
+
+
+
 });
