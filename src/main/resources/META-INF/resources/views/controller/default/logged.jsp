@@ -1,23 +1,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.almacen.module.file.FileUrls" %>
+<jsp:include page="../../include/header.jsp"/>
+<jsp:include page="../file/upload_file_form.jsp" />
+
 <section id="object-content" class="container">
     <c:forEach items="${files}" var="file">
         <div class="file col-xs-2">
             <div class="glyphicon glyphicon-file" style="display: block; text-align: center"></div>
-            <h6 style="text-align: center">${file.name}
-                <button type="button" id="${file.fileId}"><span class="glyphicon glyphicon-remove"></span></button></h6>
+            <h5 style="text-align: center">${file.name}
+                <button type="button" id="${file.fileId}" class="btn btn-danger" style="padding: 2px 4px">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </h5>
         </div>
     </c:forEach>
 </section>
-<div class="modal-body">
-    <form method="POST" enctype="multipart/form-data" id="upload-file-form"
-          action="${pageContext.request.contextPath}<%=FileUrls.FILE_UPLOAD_FULL%>/" class="form-horizontal"
-            style="width: 300px;">
-
-                <input type="file" name="file" />
-
-            <input type="submit" id="upload-file-submit" value="<spring:message code="button.send" />"
-                   class="btn btn-primary"/>
-    </form>
-</div>
+<jsp:include page="../../include/footer.jsp"/>

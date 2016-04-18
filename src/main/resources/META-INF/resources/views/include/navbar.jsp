@@ -10,7 +10,7 @@
         <div style="float: right;">
             <ul class="nav navbar-nav">
                 <li type="button"  data-dismiss="modal" style="margin: 2px;">
-                    <button id="upload-file-button" style="display: inline-block;">
+                    <button id="upload-file-button" class="btn btn-default" style="margin-top: 8px">
                         <span class="glyphicon glyphicon-file"></span>
                         <spring:message code="file.upload" />
                     </button>

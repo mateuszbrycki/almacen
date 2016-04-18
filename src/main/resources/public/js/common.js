@@ -22,6 +22,7 @@ function changeLoadingOverlay(flag) {
 }
 
 function showUploadFileForm() {
+    console.log("1");
     var modalElement = $('#upload-file-modal');
 
         modalElement.modal({keyboard: true});
@@ -44,8 +45,10 @@ $(document).ready(function () {
     }
 
     $(document).on('click', '#upload-file-button', function(e){
-
+        e.preventDefault();
+        console.log("weszło");
         showUploadFileForm();
+        console.log("wyszło");
     });
 
     $("#blocked-extensions-input").tagsinput({
