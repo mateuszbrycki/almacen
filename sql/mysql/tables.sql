@@ -19,6 +19,18 @@ CREATE TABLE user_account (
 		ON UPDATE CASCADE
 );
 
+CREATE TABLE folder (
+	folder_id INTEGER AUTO_INCREMENT,
+	folder_name VARCHAR(255) NOT NULL,
+	parent_folder_id INTEGER NOT NULL,
+	physical_path VARCHAR(255) NOT NULL,
+	fk_owner_id INTEGER NOT NULL,
+	PRIMARY KEY (folder_id,parent_folder_id),
+	CONSTRAINT fk_owner_id_key FOREIGN KEY (fk_owner_id)
+		REFERENCES user_account (user_id)
+		ON UPDATE CASCADE
+);
+
 CREATE TABLE logger_message (
   message_id INTEGER PRIMARY KEY AUTO_INCREMENT,
   message TEXT NOT NULL,
@@ -58,6 +70,8 @@ CREATE TABLE system_configuration (
 
 --DROP TABLE user_account;
 --DROP TABLE user_role;
+--DROP TABLE folder;
+
 --DROP TABLE file;
 --DROP TABLE system_configuration;
 

@@ -68,7 +68,7 @@ public class UserController {
             User user = userFactory.createFromDTO(userDTO);
 
             //TODO mbrycki command object
-            if(this.userService.registerUser(user)) {
+            if (this.userService.registerUser(user)) {
 
                 model.addAttribute("success", messageSource.getMessage("user.message.success.register", args, locale));
             } else {
@@ -117,6 +117,18 @@ public class UserController {
         return password.equals(passwordRepeat);
     }
 
+    private void checkPassword(String newPassword, String passwordRepeat, User user) throws UserNotFoundException {
+        Boolean arePasswordsEqual = this.arePasswordsEqual(newPassword, passwordRepeat);
+        RedirectAttributes attributes = null;
+        Locale locale = null;
+        if (arePasswordsEqual) {
+            this.updateUserPassword(user, newPassword);
+            attributes.addFlashAttribute("success", messageSource.getMessage("user.message.success.passwords", args, locale));
+        } else {
+            attributes.addFlashAttribute("error", messageSource.getMessage("user.message.error.passwords", args, locale));
+        }
+    }
+
     private Boolean isOldPasswordCorrect(String oldPassword, User user) {
         return user.getPassword().equals(oldPassword);
     }
@@ -130,14 +142,14 @@ public class UserController {
     public String changeUsernamePage(HttpServletRequest request,
                                      HttpServletResponse response,
                                      @RequestParam("username") String username,
-                                     RedirectAttributes attributes, Locale locale)  throws UserNotFoundException  {
+                                     RedirectAttributes attributes, Locale locale) throws UserNotFoundException {
 
         Integer userId = UserUtils.getUserId(request, response);
 
         //check if username doesn't exist in database
         Boolean usernameExists = this.doesUserExist(username);
 
-        if(!usernameExists) {
+        if (!usernameExists) {
             this.updateUserUsername(userId, username);
             attributes.addFlashAttribute("success", messageSource.getMessage("user.message.success.username", args, locale));
         } else {
@@ -151,7 +163,7 @@ public class UserController {
         return this.userService.checkIfUserWithUsernameExists(username);
     }
 
-    private void updateUserUsername(Integer userId, String newUsername)  throws UserNotFoundException   {
+    private void updateUserUsername(Integer userId, String newUsername) throws UserNotFoundException {
         User user = this.userService.findUserById(userId);
         user.setUsername(newUsername);
         this.userService.updateUser(user);
@@ -161,19 +173,19 @@ public class UserController {
     public String deleteAccountAction(HttpServletRequest request,
                                       HttpServletResponse response,
                                       @RequestParam("password") String password,
-                                      RedirectAttributes attributes, Locale locale)  throws UserNotFoundException  {
+                                      RedirectAttributes attributes, Locale locale) throws UserNotFoundException {
 
         Integer userId = UserUtils.getUserId(request, response);
         User user = this.userService.findUserById(userId);
 
         Boolean isOldPasswordCorrect = this.isOldPasswordCorrect(password, user);
-        if(isOldPasswordCorrect) {
+        if (isOldPasswordCorrect) {
             this.userService.deleteUserById(userId);
             attributes.addFlashAttribute("success", messageSource.getMessage("user.message.success.delete", args, locale));
             return "redirect:" + UserUrls.USER_LOGOUT_FULL;
         }
 
-        attributes.addFlashAttribute("error",messageSource.getMessage("user.message.error.delete", args, locale));
+        attributes.addFlashAttribute("error", messageSource.getMessage("user.message.error.delete", args, locale));
         return "redirect:" + UserUrls.USER_MANAGEMENT_FULL;
     }
 }
