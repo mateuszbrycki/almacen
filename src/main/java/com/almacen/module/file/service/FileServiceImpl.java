@@ -33,6 +33,6 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public List<UserFile> findUserFilesByUserId(Integer userId) {
-        return fileRepository.findAllByUserId();
+        return fileRepository.findByUserId(userId);
     }
 }

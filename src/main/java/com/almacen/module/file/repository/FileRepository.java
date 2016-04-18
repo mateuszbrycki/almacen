@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface FileRepository extends JpaRepository<UserFile, Integer> {
 
-   List<UserFile> findAllByUserId();
-
+   List<UserFile> findByUserId(Integer userId);
 
 }
