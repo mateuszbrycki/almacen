@@ -45,6 +45,6 @@ public class PropertyServiceImpl implements PropertyService {
 
     public Property findMaximumUploadSizeFile()
     {
-        return propertyRepository.findOneByPropertyName(environment.getProperty("file.maximum_size"));
+        return propertyRepository.findOneByPropertyName(environment.getProperty("property.file.maximum_size"));
     }
 }

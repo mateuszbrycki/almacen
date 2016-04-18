@@ -9,14 +9,14 @@ public abstract class AbstractSpecification<T> implements Specification<T> {
     @Override
     public final Specification<T> and(Specification<T> other) {
 
-        return new AndSpecification(this, other);
+        return new AndSpecification<T>(this, other);
 
     }
 
     @Override
     public final Specification<T> or(Specification<T> other) {
 
-        return new OrSpecification(this, other);
+        return new OrSpecification<T>(this, other);
 
     }
 }

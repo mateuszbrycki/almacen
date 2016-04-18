@@ -20,9 +20,9 @@ public class UserFileSizeSpecification extends AbstractSpecification<UserFile> {
         String maximumUploadSizeFile = propertyService.findMaximumUploadSizeFile().getPropertyValue();
         Long maximumUpload = Long.valueOf(maximumUploadSizeFile).longValue() * MB;
         if(maximumUpload <= candidate.getSize())
-            return true;
-        else
             return false;
+        else
+            return true;
 
     }
 }

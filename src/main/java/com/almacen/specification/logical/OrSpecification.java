@@ -8,7 +8,7 @@ public class OrSpecification<T> extends AbstractSpecification<T> {
     private Specification<T> first;
     private Specification<T> second;
 
-    public OrSpecification(Specification<T> first, Specification second) {
+    public OrSpecification(Specification<T> first, Specification<T> second) {
         this.first = first;
         this.second = second;
     }

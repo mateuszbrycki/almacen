@@ -47,34 +47,31 @@ public class FileController {
                              @RequestParam("file") MultipartFile file,
                              RedirectAttributes attributes, Locale locale) throws UserNotFoundException {
 
-            UserFile userFile = new UserFile();
+        UserFile userFile = new UserFile();
 
 
-
-            if(!file.isEmpty()) {
-                StringTokenizer stringTokenizer = new StringTokenizer(file.getOriginalFilename(), ".");
+        if (!file.isEmpty()) {
+            StringTokenizer stringTokenizer = new StringTokenizer(file.getOriginalFilename(), ".");
 
                     /*stringTokenizer.
 
                 System.out.println(fileArray[1]);
                 logger.debug(fileArray.toString());*/
 
-                String extension = "a";
+            String extension = "a";
 
-                userFile.setName(file.getOriginalFilename());
-                userFile.setExtension(extension);
-                userFile.setSize(file.getSize());
-            } else {
-                return "redirect:" + BaseUrls.APPLICATION;
-            }
+            userFile.setName(file.getOriginalFilename());
+            userFile.setExtension(extension);
+            userFile.setSize(file.getSize());
+            userFile.setUser(userService.findUserById(UserUtils.getUserId(request, response)));
+        } else {
+            return "redirect:" + BaseUrls.APPLICATION;
+        }
 
-            if(specification.isSatisfiedBy(userFile)) {
-                userFile.setUser(userService.findUserById(UserUtils.getUserId(request, response)));
-            } else {
-                attributes.addFlashAttribute("error", messageSource.getMessage("file.extension.blocked", args, locale));
-
-                return "redirect:bad_file";
-            }
+        if (!specification.isSatisfiedBy(userFile)) {
+            attributes.addFlashAttribute("error", messageSource.getMessage("file.extension.blocked", args, locale));
+            return "redirect:bad_file";
+        }
 
 
         fileService.saveFile(userFile);
@@ -83,12 +80,12 @@ public class FileController {
 
         logger.debug(path);
 
-        File filePath = new File(path + FileUrls.FILE_UPLOAD + "/" + UserUtils.getUserId(request,response));
+        File filePath = new File(path + FileUrls.FILE_UPLOAD + "/" + UserUtils.getUserId(request, response));
         filePath.setWritable(true);
 
-            if(!filePath.exists()) {
-                filePath.mkdirs();
-            }
+        if (!filePath.exists()) {
+            filePath.mkdirs();
+        }
 
         try {
 
