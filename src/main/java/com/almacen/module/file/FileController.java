@@ -5,6 +5,7 @@ import com.almacen.module.file.service.FileService;
 import com.almacen.module.file.specification.UserFileSpecification;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
+import com.almacen.specification.Specification;
 import com.almacen.util.UserUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 @Controller
 @RequestMapping(FileUrls.FILE)
@@ -47,21 +49,32 @@ public class FileController {
                              @RequestParam("file") MultipartFile file,
                              RedirectAttributes attributes, Locale locale) throws UserNotFoundException {
 
+        Integer userId = UserUtils.getUserId(request, response);
         UserFile userFile = new UserFile();
+        UserFile temp;
 
-
-        if (!file.isEmpty()) {
-            String extension = file.getOriginalFilename().split("\\.")[1];
-            userFile.setName(file.getOriginalFilename());
-            userFile.setExtension(extension);
-            userFile.setSize(file.getSize());
-            userFile.setUser(userService.findUserById(UserUtils.getUserId(request, response)));
-        } else {
+        if (file.isEmpty()) {
             return "redirect:" + BaseUrls.APPLICATION;
         }
+
+        if((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
+            fileService.saveFile(temp);
+
+            return "redirect:" + BaseUrls.APPLICATION;
+        }
+
+        String[] fileArray = file.getOriginalFilename().split("\\.");
+        String extension = fileArray[fileArray.length - 1];
+
+        userFile.setName(file.getOriginalFilename());
+        userFile.setExtension(extension);
+        userFile.setSize(file.getSize());
+        userFile.setUser(userService.findUserById(userId));
+
+
         if (!specification.isSatisfiedBy(userFile)) {
             attributes.addFlashAttribute("error", messageSource.getMessage("file.extension.blocked", args, locale));
-            return "redirect:bad_file";
+            return "bad_file";
         }
 
 

@@ -1,7 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../../include/header.jsp"/>
-<jsp:include page="../file/upload_file_form.jsp" />
 
 <section id="object-content" class="container">
     <c:forEach items="${files}" var="file">

@@ -36,4 +36,9 @@ public class FileServiceImpl implements FileService {
         return fileRepository.findByUserId(userId);
     }
 
+    @Override
+    public UserFile findUserFileByName(String name, Integer userId) {
+        return fileRepository.findOneByNameAndUserId(name, userId);
+    }
+
 }

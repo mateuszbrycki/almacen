@@ -14,4 +14,5 @@ public interface FileService {
 
     List<UserFile> findUserFilesByUserId(Integer userId);
 
+    UserFile findUserFileByName(String name, Integer userId);
 }
