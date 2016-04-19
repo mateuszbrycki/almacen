@@ -106,7 +106,7 @@ public class FolderController {
     public String listFolders(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws UserNotFoundException, FolderNotFoundException {
         Integer userId = UserUtils.getUserId(request, response);
         User user = this.userService.findUserById(userId);
-        String user_path = FolderController.UPLOAD_PATH + "/" + user.getUsername();
+        String user_path = FolderController.UPLOAD_PATH + "/" + user.getId();
 
         if (!this.folderService.checkIfFolderWithNameExists(user_path, "0")) {
             String path = request.getContextPath();
