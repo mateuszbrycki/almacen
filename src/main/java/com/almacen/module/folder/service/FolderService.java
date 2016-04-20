@@ -16,6 +16,8 @@ public interface FolderService {
 
     Boolean checkFolderName(String folder_name);
 
+    List<Folder> findFoldersByUserId(Integer userId);
+
     Boolean checkIfParentIdExists(Integer userId, Integer folderId);
 
     Boolean checkIfFolderWithNameExists(String physical_path, String folder_name);
@@ -31,4 +33,5 @@ public interface FolderService {
     Folder findFolderByPhysicalPath(String physical_path) throws FolderNotFoundException;
 
     List<Folder> findFoldersByPhysicalPath(String physical_path) throws FolderNotFoundException;
+
 }

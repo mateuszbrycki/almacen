@@ -33,13 +33,13 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     public Boolean checkFolderName(String folder_name) {
-        if(folder_name.contains("/")
-                ||folder_name.contains("+")
-                ||folder_name.contains(".")
-                ||folder_name.contains(",")
-                ||folder_name.contains("?")
-                ||folder_name.contains("*")
-                ||folder_name.contains("-"))
+        if (folder_name.contains("/")
+                || folder_name.contains("+")
+                || folder_name.contains(".")
+                || folder_name.contains(",")
+                || folder_name.contains("?")
+                || folder_name.contains("*")
+                || folder_name.contains("-"))
             return true;
         else
             return false;
@@ -131,6 +131,13 @@ public class FolderServiceImpl implements FolderService {
         if (folders == null) {
             throw new FolderNotFoundException();
         }
+
+        return folders;
+    }
+
+    @Override
+    public List<Folder> findFoldersByUserId(Integer userId) {
+        List<Folder> folders = this.folderRepository.findByUserId(userId);
 
         return folders;
     }

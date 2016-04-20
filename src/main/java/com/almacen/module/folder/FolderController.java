@@ -1,7 +1,9 @@
 package com.almacen.module.folder;
 
+import com.almacen.module.base.BaseUrls;
 import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
+import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.user.User;
 import com.almacen.module.user.exception.UserNotFoundException;
@@ -21,8 +23,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
-
 
 @Controller
 @RequestMapping(FolderUrls.FOLDER)
@@ -38,11 +38,13 @@ public class FolderController {
     private UserService userService;
 
     @Inject
+    private FolderCreationPolicy folderCreationPolicy;
+
+    @Inject
     private MessageSource messageSource;
 
     private String[] args = {};
 
-    private static final String UPLOAD_PATH = "uploads";
     private String viewPath = "controller/folder/";
 
 
@@ -99,14 +101,14 @@ public class FolderController {
                 attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.create", args, locale));
 
         }
-        return "redirect:" + FolderUrls.FOLDER_SHOW_FULL;
+        return "redirect:" + BaseUrls.APPLICATION;
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_SHOW, method = RequestMethod.GET)
     public String listFolders(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws UserNotFoundException, FolderNotFoundException {
         Integer userId = UserUtils.getUserId(request, response);
         User user = this.userService.findUserById(userId);
-        String user_path = FolderController.UPLOAD_PATH + "/" + user.getId();
+        String user_path = this.folderCreationPolicy.generateFolderPath(userId);
 
         if (!this.folderService.checkIfFolderWithNameExists(user_path, "0")) {
             String path = request.getContextPath();

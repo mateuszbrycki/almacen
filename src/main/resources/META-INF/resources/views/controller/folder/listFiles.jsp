@@ -5,17 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../folder/folder_create_form.jsp"/>
 
-<div style="float: left;">
-    <ul class="nav navbar-nav">
-        <li type="button" data-dismiss="modal" style="margin: 2px;">
-            <button id="folder-create-button" class="btn btn-default" style="margin-top: 8px">
-                <span class="glyphicon glyphicon-folder-open"> </span>
-                <spring:message code="folder.create"/>
-            </button>
-        </li>
-    </ul>
-</div>
-
 <div class="table-responsive col-xs-12 col-md-12" id="logs-list">
 <c:choose>
     <c:when test="${fn:length(folders) gt 0}">
@@ -35,7 +24,7 @@
     </c:when>
     <c:otherwise>
         <div class="logs-alert alert alert-info" role="alert">
-             <spring:message code="folder.empty"/>
+            <spring:message code="folder.empty"/>
         </div>
     </c:otherwise>
 </c:choose>
