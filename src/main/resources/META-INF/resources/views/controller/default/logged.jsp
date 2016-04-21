@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../../include/header.jsp"/>
 
-<section id="object-content" class="container">
+<section id="object-content-file" class="container">
     <c:forEach items="${files}" var="file">
         <div class="file col-xs-2">
             <div class="glyphicon glyphicon-file" style="display: block; text-align: center"></div>
@@ -17,7 +17,7 @@
     </c:forEach>
 </section>
 
-<section id="object-content" class="container">
+<section id="object-content-folder" class="container">
     <div class="table-responsive col-xs-12 col-md-12" id="logs-list">
         <table class="table table-hover" id="logs-table">
             <c:forEach items="${folders}" var="folder">
