@@ -11,15 +11,15 @@
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap_3_2_0_min.css" />">
-    <link rel="stylesheet" href="<c:url value="/css/msdropdown_dd.css" />">
-    <link rel="stylesheet" href="<c:url value="/css/styles.css" />">
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-glyphicons.css" />">
-    <link rel="stylesheet" href="<c:url value="/css/spinners.css" />">
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-colorpicker.min.css" />">
-    <link rel="stylesheet" href="<c:url value="/css/select2.min.css" />">
-    <link rel="stylesheet" href="<c:url value="/css/context.bootstrap.css" />">
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-tagsinput.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap_3_2_0_min.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/msdropdown_dd.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/styles.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap-glyphicons.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/spinners.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap-colorpicker.min.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/select2.min.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/context.bootstrap.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap-tagsinput.css" />">
 
 
     <script src="<c:url value="/js/lib/jquery-2.1.0.js" />" type="text/javascript"></script>

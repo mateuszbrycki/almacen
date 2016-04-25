@@ -1,6 +1,7 @@
 package com.almacen.module.base;
 
 import com.almacen.module.file.service.FileService;
+import com.almacen.module.folder.service.FolderService;
 import com.almacen.util.UserUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;

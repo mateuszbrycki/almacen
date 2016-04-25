@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
+   <!-- <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><spring:message code="user.change.role"/></h3>
         </div>
@@ -83,7 +83,7 @@
                        value="<spring:message code="button.save" />" class="btn btn-primary"/>
             </form>
         </div>
-    </div>
+    </div> -->
 
     <div class="panel panel-default">
         <div class="panel-heading">

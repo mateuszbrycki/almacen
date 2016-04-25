@@ -120,10 +120,27 @@ $(document).ready(function () {
                 }
             });
         }
+
+
     });
 
+    $('.delete-file').click(function(e) {
+        e.preventDefault();
+        var temp = $(this);
 
+            $.ajax({
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             type: "DELETE",
+             url: ctx + $(this).attr('href'),
+             success: function(callback) {
+             temp.closest('.file').remove();
+             },
+             error: function(callback) {
+             console.log("File deleting request failed!");
+             }
+             });
+    });
 
-
-
+//end of $(document).ready() block
 });
