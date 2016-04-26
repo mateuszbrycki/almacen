@@ -31,19 +31,6 @@ public class FolderServiceImpl implements FolderService {
         this.folderRepository.delete(id);
     }
 
-    @Override
-    public Boolean checkFolderName(String folder_name) {
-        if (folder_name.contains("/")
-                || folder_name.contains("+")
-                || folder_name.contains(".")
-                || folder_name.contains(",")
-                || folder_name.contains("?")
-                || folder_name.contains("*")
-                || folder_name.contains("-"))
-            return true;
-        else
-            return false;
-    }
 
     @Override
     public Boolean checkIfParentIdExists(Integer userId, Integer folderId) {

@@ -27,10 +27,14 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public void deleteProperty(Property property) {propertyRepository.delete(property);}
+    public void deleteProperty(Property property) {
+        propertyRepository.delete(property);
+    }
 
     @Override
-    public List<Property> findAll() { return propertyRepository.findAll(); }
+    public List<Property> findAll() {
+        return propertyRepository.findAll();
+    }
 
     @Override
     public Property findOneByPropertyName(String propertyName) {
@@ -43,8 +47,12 @@ public class PropertyServiceImpl implements PropertyService {
         return propertyRepository.findOneByPropertyName(environment.getProperty("property.extensions.blocked.name"));
     }
 
-    public Property findMaximumUploadSizeFile()
-    {
+    public Property findMaximumUploadSizeFile() {
         return propertyRepository.findOneByPropertyName(environment.getProperty("property.file.maximum_size"));
+    }
+
+    @Override
+    public Property findIllegalCharacters() {
+        return propertyRepository.findOneByPropertyName(environment.getProperty("property.folder.illegal_character"));
     }
 }

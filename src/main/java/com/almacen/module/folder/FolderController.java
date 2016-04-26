@@ -5,6 +5,8 @@ import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
+import com.almacen.module.folder.specification.FolderIllegalCharacterSpecification;
+import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.user.User;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
@@ -39,6 +41,9 @@ public class FolderController {
 
     @Inject
     private FolderCreationPolicy folderCreationPolicy;
+
+    @Inject
+    private FolderSpecification specification;
 
     @Inject
     private MessageSource messageSource;
@@ -84,13 +89,16 @@ public class FolderController {
                                @RequestParam("folder_id") Integer folder_id,
                                RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException {
 
-        if (this.folderService.checkFolderName(folder_name)) {
+        Folder folder = new Folder();
+        folder.setFolder_name(folder_name);
+
+        if (specification.isSatisfiedBy(folder)) {
             attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.name", args, locale));
         } else {
             Integer userId = UserUtils.getUserId(request, response);
 
             String path = request.getContextPath();
-            Folder folder = createPath(userId, folder_id, folderDTO);
+            folder = createPath(userId, folder_id, folderDTO);
             String default_path = folder.getPhysical_path();
             String upload_path = default_path + folder_name;
 
