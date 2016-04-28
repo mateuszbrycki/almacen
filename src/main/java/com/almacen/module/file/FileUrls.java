@@ -17,5 +17,8 @@ public class FileUrls implements UrlSpace {
 
         public static final String FILE_DELETE_ID = FileUrls.FILE_DELETE + FileUrls.FILE_ID;
         public static final String FILE_DELETE_FULL = FileUrls.FILE + FileUrls.FILE_DELETE;
+
+        public static final String FILE_DOWNLOAD_ID = FileUrls.FILE_DOWNLOAD + FileUrls.FILE_ID;
+        public static final String FILE_DOWNLOAD_FULL = FileUrls.FILE + FileUrls.FILE_DOWNLOAD;
     }
 }

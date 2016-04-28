@@ -9,6 +9,7 @@ import com.almacen.module.user.service.UserService;
 import com.almacen.specification.Specification;
 import com.almacen.util.UserUtils;
 import org.apache.log4j.Logger;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -52,11 +54,14 @@ public class FileController {
     @RequestMapping(value = FileUrls.FILE_UPLOAD, method = RequestMethod.POST)
     public String uploadFile(HttpServletRequest request, HttpServletResponse response,
                              @RequestParam("file") MultipartFile file,
-                             RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FileNotFoundException {
+                             RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FileNotFoundException, UnsupportedEncodingException {
 
+        request.setCharacterEncoding("UTF-8");
         Integer userId = UserUtils.getUserId(request, response);
+
         UserFile userFile = new UserFile();
         UserFile temp;
+
         String path = request.getContextPath();
 
         if (file.isEmpty()) {
@@ -64,6 +69,9 @@ public class FileController {
         }
 
         if((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
+
+                temp.setSize(file.getSize());
+
             fileService.saveFile(temp);
 
             return "redirect:" + BaseUrls.APPLICATION;
@@ -115,5 +123,34 @@ public class FileController {
             }
 
         return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = FileUrls.Api.FILE_DOWNLOAD_ID, method = RequestMethod.GET)
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response,
+                                                         @PathVariable("fileId") Integer fileId) throws IOException {
+
+        Integer userId = UserUtils.getUserId(request, response);
+        String filename = fileService.findUserFileByFileId(fileId).getName();
+
+        File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
+
+            if(!filePath.exists()) {
+                return;
+            }
+
+        InputStream inputStream = new FileInputStream(filePath);
+
+            String mimeType= URLConnection.guessContentTypeFromName(filename);
+
+                if(mimeType == null) {
+                    mimeType = "application/octet-stream";
+                }
+
+        response.setContentType(mimeType);
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+        response.setCharacterEncoding("UTF-8");
+
+        FileCopyUtils.copy(inputStream, response.getOutputStream());
+        response.flushBuffer();
     }
 }

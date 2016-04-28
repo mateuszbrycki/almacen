@@ -78,7 +78,7 @@ public class FileServiceTests {
     }
 
     @Test
-    public void findFileByName() throws FileNotFoundException {
+    public void findFileByName() {
         UserFile testFile = fileService.findUserFileByName(userFile.getName(), testUser.getId());
 
             assertNotNull(testFile);

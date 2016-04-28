@@ -142,5 +142,11 @@ $(document).ready(function () {
              });
     });
 
+    $('.download-file').click(function(e){
+
+        window.location.href = $(this).attr('href');
+
+    });
+
 //end of $(document).ready() block
 });
