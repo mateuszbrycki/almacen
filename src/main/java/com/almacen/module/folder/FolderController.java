@@ -5,7 +5,6 @@ import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
-import com.almacen.module.folder.specification.FolderIllegalCharacterSpecification;
 import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.user.User;
 import com.almacen.module.user.exception.UserNotFoundException;
@@ -118,17 +117,17 @@ public class FolderController {
         User user = this.userService.findUserById(userId);
         String user_path = this.folderCreationPolicy.generateFolderPath(userId);
 
-        if (!this.folderService.checkIfFolderWithNameExists(user_path, "0")) {
-            String path = request.getContextPath();
-            Folder mFolder = new Folder();
-            mFolder.setUser(user);
-            mFolder.setPhysical_path(user_path);
-            mFolder.setParent_folder_id(0);
-            mFolder.setFolder_name("0");
-            this.folderService.saveFolder(mFolder);
-            File file = new File(path + "/" + user_path);
-            file.mkdirs();
-        }
+//        if (!this.folderService.checkIfFolderWithNameExists(user_path, "0")) {
+//            String path = request.getContextPath();
+//            Folder mFolder = new Folder();
+//            mFolder.setUser(user);
+//            mFolder.setPhysical_path(user_path);
+//            mFolder.setParent_folder_id(0);
+//            mFolder.setFolder_name("0");
+//            this.folderService.saveFolder(mFolder);
+//            File file = new File(path + "/" + user_path);
+//            file.mkdirs();
+//        }
 
         String physical_path = user_path + "/";
         List<Folder> folders = this.folderService.findFoldersByPhysicalPath(physical_path);

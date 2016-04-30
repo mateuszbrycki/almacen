@@ -2,7 +2,7 @@ package com.almacen.config.specification;
 
 
 import com.almacen.module.folder.Folder;
-import com.almacen.module.folder.specification.FolderIllegalCharacterSpecification;
+import com.almacen.module.folder.specification.FolderNameSpecification;
 import com.almacen.module.folder.specification.FolderSpecification;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ public class FolderSpecificationConfig {
     @Bean
     @Qualifier("folderIllegalCharacter")
     public Specification<Folder> folderIllegalCharacterSpecification() {
-        return new FolderIllegalCharacterSpecification();
+        return new FolderNameSpecification();
     }
 
     @Bean

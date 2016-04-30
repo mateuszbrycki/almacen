@@ -8,7 +8,7 @@ import com.almacen.specification.AbstractSpecification;
 import javax.inject.Inject;
 
 
-public class FolderIllegalCharacterSpecification extends AbstractSpecification<Folder> {
+public class FolderNameSpecification extends AbstractSpecification<Folder> {
 
     @Inject
     private PropertyService propertyService;
