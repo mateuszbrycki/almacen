@@ -3,6 +3,7 @@ package com.almacen.module.folder.service;
 import com.almacen.config.test.TestAppConfig;
 import com.almacen.module.folder.Folder;
 import com.almacen.module.folder.exception.FolderNotFoundException;
+import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.user.User;
 import com.almacen.module.user.service.UserService;
 import com.almacen.module.userrole.UserRole;
@@ -228,22 +229,6 @@ public class FolderServiceTests {
 
         assertEquals(0, folders.size());
 
-    }
-
-    @Test
-    public void checkFolderName() throws FolderNotFoundException {
-        Folder testFolder2 = new Folder();
-        testFolder2.setFolder_name("test2");
-        testFolder2.setPhysical_path("uploads/test2");
-        testFolder2.setParent_folder_id(2);
-        testFolder2.setUser(testUser);
-        this.folderService.saveFolder(testFolder2);
-
-        assertFalse(this.folderService.checkFolderName(testFolder2.getFolder_name()));
-        testFolder2.setFolder_name("test2/");
-        assertTrue(this.folderService.checkFolderName(testFolder2.getFolder_name()));
-
-        this.folderService.deleteFolderById(testFolder2.getId());
     }
 
 }
