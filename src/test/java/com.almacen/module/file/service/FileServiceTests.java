@@ -13,6 +13,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.inject.Inject;
 import java.io.FileNotFoundException;
 
@@ -38,7 +39,7 @@ public class FileServiceTests {
     private User testUser;
 
     @Before
-    public void initObjects(){
+    public void initObjects() {
         UserRole userRole = new UserRole();
         userRole.setRole("ROLE_USER");
         userRoleService.saveUserRole(userRole);
@@ -49,7 +50,7 @@ public class FileServiceTests {
         testUser.setRole(userRoleService.findByRole(User.DEFAULT_ROLE));
         testUser.setPassword("testpassword");
 
-            this.userService.registerUser(testUser);
+        this.userService.registerUser(testUser);
 
         userFile = new UserFile();
         userFile.setUser(testUser);
@@ -57,18 +58,18 @@ public class FileServiceTests {
         userFile.setExtension("txt");
         userFile.setSize(100L);
 
-            this.fileService.saveFile(userFile);
+        this.fileService.saveFile(userFile);
     }
 
     @Test
     public void saveFile() {
         UserFile tempFile = null;
 
-            try {
-                tempFile = fileService.findUserFileByFileId(userFile.getFileId());
-            } catch(FileNotFoundException e) {
-                fail("File not found!");
-            }
+        try {
+            tempFile = fileService.findUserFileByFileId(userFile.getFileId());
+        } catch (FileNotFoundException e) {
+            fail("File not found!");
+        }
 
         assertNotNull(tempFile);
         assertEquals(userFile.getName(), tempFile.getName());
@@ -81,22 +82,22 @@ public class FileServiceTests {
     public void findFileByName() {
         UserFile testFile = fileService.findUserFileByName(userFile.getName(), testUser.getId());
 
-            assertNotNull(testFile);
-            assertEquals(userFile.getName(), testFile.getName());
-            assertEquals(userFile.getExtension(), testFile.getExtension());
-            assertEquals(userFile.getUser().getId(), testFile.getUser().getId());
-            assertEquals(userFile.getSize(), testFile.getSize());
+        assertNotNull(testFile);
+        assertEquals(userFile.getName(), testFile.getName());
+        assertEquals(userFile.getExtension(), testFile.getExtension());
+        assertEquals(userFile.getUser().getId(), testFile.getUser().getId());
+        assertEquals(userFile.getSize(), testFile.getSize());
     }
 
     @Test
     public void findFileById() throws FileNotFoundException {
         UserFile testFile = fileService.findUserFileByFileId(userFile.getFileId());
 
-            assertNotNull(testFile);
-            assertEquals(userFile.getName(), testFile.getName());
-            assertEquals(userFile.getExtension(), testFile.getExtension());
-            assertEquals(userFile.getUser().getId(), testFile.getUser().getId());
-            assertEquals(userFile.getSize(), testFile.getSize());
+        assertNotNull(testFile);
+        assertEquals(userFile.getName(), testFile.getName());
+        assertEquals(userFile.getExtension(), testFile.getExtension());
+        assertEquals(userFile.getUser().getId(), testFile.getUser().getId());
+        assertEquals(userFile.getSize(), testFile.getSize());
     }
 
     @Test(expected = FileNotFoundException.class)

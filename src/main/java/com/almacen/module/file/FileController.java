@@ -69,6 +69,7 @@ public class FileController {
         }
 
         if ((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
+        if ((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
 
             temp.setSize(file.getSize());
 
@@ -108,19 +109,15 @@ public class FileController {
         Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
 
-        try {
-            fileService.deleteFileByFileIdAndUserId(fileId, userId);
 
-        } catch (NullPointerException ex) {
-            return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.FORBIDDEN);
-        }
+        fileService.deleteFileByFileIdAndUserId(fileId, userId);
+
 
         File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
 
-        if (!FileUtils.deleteFile(filePath)) {
-
+        if (!FileUtils.deleteFile(filePath))
             return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.FORBIDDEN);
-        }
+
 
         return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.OK);
     }
