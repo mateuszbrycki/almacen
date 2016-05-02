@@ -6,10 +6,8 @@ import com.almacen.module.file.specification.UserFileSpecification;
 import com.almacen.module.file.utils.FileUtils;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
-import com.almacen.specification.Specification;
 import com.almacen.util.UserUtils;
 import org.apache.log4j.Logger;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +24,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Locale;
-import java.util.StringTokenizer;
 
 @Controller
 @RequestMapping(FileUrls.FILE)
@@ -68,7 +64,6 @@ public class FileController {
             return "redirect:" + BaseUrls.APPLICATION;
         }
 
-        if ((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
         if ((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
 
             temp.setSize(file.getSize());
