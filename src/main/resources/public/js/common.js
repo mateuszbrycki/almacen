@@ -29,6 +29,14 @@ function showUploadFileForm() {
         modalElement.modal('show');
 }
 
+function showCreateFolderForm() {
+
+    var modalElement = $('#create-folder-modal');
+
+    modalElement.modal({keyboard: true});
+    modalElement.modal('show');
+}
+
 $(document).ready(function () {
 
     //language select
@@ -48,6 +56,12 @@ $(document).ready(function () {
         e.preventDefault();
 
         showUploadFileForm();
+    });
+
+    $(document).on('click', '#folder-create-button', function(e){
+        e.preventDefault();
+
+        showCreateFolderForm();
     });
 
     $("#blocked-extensions-input").tagsinput({

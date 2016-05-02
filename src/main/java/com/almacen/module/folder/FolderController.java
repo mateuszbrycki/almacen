@@ -1,8 +1,11 @@
 package com.almacen.module.folder;
 
+import com.almacen.module.base.BaseUrls;
 import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
+import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
+import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.user.User;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
@@ -21,8 +24,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
-
 
 @Controller
 @RequestMapping(FolderUrls.FOLDER)
@@ -38,11 +39,16 @@ public class FolderController {
     private UserService userService;
 
     @Inject
+    private FolderCreationPolicy folderCreationPolicy;
+
+    @Inject
+    private FolderSpecification specification;
+
+    @Inject
     private MessageSource messageSource;
 
     private String[] args = {};
 
-    private static final String UPLOAD_PATH = "uploads";
     private String viewPath = "controller/folder/";
 
 
@@ -82,13 +88,16 @@ public class FolderController {
                                @RequestParam("folder_id") Integer folder_id,
                                RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException {
 
-        if (this.folderService.checkFolderName(folder_name)) {
+        Folder folder = new Folder();
+        folder.setFolder_name(folder_name);
+
+        if (specification.isSatisfiedBy(folder)) {
             attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.name", args, locale));
         } else {
             Integer userId = UserUtils.getUserId(request, response);
 
             String path = request.getContextPath();
-            Folder folder = createPath(userId, folder_id, folderDTO);
+            folder = createPath(userId, folder_id, folderDTO);
             String default_path = folder.getPhysical_path();
             String upload_path = default_path + folder_name;
 
@@ -99,26 +108,13 @@ public class FolderController {
                 attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.create", args, locale));
 
         }
-        return "redirect:" + FolderUrls.FOLDER_SHOW_FULL;
+        return "redirect:" + BaseUrls.APPLICATION;
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_SHOW, method = RequestMethod.GET)
     public String listFolders(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws UserNotFoundException, FolderNotFoundException {
         Integer userId = UserUtils.getUserId(request, response);
-        User user = this.userService.findUserById(userId);
-        String user_path = FolderController.UPLOAD_PATH + "/" + user.getUsername();
-
-        if (!this.folderService.checkIfFolderWithNameExists(user_path, "0")) {
-            String path = request.getContextPath();
-            Folder mFolder = new Folder();
-            mFolder.setUser(user);
-            mFolder.setPhysical_path(user_path);
-            mFolder.setParent_folder_id(0);
-            mFolder.setFolder_name("0");
-            this.folderService.saveFolder(mFolder);
-            File file = new File(path + "/" + user_path);
-            file.mkdirs();
-        }
+        String user_path = this.folderCreationPolicy.generateFolderPath(userId);
 
         String physical_path = user_path + "/";
         List<Folder> folders = this.folderService.findFoldersByPhysicalPath(physical_path);
@@ -136,6 +132,7 @@ public class FolderController {
             HttpServletResponse response,
             ModelMap model) throws UserNotFoundException, FolderNotFoundException {
 
+        
         String folder_name = this.folderService.getFolderNameByFolderId(folderId);
         String physical_path = this.folderService.getPhysicalPathByFolderId(folderId);
         String full_path = physical_path + folder_name + "/";
