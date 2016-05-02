@@ -114,20 +114,7 @@ public class FolderController {
     @RequestMapping(value = FolderUrls.FOLDER_SHOW, method = RequestMethod.GET)
     public String listFolders(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws UserNotFoundException, FolderNotFoundException {
         Integer userId = UserUtils.getUserId(request, response);
-        User user = this.userService.findUserById(userId);
         String user_path = this.folderCreationPolicy.generateFolderPath(userId);
-
-//        if (!this.folderService.checkIfFolderWithNameExists(user_path, "0")) {
-//            String path = request.getContextPath();
-//            Folder mFolder = new Folder();
-//            mFolder.setUser(user);
-//            mFolder.setPhysical_path(user_path);
-//            mFolder.setParent_folder_id(0);
-//            mFolder.setFolder_name("0");
-//            this.folderService.saveFolder(mFolder);
-//            File file = new File(path + "/" + user_path);
-//            file.mkdirs();
-//        }
 
         String physical_path = user_path + "/";
         List<Folder> folders = this.folderService.findFoldersByPhysicalPath(physical_path);
@@ -145,6 +132,7 @@ public class FolderController {
             HttpServletResponse response,
             ModelMap model) throws UserNotFoundException, FolderNotFoundException {
 
+        
         String folder_name = this.folderService.getFolderNameByFolderId(folderId);
         String physical_path = this.folderService.getPhysicalPathByFolderId(folderId);
         String full_path = physical_path + folder_name + "/";
