@@ -4,6 +4,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.net.URLConnection;
 
 public class FileUtils {
 
@@ -40,5 +41,15 @@ public class FileUtils {
         }
 
         return false;
+    }
+
+    public static String getFileMimeType(String filename) {
+        String mimeType = URLConnection.guessContentTypeFromName(filename);
+
+        if (mimeType == null) {
+            mimeType = "application/octet-stream";
+        }
+
+        return mimeType;
     }
 }

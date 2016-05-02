@@ -68,22 +68,22 @@ public class FileController {
             return "redirect:" + BaseUrls.APPLICATION;
         }
 
-        if((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
+        if ((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
 
-                temp.setSize(file.getSize());
+            temp.setSize(file.getSize());
 
             fileService.saveFile(temp);
 
             return "redirect:" + BaseUrls.APPLICATION;
         }
 
-                String[] fileArray = file.getOriginalFilename().split("\\.");
-                String extension = fileArray[fileArray.length - 1];
+        String[] fileArray = file.getOriginalFilename().split("\\.");
+        String extension = fileArray[fileArray.length - 1];
 
-                userFile.setName(file.getOriginalFilename());
-                userFile.setExtension(extension);
-                userFile.setSize(file.getSize());
-                userFile.setUser(userService.findUserById(userId));
+        userFile.setName(file.getOriginalFilename());
+        userFile.setExtension(extension);
+        userFile.setSize(file.getSize());
+        userFile.setUser(userService.findUserById(userId));
 
 
         if (!specification.isSatisfiedBy(userFile)) {
@@ -95,7 +95,7 @@ public class FileController {
 
         File filePath = new File(path + FileUrls.FILE_UPLOAD + "/" + userId);
 
-            FileUtils.saveFile(file, filePath);
+        FileUtils.saveFile(file, filePath);
 
         return "redirect:" + BaseUrls.APPLICATION;
     }
@@ -117,36 +117,30 @@ public class FileController {
 
         File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
 
-            if(!FileUtils.deleteFile(filePath)) {
+        if (!FileUtils.deleteFile(filePath)) {
 
-                return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.FORBIDDEN);
-            }
+            return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.FORBIDDEN);
+        }
 
         return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.OK);
     }
 
     @RequestMapping(value = FileUrls.Api.FILE_DOWNLOAD_ID, method = RequestMethod.GET)
     public void downloadFile(HttpServletRequest request, HttpServletResponse response,
-                                                         @PathVariable("fileId") Integer fileId) throws IOException {
+                             @PathVariable("fileId") Integer fileId) throws IOException {
 
         Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
 
         File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
 
-            if(!filePath.exists()) {
-                return;
-            }
+        if (!filePath.exists()) {
+            return;
+        }
 
         InputStream inputStream = new FileInputStream(filePath);
 
-            String mimeType= URLConnection.guessContentTypeFromName(filename);
-
-                if(mimeType == null) {
-                    mimeType = "application/octet-stream";
-                }
-
-        response.setContentType(mimeType);
+        response.setContentType(FileUtils.getFileMimeType(filename));
         response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
         response.setCharacterEncoding("UTF-8");
 
