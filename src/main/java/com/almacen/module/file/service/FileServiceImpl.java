@@ -36,9 +36,9 @@ public class FileServiceImpl implements FileService {
     public UserFile findUserFileByName(String name, Integer userId) throws FileNotFoundException {
         UserFile userFile = fileRepository.findOneByNameAndUserId(name, userId);
 
-            if(userFile == null) {
-                throw new FileNotFoundException();
-            }
+        if (userFile == null) {
+            throw new FileNotFoundException();
+        }
 
         return userFile;
     }
@@ -53,9 +53,9 @@ public class FileServiceImpl implements FileService {
     public UserFile findUserFileByFileId(Integer fileId) throws FileNotFoundException {
         UserFile userFile = fileRepository.findOneByFileId(fileId);
 
-            if(userFile == null) {
-                throw new FileNotFoundException();
-            }
+        if (userFile == null) {
+            throw new FileNotFoundException();
+        }
 
         return userFile;
     }

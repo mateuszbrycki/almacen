@@ -36,8 +36,6 @@ public class FileController {
     @Inject
     private FileService fileService;
 
-    private static final Logger logger = Logger.getLogger(FileController.class);
-
     @Inject
     private UserService userService;
 
@@ -63,19 +61,19 @@ public class FileController {
             return "redirect:" + BaseUrls.APPLICATION;
         }
 
-        if((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
+        if ((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
             fileService.saveFile(temp);
 
             return "redirect:" + BaseUrls.APPLICATION;
         }
 
-                String[] fileArray = file.getOriginalFilename().split("\\.");
-                String extension = fileArray[fileArray.length - 1];
+        String[] fileArray = file.getOriginalFilename().split("\\.");
+        String extension = fileArray[fileArray.length - 1];
 
-                userFile.setName(file.getOriginalFilename());
-                userFile.setExtension(extension);
-                userFile.setSize(file.getSize());
-                userFile.setUser(userService.findUserById(userId));
+        userFile.setName(file.getOriginalFilename());
+        userFile.setExtension(extension);
+        userFile.setSize(file.getSize());
+        userFile.setUser(userService.findUserById(userId));
 
 
         if (!specification.isSatisfiedBy(userFile)) {
@@ -87,7 +85,7 @@ public class FileController {
 
         File filePath = new File(path + FileUrls.FILE_UPLOAD + "/" + userId);
 
-            FileUtils.saveFile(file, filePath);
+        FileUtils.saveFile(file, filePath);
 
         return "redirect:" + BaseUrls.APPLICATION;
     }
@@ -100,19 +98,15 @@ public class FileController {
         Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
 
-        try {
-            fileService.deleteFileByFileIdAndUserId(fileId, userId);
 
-        } catch (NullPointerException ex) {
-            return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.FORBIDDEN);
-        }
+        fileService.deleteFileByFileIdAndUserId(fileId, userId);
+
 
         File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
 
-            if(!FileUtils.deleteFile(filePath)) {
+        if (!FileUtils.deleteFile(filePath))
+            return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.FORBIDDEN);
 
-                return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.FORBIDDEN);
-            }
 
         return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.OK);
     }

@@ -1,6 +1,5 @@
 package com.almacen.module.file.utils;
 
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -15,26 +14,15 @@ public class FileUtils {
             filePath.mkdirs();
         }
 
-            try {
-
-                BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new
-                        FileOutputStream(filePath + "/" + file.getOriginalFilename()));
-                FileCopyUtils.copy(file.getInputStream(), bufferedOutputStream);
-                bufferedOutputStream.close();
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        FileSaver.saveFile(file, filePath);
 
     }
 
     public static boolean deleteFile(File file) {
 
-        if(file.exists()) {
+        if (file.exists()) {
 
-            if(file.delete()) {
+            if (file.delete()) {
                 return true;
             }
         }
