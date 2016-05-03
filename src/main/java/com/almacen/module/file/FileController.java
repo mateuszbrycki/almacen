@@ -45,42 +45,35 @@ public class FileController {
     @Inject
     private MessageSource messageSource;
 
+    private FileUtils fileUtils = new FileUtils();
+
     private String[] args = {};
 
     @RequestMapping(value = FileUrls.FILE_UPLOAD, method = RequestMethod.POST)
     public String uploadFile(HttpServletRequest request, HttpServletResponse response,
                              @RequestParam("file") MultipartFile file,
-                             RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FileNotFoundException, UnsupportedEncodingException {
+                             RedirectAttributes attributes, Locale locale)
+                            throws UserNotFoundException, FileNotFoundException, UnsupportedEncodingException {
 
         request.setCharacterEncoding("UTF-8");
         Integer userId = UserUtils.getUserId(request, response);
-
-        UserFile userFile = new UserFile();
         UserFile temp;
+        //TODO M Bryzik - do zrobienia po skonfigurowaniu plików i folderów
+        File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId);
 
-        String path = request.getContextPath();
-
-        if (file.isEmpty()) {
+        if (file.isEmpty())
             return "redirect:" + BaseUrls.APPLICATION;
-        }
+
 
         if ((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
 
             temp.setSize(file.getSize());
-
             fileService.saveFile(temp);
 
             return "redirect:" + BaseUrls.APPLICATION;
         }
 
-        String[] fileArray = file.getOriginalFilename().split("\\.");
-        String extension = fileArray[fileArray.length - 1];
-
-        userFile.setName(file.getOriginalFilename());
-        userFile.setExtension(extension);
-        userFile.setSize(file.getSize());
-        userFile.setUser(userService.findUserById(userId));
-
+        UserFile userFile = fileUtils.mapUserFileObject(file, userService.findUserById(userId));
 
         if (!specification.isSatisfiedBy(userFile)) {
             attributes.addFlashAttribute("error", messageSource.getMessage("file.extension.blocked", args, locale));
@@ -89,9 +82,7 @@ public class FileController {
 
         fileService.saveFile(userFile);
 
-        File filePath = new File(path + FileUrls.FILE_UPLOAD + "/" + userId);
-
-        FileUtils.saveFile(file, filePath);
+        fileUtils.saveFile(file, filePath);
 
         return "redirect:" + BaseUrls.APPLICATION;
     }
@@ -103,16 +94,13 @@ public class FileController {
 
         Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
-
+        //TODO M Bryzik - do zrobienia po skonfigurowaniu plików i folderów
+        File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
 
         fileService.deleteFileByFileIdAndUserId(fileId, userId);
 
-
-        File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
-
-        if (!FileUtils.deleteFile(filePath))
+        if (!fileUtils.deleteFile(filePath))
             return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.FORBIDDEN);
-
 
         return new ResponseEntity<>(fileService.findUserFilesByUserId(userId), HttpStatus.OK);
     }
@@ -123,16 +111,15 @@ public class FileController {
 
         Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
-
+        //TODO M Bryzik - do zrobienia po skonfigurowaniu plików i folderów
         File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
 
-        if (!filePath.exists()) {
+        if (!filePath.exists())
             return;
-        }
 
         InputStream inputStream = new FileInputStream(filePath);
 
-        response.setContentType(FileUtils.getFileMimeType(filename));
+        response.setContentType(fileUtils.getFileMimeType(filename));
         response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
         response.setCharacterEncoding("UTF-8");
 
