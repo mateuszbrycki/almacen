@@ -22,6 +22,13 @@
                         <spring:message code="admin.file"/>
                     </a>
                 </li>
+
+                <li type="button" style="margin: 2px;">
+                    <a href="<%=AdminUrls.ADMIN_STATISTICS_FULL%>">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        <spring:message code="admin.statistics"/>
+                    </a>
+                </li>
             </ul>
         </div>
 

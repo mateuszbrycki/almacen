@@ -14,6 +14,14 @@ public class AdminUrls implements UrlSpace {
 
     public static final String ADMIN_FILE_FULL = ADMIN_FILE + "/";
 
+    public static final String ADMIN_STATISTICS = ADMIN + "/statistics" ;
+    public static final String ADMIN_STATISTICS_FULL = ADMIN_STATISTICS + "/";
+
+    public static final String ADMIN_SPECIFIC_STATISTIC = "/statistic";
+    public static final String ADMIN_SPECIFIC_STATISTIC_ID = ADMIN_SPECIFIC_STATISTIC + "/{userId}";
+    public static final String ADMIN_SPECIFIC_STATISTIC_FULL = ADMIN + ADMIN_SPECIFIC_STATISTIC;
+
+
     public class Api {
         public static final String ADMIN = "/api"  + AdminUrls.ADMIN;
         public static final String ADMIN_FILE = ADMIN + "/file";
