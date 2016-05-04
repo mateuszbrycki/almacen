@@ -50,8 +50,28 @@ INSERT INTO `user_role` (`id`, `role_id`) VALUES
 
 CREATE TABLE user_account_archive AS SELECT *, NOW() as action_time FROM user_account;
 
+CREATE TABLE file (
+  file_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  fk_owner_id INTEGER NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  extension VARCHAR(255) NOT NULL,
+  size INTEGER NOT NULL,
+  audit_cd TIMESTAMP NOT NULL,
+    FOREIGN KEY(fk_owner_id)
+      REFERENCES user_account(user_id)
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE system_configuration (
+  property_name  VARCHAR(255) PRIMARY KEY,
+  property_value VARCHAR(255) NOT NULL,
+  audit_cd TIMESTAMP NOT NULL
+);
+
 --DROP TABLE user_account;
 --DROP TABLE user_role;
 --DROP TABLE folder;
 
+--DROP TABLE file;
+--DROP TABLE system_configuration;
 

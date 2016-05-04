@@ -53,3 +53,11 @@
     background-color: #fcf8e3;
 }
 
+#object-content .file .file-ico {
+    font-size: 40px;
+}
+
+#object-content .file {
+    margin-bottom: 20px;
+    height: 115px;
+}

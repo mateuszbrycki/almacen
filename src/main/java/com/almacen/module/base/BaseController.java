@@ -20,8 +20,7 @@ public class BaseController {
     public String root(HttpServletRequest request, HttpServletResponse response, Map<String, Object> map) throws RequiresHttpAction {
 
         if(UserUtils.isAutheniticated(request, response)) {
-//            return "redirect:" + BaseUrls.APPLICATION;
-            return "redirect:" + FolderUrls.FOLDER_SHOW_FULL;
+            return "redirect:" + BaseUrls.APPLICATION;
         }
 
         return this.viewPath + "main";
