@@ -13,12 +13,10 @@ public class UserFileSizeSpecification extends AbstractSpecification<UserFile> {
     @Inject
     private PropertyService propertyService;
 
-    private Integer MB = 1048576;
-
     @Override
     public Boolean isSatisfiedBy(UserFile candidate) {
         String maximumUploadSizeFile = propertyService.findMaximumUploadSizeFile().getPropertyValue();
-        Long maximumUpload = Long.valueOf(maximumUploadSizeFile).longValue() * MB;
+        Long maximumUpload = Long.valueOf(maximumUploadSizeFile).longValue() * UserFile.MB;
         if(maximumUpload <= candidate.getSize())
             return false;
         else

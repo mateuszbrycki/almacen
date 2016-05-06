@@ -3,7 +3,6 @@ package com.almacen.module.file.service;
 
 import com.almacen.module.file.UserFile;
 import com.almacen.module.file.repository.FileRepository;
-import com.almacen.module.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,4 +54,12 @@ public class FileServiceImpl implements FileService {
         return userFile;
     }
 
+    @Override
+    public Long getWholeSizeUserFiles(Integer userId) {
+        List<UserFile> userFiles = fileRepository.findByUserId(userId);
+        Long wholeSize = 0l;
+        for (UserFile userFile : userFiles)
+            wholeSize += userFile.getSize();
+        return wholeSize;
+    }
 }

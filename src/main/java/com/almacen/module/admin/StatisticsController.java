@@ -18,14 +18,11 @@ import java.util.List;
 @Controller("statisticsController")
 public class StatisticsController {
 
+    private static final Logger logger = Logger.getLogger(StatisticsController.class);
     @Inject
     private FileService fileService;
-
     @Inject
     private UserService userService;
-
-    private static final Logger logger = Logger.getLogger(StatisticsController.class);
-
     private String viewPath = "controller/admin/";
 
     @RequestMapping(value = AdminUrls.ADMIN_STATISTICS_FULL, method = RequestMethod.GET)
@@ -36,18 +33,41 @@ public class StatisticsController {
     }
 
     @RequestMapping(value = AdminUrls.ADMIN_SPECIFIC_STATISTIC_ID, method = RequestMethod.GET)
-    public String statistic(@PathVariable("userId") Integer userId, ModelMap model) {
-        List<UserFile> userFiles = fileService.findUserFilesByUserId(userId);
+    public String statistic(@PathVariable("userId") Integer userId, ModelMap model) throws UserNotFoundException {
+        double wholeSizeUserFiles = wholeUserFileSizeToMB(userId);
+        int maximumUploadSize = getWholeMaximumUploadSize(userId);
         model.addAttribute("userId", userId);
-        model.addAttribute("wholeSizeUserFiles", getWholeSizeUserFiles(userFiles));
+        model.addAttribute("wholeSizeUserFiles", wholeSizeUserFiles);
+        model.addAttribute("maximumUploadSize", maximumUploadSize);
+        model.addAttribute("percentage", getPercentage(wholeSizeUserFiles, maximumUploadSize));
         return this.viewPath + "statistic";
     }
 
-    private Long getWholeSizeUserFiles(List<UserFile> userFiles) {
-        Long wholeSize = null;
-        for (UserFile userFile : userFiles)
-            wholeSize += userFile.getSize();
-        return wholeSize;
+    private int getWholeMaximumUploadSize(@PathVariable("userId") Integer userId) throws UserNotFoundException {
+        User user = this.userService.findUserById(userId);
+        if(user.getRole().getId() != User.REGULAR_USER)
+            return 500;
+        else
+            return 100;
+    }
+
+    private int getPercentage(double wholeSizeUserFiles, int maximumUploadSize)
+    {
+        return (int)(wholeSizeUserFiles * 100) / maximumUploadSize ;
+    }
+
+    private double wholeUserFileSizeToMB(@PathVariable("userId") Integer userId) {
+        Long wholeSizeUserFiles = this.fileService.getWholeSizeUserFiles(userId);
+        double sizeInMB = (double)wholeSizeUserFiles / UserFile.MB;
+        return round(sizeInMB, 2);
+    }
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
 }

@@ -18,7 +18,7 @@ public class AdminUrls implements UrlSpace {
     public static final String ADMIN_STATISTICS_FULL = ADMIN_STATISTICS + "/";
 
     public static final String ADMIN_SPECIFIC_STATISTIC = "/statistic";
-    public static final String ADMIN_SPECIFIC_STATISTIC_ID = ADMIN_SPECIFIC_STATISTIC + "/{userId}";
+    public static final String ADMIN_SPECIFIC_STATISTIC_ID = ADMIN + ADMIN_SPECIFIC_STATISTIC + "/{userId}";
     public static final String ADMIN_SPECIFIC_STATISTIC_FULL = ADMIN + ADMIN_SPECIFIC_STATISTIC;
 
 

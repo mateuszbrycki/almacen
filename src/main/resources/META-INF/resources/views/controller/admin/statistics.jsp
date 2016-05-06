@@ -2,9 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.almacen.module.user.UserUrls" %>
 <%@ page import="com.almacen.module.admin.AdminUrls" %>
-
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<link rel='stylesheet' href='/css/circle_widget.css'>
 
 <div class="col-xs-12 col-md-8 col-md-offset-2">
     <c:choose>
