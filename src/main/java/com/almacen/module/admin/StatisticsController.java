@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller("statisticsController")
@@ -36,10 +38,20 @@ public class StatisticsController {
     public String statistic(@PathVariable("userId") Integer userId, ModelMap model) throws UserNotFoundException {
         double wholeSizeUserFiles = wholeUserFileSizeToMB(userId);
         int maximumUploadSize = getWholeMaximumUploadSize(userId);
+        HashMap<String, Integer> quantity = this.fileService.getUserFilesAllQuantity(userId);
+        Integer quantityOfExtension = this.fileService.getUserFilesAllExtension(userId).size();
+        List<Double> percentageExtension = new ArrayList<>();
+        for(Integer extensionQuantity : quantity.values())
+            percentageExtension.add(((double)extensionQuantity/ (double)quantityOfExtension)*100);
+
         model.addAttribute("userId", userId);
         model.addAttribute("wholeSizeUserFiles", wholeSizeUserFiles);
         model.addAttribute("maximumUploadSize", maximumUploadSize);
         model.addAttribute("percentage", getPercentage(wholeSizeUserFiles, maximumUploadSize));
+        model.addAttribute("percentageExtension", percentageExtension);
+        model.addAttribute("nameExtension", quantity.keySet());
+
+
         return this.viewPath + "statistic";
     }
 

@@ -3,6 +3,7 @@ package com.almacen.module.file.service;
 import com.almacen.module.file.UserFile;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 
 public interface FileService {
@@ -20,4 +21,8 @@ public interface FileService {
     UserFile findUserFileByFileId(Integer fileId) throws FileNotFoundException;
 
     Long getWholeSizeUserFiles(Integer userId);
+
+    List<String> getUserFilesAllExtension(Integer userId);
+
+    HashMap<String, Integer> getUserFilesAllQuantity(Integer userId);
 }

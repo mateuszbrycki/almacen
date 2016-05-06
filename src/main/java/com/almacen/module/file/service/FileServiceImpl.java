@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service("fileService")
@@ -61,5 +63,28 @@ public class FileServiceImpl implements FileService {
         for (UserFile userFile : userFiles)
             wholeSize += userFile.getSize();
         return wholeSize;
+    }
+
+    public List<String> getUserFilesAllExtension(Integer userId){
+        List<UserFile> userFiles = fileRepository.findByUserId(userId);
+        ArrayList<String> extensionList = new ArrayList<>();
+        for (UserFile userFile : userFiles)
+            extensionList.add(userFile.getExtension());
+        return extensionList;
+
+    }
+
+    public HashMap<String, Integer> getUserFilesAllQuantity(Integer userId) {
+        List<String> extensionList = getUserFilesAllExtension(userId);
+        HashMap<String, Integer> quantity = new HashMap<String, Integer>();
+
+        for (int i = 0; i < extensionList.size(); ++i) {
+            String extension = extensionList.get(i);
+            if (quantity.containsKey(extension))
+                quantity.put(extension, quantity.get(extension) + 1);
+            else
+                quantity.put(extension, 1);
+        }
+        return quantity;
     }
 }
