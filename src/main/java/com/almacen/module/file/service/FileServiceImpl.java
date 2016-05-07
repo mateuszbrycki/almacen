@@ -64,7 +64,7 @@ public class FileServiceImpl implements FileService {
             wholeSize += userFile.getSize();
         return wholeSize;
     }
-
+    @Override
     public List<String> getUserFilesAllExtension(Integer userId){
         List<UserFile> userFiles = fileRepository.findByUserId(userId);
         ArrayList<String> extensionList = new ArrayList<>();
@@ -73,7 +73,7 @@ public class FileServiceImpl implements FileService {
         return extensionList;
 
     }
-
+    @Override
     public HashMap<String, Integer> getUserFilesAllQuantity(Integer userId) {
         List<String> extensionList = getUserFilesAllExtension(userId);
         HashMap<String, Integer> quantity = new HashMap<String, Integer>();
