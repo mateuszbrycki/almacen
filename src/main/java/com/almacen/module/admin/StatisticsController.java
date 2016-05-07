@@ -38,29 +38,33 @@ public class StatisticsController {
     public String statistic(@PathVariable("userId") Integer userId, ModelMap model) throws UserNotFoundException {
         double wholeSizeUserFiles = wholeUserFileSizeToMB(userId);
         int maximumUploadSize = getWholeMaximumUploadSize(userId);
-        HashMap<String, Integer> quantity = this.fileService.getUserFilesAllQuantity(userId);
-        Integer quantityOfExtension = this.fileService.getUserFilesAllExtension(userId).size();
-        List<Double> percentageExtension = new ArrayList<>();
-        for(Integer extensionQuantity : quantity.values())
-            percentageExtension.add(((double)extensionQuantity/ (double)quantityOfExtension)*100);
+        HashMap<String, Integer> nameOfExtension = this.fileService.getUserFilesAllQuantity(userId);
+        List<Double> percentageExtension = getPercentageOfExtension(userId, nameOfExtension);
 
         model.addAttribute("userId", userId);
         model.addAttribute("wholeSizeUserFiles", wholeSizeUserFiles);
         model.addAttribute("maximumUploadSize", maximumUploadSize);
         model.addAttribute("percentage", getPercentage(wholeSizeUserFiles, maximumUploadSize));
         model.addAttribute("percentageExtension", percentageExtension);
-        model.addAttribute("nameExtension", quantity.keySet());
-
+        model.addAttribute("nameExtension", nameOfExtension.keySet());
 
         return this.viewPath + "statistic";
+    }
+
+    private List<Double> getPercentageOfExtension(@PathVariable("userId") Integer userId, HashMap<String, Integer> quantity) {
+        Integer quantityOfExtension = this.fileService.getUserFilesAllExtension(userId).size();
+        List<Double> percentageExtension = new ArrayList<>();
+        for(Integer extensionQuantity : quantity.values())
+            percentageExtension.add(((double)extensionQuantity / (double)quantityOfExtension) * 100);
+        return percentageExtension;
     }
 
     private int getWholeMaximumUploadSize(@PathVariable("userId") Integer userId) throws UserNotFoundException {
         User user = this.userService.findUserById(userId);
         if(user.getRole().getId() != User.REGULAR_USER)
-            return 500;
+            return User.PREMIUM_USER_PLACE; // TODO brolly Specyfication?
         else
-            return 100;
+            return User.REGULAR_USER_PLACE;
     }
 
     private int getPercentage(double wholeSizeUserFiles, int maximumUploadSize)

@@ -42,6 +42,8 @@ public class User {
     public static Boolean DEFAULT_IS_ACTIVE = true;
     public static String DEFAULT_ROLE = "ROLE_USER";
     public static int REGULAR_USER = 3;
+    public static int REGULAR_USER_PLACE = 100;
+    public static int PREMIUM_USER_PLACE = 500;
 
     public boolean isActive() {
         return isActive;

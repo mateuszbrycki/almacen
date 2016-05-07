@@ -162,18 +162,6 @@ $(document).ready(function () {
 
     });
 
-    var percentageArray = new Array();
-    percentageArray.push(30.63);
-    percentageArray.push(26.25);
-    percentageArray.push(14.38);
-    percentageArray.push(28.75);
-
-    var answerArray = new Array();
-    answerArray.push('Kollektivtrafik');
-    answerArray.push('Bil');
-    answerArray.push('Cykel');
-    answerArray.push('Gå');
-
     $.fn.createBarchart = function (optionvariables) {
         var chartContainer = $(this);
         var defaults = {
