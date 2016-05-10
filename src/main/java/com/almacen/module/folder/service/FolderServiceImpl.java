@@ -27,6 +27,11 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    public void updateFolderById(Integer folder_id, String folder_name) {
+        this.folderRepository.updateFolderById(folder_id, folder_name);
+    }
+
+    @Override
     public void deleteFolderById(Integer id) {
         this.folderRepository.delete(id);
     }

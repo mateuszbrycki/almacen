@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <jsp:include page="../controller/file/upload_file_form.jsp"/>
 <jsp:include page="../controller/folder/folder_create_form.jsp"/>
+<jsp:include page="../controller/folder/folder_edit_form.jsp"/>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">

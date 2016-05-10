@@ -2,17 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<div id="create-folder-modal" class="modal fade" tabindex="-1">
+<div id="edit-folder-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog" style="width: 600px">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close create-folder-form-close" data-dismiss="modal"
+                <button type="button" class="close edit-folder-form-close" data-dismiss="modal"
                         aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="add-folder-modal-title"><spring:message code="folder.create"/></h4>
+                <h4 class="modal-title" id="add-folder-modal-title"><spring:message code="folder.edit"/></h4>
             </div>
             <div class="modal-body">
-                <form id='folder-create-form'
-                      action="${pageContext.request.contextPath}<%=FolderUrls.FOLDER_CREATE_FORM%>"
+                <form id='folder-edit-form' action="${pageContext.request.contextPath}<%=FolderUrls.FOLDER_EDIT_FORM%>"
                       method='POST' class="form-horizontal">
 
                     <div class="form-group">
@@ -21,11 +20,9 @@
                         <div class="col-sm-5">
                             <input type="text" name="folder_name" class="form-control"/>
                         </div>
-
-                        <input type="hidden" name="parent_folder_id" value="${parent_folder.parent_folder_id}">
-                        <input type="hidden" name="physical_path" value="${parent_folder.physical_path}">
-                        <input type="hidden" name="folder_id" value="${parent_folder.id}">
-                        <input type="submit" id="folder-name" name="submit" value="<spring:message code="button.add" />"
+                        <input type="hidden" id="folder_edit_id" name="folder_id" value="">
+                        <input type="submit" id="folder-name" name="submit"
+                               value="<spring:message code="button.change" />"
                                class="btn btn-primary"/>
                     </div>
                 </form>

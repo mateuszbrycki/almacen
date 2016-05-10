@@ -10,6 +10,7 @@ import com.almacen.module.user.User;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
+import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,6 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +33,8 @@ import java.util.Locale;
 @Controller
 @RequestMapping(FolderUrls.FOLDER)
 public class FolderController {
+
+    private static final Logger logger = Logger.getLogger(FolderController.class);
 
     @Inject
     private FolderAbstractFactory folderFactory;
@@ -78,6 +85,37 @@ public class FolderController {
         file.mkdirs();
         this.folderService.saveFolder(folder);
         return true;
+    }
+
+    public boolean changeFolderName(String path, String editPath, String folder_name, Integer folder_id) {
+
+        File dir = new File(editPath);
+        if (this.folderService.checkIfFolderWithNameExists(path, folder_name))
+            return false;
+        else {
+            File newDir = new File(dir.getParent() + "\\" + folder_name);
+            this.folderService.updateFolderById(folder_id, folder_name);
+            dir.renameTo(newDir);
+            return true;
+        }
+    }
+
+    @RequestMapping(value = FolderUrls.FOLDER_EDIT, method = RequestMethod.POST)
+    public String editFolder(HttpServletRequest request,
+                             HttpServletResponse response,
+                             @RequestParam("folder_name") String folder_name,
+                             @RequestParam("folder_id") Integer folder_id,
+                             RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException, IOException {
+
+        String path = this.folderService.getPhysicalPathByFolderId(folder_id);
+        String oldFolderName = this.folderService.getFolderNameByFolderId(folder_id);
+        String editPath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path, oldFolderName);
+        if (changeFolderName(path, editPath, folder_name, folder_id))
+            attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.edit", args, locale));
+        else
+            attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.edit", args, locale));
+
+        return "redirect:" + BaseUrls.APPLICATION;
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_CREATE, method = RequestMethod.POST)
@@ -132,7 +170,7 @@ public class FolderController {
             HttpServletResponse response,
             ModelMap model) throws UserNotFoundException, FolderNotFoundException {
 
-        
+
         String folder_name = this.folderService.getFolderNameByFolderId(folderId);
         String physical_path = this.folderService.getPhysicalPathByFolderId(folderId);
         String full_path = physical_path + folder_name + "/";

@@ -3,6 +3,7 @@ package com.almacen.module.folder.repository;
 
 import com.almacen.module.folder.Folder;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,10 @@ import java.util.List;
 public interface FolderRepository extends JpaRepository<Folder, Integer> {
 
     List<Folder> findByUserId(Integer userId);
+
+    @Modifying
+    @Query("UPDATE Folder f SET f.folder_name = :folder_name WHERE f.id = :folderId")
+    void updateFolderById(@Param("folderId") Integer folderId, @Param("folder_name") String folder_name);
 
     @Query("SELECT f FROM Folder f WHERE f.id = :folderId")
     Folder findOneByFolderId(@Param("folderId") Integer id);

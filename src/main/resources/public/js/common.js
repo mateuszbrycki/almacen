@@ -37,6 +37,14 @@ function showCreateFolderForm() {
     modalElement.modal('show');
 }
 
+function showEditFolderForm() {
+
+    var modalElement = $('#edit-folder-modal');
+
+    modalElement.modal({keyboard: true});
+    modalElement.modal('show');
+}
+
 $(document).ready(function () {
 
     //language select
@@ -62,6 +70,16 @@ $(document).ready(function () {
         e.preventDefault();
 
         showCreateFolderForm();
+    });
+
+    $(document).on('click', '#folder-edit-button', function(e){
+        e.preventDefault();
+
+        var temp= $(this).attr('href');
+        $('#folder_edit_id').attr("value",temp);
+        console.log(temp);
+        showEditFolderForm();
+
     });
 
     $("#blocked-extensions-input").tagsinput({
