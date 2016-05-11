@@ -54,7 +54,6 @@ public class ApplicationController {
             Folder mFolder = new Folder();
             mFolder.setUser(user);
             mFolder.setPhysical_path(user_path);
-            mFolder.setParent_folder_id(0);
             mFolder.setFolder_name("0");
             this.folderService.saveFolder(mFolder);
             File file = new File(path + "/" + user_path);

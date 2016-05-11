@@ -14,6 +14,8 @@ public interface FolderService {
 
     void updateFolderById(Integer folder_id, String folder_name);
 
+    void updateFolderPathById(String physical_path, Integer folderId);
+
     void deleteFolderById(Integer id);
 
     List<Folder> findFoldersByUserId(Integer userId);

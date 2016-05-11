@@ -87,14 +87,26 @@ public class FolderController {
         return true;
     }
 
-    public boolean changeFolderName(String path, String editPath, String folder_name, Integer folder_id) {
+    public void changeFolderPath(Integer userId, Integer folderId, String newPath) throws FolderNotFoundException {
+        String physicalPath = this.folderService.getPhysicalPathByFolderId(folderId) + this.folderService.getFolderNameByFolderId(folderId);
+        List<Folder> folders = this.folderService.findFoldersByUserId(userId);
+        for (Folder folder : folders) {
+            String tempPath = folder.getPhysical_path();
+            if (tempPath.contains(physicalPath)) {
+                tempPath = tempPath.replace(physicalPath, newPath);
+                this.folderService.updateFolderPathById(tempPath, folder.getId());
+            }
+        }
+    }
 
+    public boolean changeFolderName(String path, String editPath, String folder_name, Integer folder_id, Integer userId) throws FolderNotFoundException {
         File dir = new File(editPath);
         if (this.folderService.checkIfFolderWithNameExists(path, folder_name))
             return false;
         else {
             File newDir = new File(dir.getParent() + "\\" + folder_name);
             this.folderService.updateFolderById(folder_id, folder_name);
+            changeFolderPath(userId, folder_id, path + folder_name);
             dir.renameTo(newDir);
             return true;
         }
@@ -107,10 +119,11 @@ public class FolderController {
                              @RequestParam("folder_id") Integer folder_id,
                              RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException, IOException {
 
+        Integer userId = UserUtils.getUserId(request, response);
         String path = this.folderService.getPhysicalPathByFolderId(folder_id);
         String oldFolderName = this.folderService.getFolderNameByFolderId(folder_id);
         String editPath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path, oldFolderName);
-        if (changeFolderName(path, editPath, folder_name, folder_id))
+        if (changeFolderName(path, editPath, folder_name, folder_id, userId))
             attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.edit", args, locale));
         else
             attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.edit", args, locale));
@@ -169,7 +182,6 @@ public class FolderController {
             HttpServletRequest request,
             HttpServletResponse response,
             ModelMap model) throws UserNotFoundException, FolderNotFoundException {
-
 
         String folder_name = this.folderService.getFolderNameByFolderId(folderId);
         String physical_path = this.folderService.getPhysicalPathByFolderId(folderId);
