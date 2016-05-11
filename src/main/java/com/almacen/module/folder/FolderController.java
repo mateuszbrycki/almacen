@@ -109,12 +109,11 @@ public class FolderController {
                              @PathVariable("folderId") Integer folderId,
                              RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException, IOException {
 
-        Integer userId = UserUtils.getUserId(request, response);
         String path = this.folderService.getPhysicalPathByFolderId(folderId);
         String folderName = this.folderService.getFolderNameByFolderId(folderId);
         String deletePath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path, folderName);
         File dir = new File(deletePath);
-        this.folderService.deleteFolderByIdAndUserId(folderId,userId);
+        this.folderService.deleteFolderById(folderId);
         if(this.folderUtils.folderDelete(dir))
             attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.edit", args, locale));
         else
