@@ -174,6 +174,17 @@ $(document).ready(function () {
              });
     });
 
+    $('.delete-folder').click(function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            url: ctx + $(this).attr('href')
+        });
+    });
+
     $('.download-file').click(function(e){
 
         window.location.href = $(this).attr('href');

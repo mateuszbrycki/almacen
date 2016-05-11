@@ -6,6 +6,7 @@ import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.folder.specification.FolderSpecification;
+import com.almacen.module.folder.utils.FolderUtils;
 import com.almacen.module.user.User;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
@@ -56,6 +57,8 @@ public class FolderController {
 
     private String[] args = {};
 
+    private FolderUtils folderUtils = new FolderUtils();
+
     private String viewPath = "controller/folder/";
 
 
@@ -98,6 +101,26 @@ public class FolderController {
             dir.renameTo(newDir);
             return true;
         }
+    }
+
+    @RequestMapping(value = FolderUrls.FOLDER_DELETE_ID, method = RequestMethod.POST)
+    public String deleteFolder(HttpServletRequest request,
+                             HttpServletResponse response,
+                             @PathVariable("folderId") Integer folderId,
+                             RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException, IOException {
+
+        Integer userId = UserUtils.getUserId(request, response);
+        String path = this.folderService.getPhysicalPathByFolderId(folderId);
+        String folderName = this.folderService.getFolderNameByFolderId(folderId);
+        String deletePath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path, folderName);
+        File dir = new File(deletePath);
+        this.folderService.deleteFolderByIdAndUserId(folderId,userId);
+        if(this.folderUtils.folderDelete(dir))
+            attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.edit", args, locale));
+        else
+            attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.edit", args, locale));
+
+        return "redirect:" + BaseUrls.APPLICATION;
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_EDIT, method = RequestMethod.POST)

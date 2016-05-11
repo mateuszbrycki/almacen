@@ -15,6 +15,8 @@ public interface FolderRepository extends JpaRepository<Folder, Integer> {
 
     List<Folder> findByUserId(Integer userId);
 
+    void deleteFolderByIdAndUserId(Integer folderId, Integer userId);
+
     @Modifying
     @Query("UPDATE Folder f SET f.folder_name = :folder_name WHERE f.id = :folderId")
     void updateFolderById(@Param("folderId") Integer folderId, @Param("folder_name") String folder_name);

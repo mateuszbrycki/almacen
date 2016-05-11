@@ -36,6 +36,10 @@ public class FolderServiceImpl implements FolderService {
         this.folderRepository.delete(id);
     }
 
+    @Override
+    public void deleteFolderByIdAndUserId(Integer folderId, Integer userId) {
+        this.folderRepository.deleteFolderByIdAndUserId(folderId,userId);
+    }
 
     @Override
     public Boolean checkIfParentIdExists(Integer userId, Integer folderId) {

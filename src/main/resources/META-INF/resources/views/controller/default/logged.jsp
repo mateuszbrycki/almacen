@@ -29,11 +29,17 @@
 </section>
 
 <section id="object-content-folder" class="container">
-    <div class="folder col-xs-6 col-sm-3">
+    <div class="folder col-xs-12 col-sm-6">
         <table class="table table-hover">
             <c:forEach items="${folders}" var="folder">
                 <tr>
                     <td>
+                        <button type="button"
+                                href="${pageContext.request.contextPath}<%=FolderUrls.FOLDER_DELETE_FULL%>/${folder.id}"
+                                class="delete-folder btn btn-danger" style="padding: 2px 2px">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+
                         <button type="button" id="folder-edit-button" href="${folder.id}"
                                 class="edit-folder btn btn-default" style="padding: 2px 3px">
                             <span class="glyphicon glyphicon-edit"></span>

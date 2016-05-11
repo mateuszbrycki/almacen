@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name = "folder")
+@Table(name = "folder_test")
 public class Folder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,8 +50,10 @@ public class Folder {
     }
 
     public int getParent_folder_id() {
-        return parent_folder_id;
-    }
+        if(parent_folder_id==null)
+            return 999999999;
+        else
+            return parent_folder_id; }
 
     public void setParent_folder_id(int parent_folder_id) {
         this.parent_folder_id = parent_folder_id;
