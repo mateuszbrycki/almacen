@@ -9,7 +9,7 @@ import com.almacen.module.user.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +19,10 @@ import java.util.List;
 @Transactional
 public class StatisticsServiceImpl implements StatisticsService{
 
-    @Resource
+    @Inject
     FileService fileService;
 
-    @Resource
+    @Inject
     UserService userService;
 
     @Override
