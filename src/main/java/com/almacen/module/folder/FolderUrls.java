@@ -19,5 +19,4 @@ public class FolderUrls implements UrlSpace {
 
     public static final String FOLDER_DELETE = "/folder_delete";
     public static final String FOLDER_DELETE_FULL = FOLDER + FOLDER_DELETE;
-    public static final String FOLDER_DELETE_ID = FOLDER_DELETE + "/{folderId}";
 }

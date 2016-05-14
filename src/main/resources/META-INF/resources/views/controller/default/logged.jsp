@@ -29,31 +29,41 @@
 </section>
 
 <section id="object-content-folder" class="container">
-    <div class="folder col-xs-12 col-sm-6">
-        <table class="table table-hover">
-            <c:forEach items="${folders}" var="folder">
-                <tr>
-                    <td>
-                        <button type="button"
-                                href="${pageContext.request.contextPath}<%=FolderUrls.FOLDER_DELETE_FULL%>/${folder.id}"
-                                class="delete-folder btn btn-danger" style="padding: 2px 2px">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
+    <c:choose>
+        <c:when test="${fn:length(folders) gt 0}">
+            <div class="folder col-xs-12 col-sm-6">
+                <table class="table table-hover">
+                    <c:forEach items="${folders}" var="folder">
+                        <c:if test="${folder.folder_name ne '0'}">
+                        <tr>
+                            <td>
+                                <button type="button" id="folder-delete-button" href="${folder.id}"
+                                        class="delete-folder btn btn-danger" style="padding: 2px 2px">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
 
-                        <button type="button" id="folder-edit-button" href="${folder.id}"
-                                class="edit-folder btn btn-default" style="padding: 2px 3px">
-                            <span class="glyphicon glyphicon-edit"></span>
-                        </button>
-                    </td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}<%=FolderUrls.FOLDER_SHOW_FULL%>/${folder.id}">
-                                ${folder.folder_name}
+                                <button type="button" id="folder-edit-button" href="${folder.id}"
+                                        class="edit-folder btn btn-default" style="padding: 2px 3px">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </button>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}<%=FolderUrls.FOLDER_SHOW_FULL%>/${folder.id}">
+                                        ${folder.folder_name}
 
-                        </a>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
+                                </a>
+                            </td>
+                        </tr>
+                        </c:if>
+                    </c:forEach>
+                </table>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="logs-alert alert alert-info" role="alert">
+                <spring:message code="folder.empty"/>
+            </div>
+        </c:otherwise>
+    </c:choose>
 </section>
 <jsp:include page="../../include/footer.jsp"/>
