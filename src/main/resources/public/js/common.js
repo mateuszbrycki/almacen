@@ -45,6 +45,14 @@ function showEditFolderForm() {
     modalElement.modal('show');
 }
 
+function showDeleteFolderForm() {
+
+    var modalElement = $('#delete-folder-modal');
+
+    modalElement.modal({keyboard: true});
+    modalElement.modal('show');
+}
+
 $(document).ready(function () {
 
     //language select
@@ -80,6 +88,15 @@ $(document).ready(function () {
         console.log(temp);
         showEditFolderForm();
 
+    });
+
+    $(document).on('click', '#folder-delete-button', function(e){
+        e.preventDefault();
+
+        var temp= $(this).attr('href');
+        $('#folder_delete_id').attr("value",temp);
+        console.log(temp);
+        showDeleteFolderForm();
     });
 
     $("#blocked-extensions-input").tagsinput({
@@ -173,6 +190,7 @@ $(document).ready(function () {
              }
              });
     });
+    
 
     $('.download-file').click(function(e){
 
