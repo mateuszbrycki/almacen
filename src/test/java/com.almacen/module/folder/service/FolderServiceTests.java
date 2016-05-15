@@ -80,7 +80,7 @@ public class FolderServiceTests {
     }
 
     @Test
-    public void updateUser() {
+    public void updateFolder() {
 
         testFolder.setFolder_name("newFolderName");
 
@@ -95,11 +95,46 @@ public class FolderServiceTests {
 
         assertNotNull(newFolder);
         assertEquals("newFolderName", newFolder.getFolder_name());
+    }
 
+    @Test
+    public void updateFolderById() {
+
+        testFolder.setFolder_name("FolderTest");
+
+        folderService.updateFolderById(testFolder.getId(),testFolder.getFolder_name());
+
+        Folder newFolder = null;
+        try {
+            newFolder = folderService.findFolderById(testFolder.getId());
+        } catch (FolderNotFoundException e) {
+            fail("Folder not found.");
+        }
+
+        assertNotNull(newFolder);
+        assertEquals("FolderTest", newFolder.getFolder_name());
+    }
+
+    @Test
+    public void updateFolderPathById() {
+
+        testFolder.setPhysical_path("newTestPath");
+
+        folderService.updateFolderPathById(testFolder.getPhysical_path(),testFolder.getId());
+
+        Folder newFolder = null;
+        try {
+            newFolder = folderService.findFolderById(testFolder.getId());
+        } catch (FolderNotFoundException e) {
+            fail("Folder not found.");
+        }
+
+        assertNotNull(newFolder);
+        assertEquals("newTestPath", newFolder.getPhysical_path());
     }
 
     @Test(expected = FolderNotFoundException.class)
-    public void deleteUserById() throws FolderNotFoundException {
+    public void deleteFolderById() throws FolderNotFoundException {
         int temp = testFolder.getId();
 
         folderService.deleteFolderById(testFolder.getId());

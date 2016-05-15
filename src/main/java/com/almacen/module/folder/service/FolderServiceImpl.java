@@ -32,6 +32,11 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    public void updateFolderPathById(String physical_path, Integer folderId) {
+        this.folderRepository.updateFolderPathById(physical_path,folderId);
+    }
+
+    @Override
     public void deleteFolderById(Integer id) {
         this.folderRepository.delete(id);
     }
