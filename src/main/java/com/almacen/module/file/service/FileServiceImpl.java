@@ -3,12 +3,13 @@ package com.almacen.module.file.service;
 
 import com.almacen.module.file.UserFile;
 import com.almacen.module.file.repository.FileRepository;
-import com.almacen.module.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service("fileService")
@@ -55,4 +56,35 @@ public class FileServiceImpl implements FileService {
         return userFile;
     }
 
+    @Override
+    public Long getWholeSizeUserFiles(Integer userId) {
+        List<UserFile> userFiles = fileRepository.findByUserId(userId);
+        Long wholeSize = 0l;
+        for (UserFile userFile : userFiles)
+            wholeSize += userFile.getSize();
+        return wholeSize;
+    }
+    @Override
+    public List<String> getUserFilesAllExtension(Integer userId){
+        List<UserFile> userFiles = fileRepository.findByUserId(userId);
+        ArrayList<String> extensionList = new ArrayList<>();
+        for (UserFile userFile : userFiles)
+            extensionList.add(userFile.getExtension());
+        return extensionList;
+
+    }
+    @Override
+    public HashMap<String, Integer> getUserFilesAllQuantity(Integer userId) {
+        List<String> extensionList = getUserFilesAllExtension(userId);
+        HashMap<String, Integer> quantity = new HashMap<String, Integer>();
+
+        for (int i = 0; i < extensionList.size(); ++i) {
+            String extension = extensionList.get(i);
+            if (quantity.containsKey(extension))
+                quantity.put(extension, quantity.get(extension) + 1);
+            else
+                quantity.put(extension, 1);
+        }
+        return quantity;
+    }
 }

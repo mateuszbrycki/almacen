@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Table(name = "file")
@@ -33,6 +32,8 @@ public class UserFile {
     @JoinColumn(name = "fk_owner_id")
     @JsonIgnore
     private User user;
+
+    public final static Integer MB = 1048576;
 
     public Integer getFileId() {
         return fileId;
