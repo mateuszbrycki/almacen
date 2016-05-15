@@ -7,9 +7,7 @@ import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.folder.utils.FolderUtils;
-import com.almacen.module.user.User;
 import com.almacen.module.user.exception.UserNotFoundException;
-import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -41,9 +39,6 @@ public class FolderController {
     private FolderService folderService;
 
     @Inject
-    private UserService userService;
-
-    @Inject
     private FolderCreationPolicy folderCreationPolicy;
 
     @Inject
@@ -52,65 +47,13 @@ public class FolderController {
     @Inject
     private MessageSource messageSource;
 
-    private String[] args = {};
+    @Inject
+    private FolderUtils folderUtils;
 
-    private FolderUtils folderUtils = new FolderUtils();
+    private String[] args = {};
 
     private String viewPath = "controller/folder/";
 
-
-    public Folder createPath(Integer userId, Integer folderId, FolderDTO folderDTO) throws UserNotFoundException, FolderNotFoundException {
-        String defaultPath;
-        User user = this.userService.findUserById(userId);
-        String parentFolderName = this.folderService.getFolderNameByFolderId(folderId);
-
-        String physicalPath = folderDTO.getPhysical_path();
-        Folder folder = folderFactory.createFromDTO(folderDTO);
-        folder.setUser(user);
-
-        if (!this.folderService.checkIfParentIdExists(userId, folderId)) {
-            defaultPath = physicalPath + "/";
-            folder.setPhysical_path(defaultPath);
-            folder.setParent_folder_id(folderId);
-        } else {
-            defaultPath = physicalPath + parentFolderName + "/";
-            folder.setPhysical_path(defaultPath);
-            folder.setParent_folder_id(folderId);
-        }
-        return folder;
-    }
-
-    public Boolean saveFolder(String uploadPath, Folder folder, String path) {
-        File file = new File(path + "/" + uploadPath);
-        file.mkdirs();
-        this.folderService.saveFolder(folder);
-        return true;
-    }
-
-    public void changeFolderPath(Integer userId, Integer folderId, String newPath) throws FolderNotFoundException {
-        String physicalPath = this.folderService.getPhysicalPathByFolderId(folderId) + this.folderService.getFolderNameByFolderId(folderId);
-        List<Folder> folders = this.folderService.findFoldersByUserId(userId);
-        for (Folder folder : folders) {
-            String tempPath = folder.getPhysical_path();
-            if (tempPath.contains(physicalPath)) {
-                tempPath = tempPath.replace(physicalPath, newPath);
-                this.folderService.updateFolderPathById(tempPath, folder.getId());
-            }
-        }
-    }
-
-    public boolean changeFolderName(String path, String editPath, String folderName, Integer folderId, Integer userId) throws FolderNotFoundException {
-        File dir = new File(editPath);
-        if (this.folderService.checkIfFolderWithNameExists(path, folderName))
-            return false;
-        else {
-            File newDir = new File(dir.getParent() + "\\" + folderName);
-            this.folderService.updateFolderById(folderId, folderName);
-            changeFolderPath(userId, folderId, path + folderName);
-            dir.renameTo(newDir);
-            return true;
-        }
-    }
 
     @RequestMapping(value = FolderUrls.FOLDER_DELETE, method = RequestMethod.POST)
     public String deleteFolder(HttpServletRequest request,
@@ -142,7 +85,7 @@ public class FolderController {
         String path = this.folderService.getPhysicalPathByFolderId(folderId);
         String oldFolderName = this.folderService.getFolderNameByFolderId(folderId);
         String editPath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path, oldFolderName);
-        if (changeFolderName(path, editPath, folderName, folderId, userId))
+        if (this.folderUtils.changeFolderName(path, editPath, folderName, folderId, userId))
             attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.edit", args, locale));
         else
             attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.edit", args, locale));
@@ -167,18 +110,18 @@ public class FolderController {
             Integer userId = UserUtils.getUserId(request, response);
 
             String path = request.getContextPath();
-            folder = createPath(userId, folderId, folderDTO);
+            folder = this.folderUtils.createPath(userId, folderId, folderDTO);
             String defaultPath = folder.getPhysical_path();
             String uploadPath = defaultPath + folderName;
 
             if (!this.folderService.checkIfFolderWithNameExists(defaultPath, folderName)) {
-                saveFolder(uploadPath, folder, path);
+                this.folderUtils.saveFolder(uploadPath, folder, path);
                 attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.create", args, locale));
             } else
                 attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.create", args, locale));
 
         }
-        return "redirect:" + BaseUrls.APPLICATION;
+        return "redirect:" + FolderUrls.FOLDER_SHOW_FULL + "/" + folderId;
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_SHOW, method = RequestMethod.GET)
