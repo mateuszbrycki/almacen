@@ -33,6 +33,10 @@ public class Folder {
     @JsonIgnore
     private User user;
 
+    @Column(name = "is_default_folder")
+    private Boolean isDefaultFolder;
+
+
     public Integer getId() {
         return id;
     }
@@ -73,5 +77,11 @@ public class Folder {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Boolean isDefaultFolder() { return this.isDefaultFolder; }
+
+    public void setIsDefaultFolder(Boolean isDefaultFolder) {
+        this.isDefaultFolder = isDefaultFolder;
     }
 }

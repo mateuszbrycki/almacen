@@ -50,18 +50,19 @@ public class ApplicationController {
         User user = this.userService.findUserById(userId);
         String user_path = this.folderCreationPolicy.generateFolderPath(userId);
 
-        if (!this.folderService.checkIfFolderWithNameExists(user_path, "0")) {
-            String path = request.getContextPath();
+        if (!this.folderService.checkIfFolderWithNameExists(user_path, userId.toString())) {
+
             Folder mFolder = new Folder();
             mFolder.setUser(user);
-            mFolder.setPhysical_path(user_path);
-            mFolder.setFolder_name("0");
+            mFolder.setPhysical_path(request.getContextPath());
+            mFolder.setFolder_name(userId.toString());
+            mFolder.setIsDefaultFolder(true);
             this.folderService.saveFolder(mFolder);
-            File file = new File(path + "/" + user_path);
+            File file = new File(request.getContextPath() + "/" + user_path);
             file.mkdirs();
         }
 
-        Folder folder=this.folderService.findFolderByPhysicalPath("uploads/" + userId);
+        Folder folder = this.folderService.findFolderByPhysicalPath("uploads/" + userId);
         String fullPath = this.folderService.getPhysicalPathByFolderId(folder.getId()) + this.folderService.getFolderNameByFolderId(folder.getId()) + "/";
         List<Folder> folders = this.folderService.findFoldersByPhysicalPath(fullPath);
         Folder parentFolder = this.folderService.findFolderById(folder.getId());

@@ -34,7 +34,7 @@
             <div class="folder col-xs-12 col-sm-6">
                 <table class="table table-hover">
                     <c:forEach items="${folders}" var="folder">
-                        <c:if test="${folder.folder_name ne '0'}">
+                        <c:if test="${folder.folder_name ne folder.user.id}">
                         <tr>
                             <td>
                                 <button type="button" id="folder-delete-button" href="${folder.id}"
