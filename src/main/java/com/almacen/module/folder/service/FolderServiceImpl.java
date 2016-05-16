@@ -27,10 +27,19 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    public void updateFolderById(Integer folder_id, String folder_name) {
+        this.folderRepository.updateFolderById(folder_id, folder_name);
+    }
+
+    @Override
+    public void updateFolderPathById(String physical_path, Integer folderId) {
+        this.folderRepository.updateFolderPathById(physical_path,folderId);
+    }
+
+    @Override
     public void deleteFolderById(Integer id) {
         this.folderRepository.delete(id);
     }
-
 
     @Override
     public Boolean checkIfParentIdExists(Integer userId, Integer folderId) {

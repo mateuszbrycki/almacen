@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.List;
 
 @Controller
 @RequestMapping(BaseUrls.APPLICATION)
@@ -54,17 +55,19 @@ public class ApplicationController {
             Folder mFolder = new Folder();
             mFolder.setUser(user);
             mFolder.setPhysical_path(user_path);
-            mFolder.setParent_folder_id(0);
             mFolder.setFolder_name("0");
             this.folderService.saveFolder(mFolder);
             File file = new File(path + "/" + user_path);
             file.mkdirs();
         }
 
-        Folder parent_folder = this.folderService.findFolderByPhysicalPath("uploads/" + userId);
+        Folder folder=this.folderService.findFolderByPhysicalPath("uploads/" + userId);
+        String fullPath = this.folderService.getPhysicalPathByFolderId(folder.getId()) + this.folderService.getFolderNameByFolderId(folder.getId()) + "/";
+        List<Folder> folders = this.folderService.findFoldersByPhysicalPath(fullPath);
+        Folder parentFolder = this.folderService.findFolderById(folder.getId());
+        model.addAttribute("folders", folders);
+        model.addAttribute("parent_folder", parentFolder);
         model.addAttribute("files", fileService.findUserFilesByUserId(userId));
-        model.addAttribute("parent_folder", parent_folder);
-        model.addAttribute("folders", folderService.findFoldersByUserId(userId));
 
 
         return "controller/default/logged";

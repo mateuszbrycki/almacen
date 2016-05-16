@@ -37,6 +37,22 @@ function showCreateFolderForm() {
     modalElement.modal('show');
 }
 
+function showEditFolderForm() {
+
+    var modalElement = $('#edit-folder-modal');
+
+    modalElement.modal({keyboard: true});
+    modalElement.modal('show');
+}
+
+function showDeleteFolderForm() {
+
+    var modalElement = $('#delete-folder-modal');
+
+    modalElement.modal({keyboard: true});
+    modalElement.modal('show');
+}
+
 $(document).ready(function () {
 
     //language select
@@ -62,6 +78,25 @@ $(document).ready(function () {
         e.preventDefault();
 
         showCreateFolderForm();
+    });
+
+    $(document).on('click', '#folder-edit-button', function(e){
+        e.preventDefault();
+
+        var temp= $(this).attr('href');
+        $('#folder_edit_id').attr("value",temp);
+        console.log(temp);
+        showEditFolderForm();
+
+    });
+
+    $(document).on('click', '#folder-delete-button', function(e){
+        e.preventDefault();
+
+        var temp= $(this).attr('href');
+        $('#folder_delete_id').attr("value",temp);
+        console.log(temp);
+        showDeleteFolderForm();
     });
 
     $("#blocked-extensions-input").tagsinput({
@@ -155,6 +190,7 @@ $(document).ready(function () {
              }
              });
     });
+    
 
     $('.download-file').click(function(e){
 
