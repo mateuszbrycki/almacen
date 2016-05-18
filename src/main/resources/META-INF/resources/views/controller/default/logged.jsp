@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="../folder/folder_edit_form.jsp"/>
+<jsp:include page="../folder/folder_share_form.jsp"/>
 <jsp:include page="../../include/header.jsp"/>
 
 <section id="object-content-file" class="container">
@@ -52,7 +53,15 @@
                                         ${folder.folder_name}
 
                                 </a>
+                                <div style="float: right;">
+                                <button type="button" id="folder-share-button" href="${folder.id}"
+                                        class="share-folder btn btn-default" style="padding: 2px 3px">
+                                    <span class="glyphicon glyphicon-share"></span>
+                                    <spring:message code="share.title"/>
+                                </button>
+                                    </div>
                             </td>
+
                         </tr>
                         </c:if>
                     </c:forEach>
