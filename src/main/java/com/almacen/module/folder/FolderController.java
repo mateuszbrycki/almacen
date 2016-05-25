@@ -7,7 +7,9 @@ import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.folder.utils.FolderUtils;
+import com.almacen.module.mail.Mail;
 import com.almacen.module.mail.service.MailService;
+import com.almacen.module.share.service.ShareService;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
@@ -57,6 +59,9 @@ public class FolderController {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private ShareService shareService;
 
     private String[] args = {};
 
@@ -171,15 +176,25 @@ public class FolderController {
                               RedirectAttributes attributes, Locale locale) throws FolderNotFoundException, UserNotFoundException {
 
         Integer userId = UserUtils.getUserId(request, response);
-        String userUsername = this.userService.findUserById(userId).getUsername();
-        boolean mailSent = mailService.send(shareEmail, "Almacen send you Shared Folder from "+userUsername,
-                "Please go to folder/folder_show/"+folderId+ " to look at shared files");
-
+        Mail mail = mailService.createBody(userId, folderId, request);
+        boolean mailSent = mailService.send(shareEmail, mail.getSubject(), mail.getBody());
         if(mailSent)
             attributes.addFlashAttribute("success", messageSource.getMessage("share.send.success", args, locale));
         else
             attributes.addFlashAttribute("error", messageSource.getMessage("share.send.error", args, locale));
-
         return "redirect:" + BaseUrls.APPLICATION;
     }
-}
+
+    @RequestMapping(value = FolderUrls.FOLDER_SHARE_RESOLVER, method = RequestMethod.GET)
+    public String shareFolderResolver(HttpServletRequest request,
+                              HttpServletResponse response,
+                              @RequestParam("folderHash") String folderHash,RedirectAttributes attributes, Locale locale) throws FolderNotFoundException {
+
+        String hashEncode = shareService.decode(folderHash);
+        folderService.findFolderById(Integer.parseInt(hashEncode));
+        // TODO wait for showing files in folder ;)
+        attributes.addFlashAttribute("success", messageSource.getMessage(hashEncode, args, locale));
+        return "redirect:" + BaseUrls.APPLICATION;
+    }
+
+    }
