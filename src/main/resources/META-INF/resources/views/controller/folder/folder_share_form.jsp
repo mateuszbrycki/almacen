@@ -16,9 +16,9 @@
 
                     <div class="form-group">
                         <label class="control-label col-sm-3" for="folderName"><spring:message
-                                code="folder.name"/>:</label>
+                                code="share.email"/>:</label>
                         <div class="col-sm-5">
-                            <input type="text" name="folder_name" class="form-control"/>
+                            <input type="text" name="share_email" class="form-control"/>
                         </div>
                         <input type="hidden" id="folder_share_id" name="folder_id" value="">
                         <input type="submit" id="folder-name" name="submit"

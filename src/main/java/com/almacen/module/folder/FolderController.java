@@ -172,10 +172,8 @@ public class FolderController {
 
         Integer userId = UserUtils.getUserId(request, response);
         String userUsername = this.userService.findUserById(userId).getUsername();
-        String path = this.folderService.getPhysicalPathByFolderId(folderId);
-        String sharePath = request.getContextPath();
-
-        boolean mailSent = mailService.send(shareEmail, "Almacen send you Shared Folder from "+userUsername, path);
+        boolean mailSent = mailService.send(shareEmail, "Almacen send you Shared Folder from "+userUsername,
+                "Please go to folder/folder_show/"+folderId+ " to look at shared files");
 
         if(mailSent)
             attributes.addFlashAttribute("success", messageSource.getMessage("share.send.success", args, locale));
