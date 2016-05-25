@@ -7,7 +7,9 @@ import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.folder.utils.FolderUtils;
+import com.almacen.module.mail.service.MailService;
 import com.almacen.module.user.exception.UserNotFoundException;
+import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -49,6 +51,12 @@ public class FolderController {
 
     @Inject
     private FolderUtils folderUtils;
+
+    @Inject
+    private MailService mailService;
+
+    @Inject
+    private UserService userService;
 
     private String[] args = {};
 
@@ -153,5 +161,27 @@ public class FolderController {
         model.addAttribute("folders", folders);
         model.addAttribute("parent_folder", parentFolder);
         return "controller/default/logged";
+    }
+
+    @RequestMapping(value = FolderUrls.FOLDER_SHARE, method = RequestMethod.POST)
+    public String shareFolder(HttpServletRequest request,
+                              HttpServletResponse response,
+                              @RequestParam("share_email") String shareEmail,
+                              @RequestParam("folder_id") Integer folderId,
+                              RedirectAttributes attributes, Locale locale) throws FolderNotFoundException, UserNotFoundException {
+
+        Integer userId = UserUtils.getUserId(request, response);
+        String userUsername = this.userService.findUserById(userId).getUsername();
+        String path = this.folderService.getPhysicalPathByFolderId(folderId);
+        String sharePath = request.getContextPath();
+
+        boolean mailSent = mailService.send(shareEmail, "Almacen send you Shared Folder from "+userUsername, path);
+
+        if(mailSent)
+            attributes.addFlashAttribute("success", messageSource.getMessage("share.send.success", args, locale));
+        else
+            attributes.addFlashAttribute("error", messageSource.getMessage("share.send.error", args, locale));
+
+        return "redirect:" + BaseUrls.APPLICATION;
     }
 }

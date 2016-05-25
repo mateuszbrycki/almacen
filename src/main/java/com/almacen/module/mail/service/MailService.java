@@ -4,7 +4,7 @@ import com.almacen.module.configuration.Property;
 
 public interface MailService {
 
-        void send(String toEmail, String subject, String bodyEmail);
+        boolean send(String toEmail, String subject, String bodyEmail);
         Property emailPassword();
         Property emailLogin();
 

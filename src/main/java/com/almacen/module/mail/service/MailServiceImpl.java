@@ -23,7 +23,7 @@ public class MailServiceImpl implements MailService {
     private PropertyRepository propertyRepository;
 
     @Override
-    public void send(String toEmail, String subject, String bodyEmail) {
+    public boolean send(String toEmail, String subject, String bodyEmail) {
         try{
             final String fromEmail = "almacen.company@gmail.com";
             final String password = "cde34rfv";
@@ -42,10 +42,11 @@ public class MailServiceImpl implements MailService {
             message.setSubject(subject);
             message.setText(bodyEmail);
             Transport.send(message);
-            System.out.println("Mail Sent");
+            return true;
         }catch(Exception ex){
-            System.out.println("Mail fail");
             System.out.println(ex);
+            return false;
+
         }
     }
 
