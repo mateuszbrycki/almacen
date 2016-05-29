@@ -61,3 +61,24 @@
     margin-bottom: 20px;
     height: 115px;
 }
+
+.download-file {
+    padding: 4px 6px;
+    margin-right: 5px;
+}
+
+.delete-file {
+    padding: 4px 6px;
+}
+
+.button-bar {
+    display: block;
+    margin: 0px auto;
+    width: 65px;
+}
+
+.file-ico {
+    display: block;
+    text-align: center;
+    font-size: 40px;
+}

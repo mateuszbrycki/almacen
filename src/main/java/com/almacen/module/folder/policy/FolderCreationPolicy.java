@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class FolderCreationPolicy {
 
 
-    private static final String UPLOAD_PATH = "uploads";
+    private static final String UPLOAD_PATH = "upload";
     private static final String UPLOAD_PATH_TO_EDIT = "/";
 
     public String generateFolderPath(Integer userId) {

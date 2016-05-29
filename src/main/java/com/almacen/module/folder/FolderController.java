@@ -102,7 +102,7 @@ public class FolderController {
                                RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException {
 
         Folder folder = new Folder();
-        folder.setFolder_name(folderName);
+        folder.setFolderName(folderName);
 
         if (specification.isSatisfiedBy(folder)) {
             attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.name", args, locale));
@@ -111,7 +111,7 @@ public class FolderController {
 
             String path = request.getContextPath();
             folder = this.folderUtils.createPath(userId, folderId, folderDTO);
-            String defaultPath = folder.getPhysical_path();
+            String defaultPath = folder.getPhysicalPath();
             String uploadPath = defaultPath + folderName;
 
             if (!this.folderService.checkIfFolderWithNameExists(defaultPath, folderName)) {

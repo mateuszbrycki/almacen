@@ -37,13 +37,17 @@ public class FolderUtils {
         folder.setUser(user);
 
         if (!this.folderService.checkIfParentIdExists(userId, folderId)) {
+
             defaultPath = physicalPath + "/";
-            folder.setPhysical_path(defaultPath);
-            folder.setParent_folder_id(folderId);
+            folder.setPhysicalPath(defaultPath);
+            folder.setParentFolderId(folderId);
+
         } else {
+
             defaultPath = physicalPath + parentFolderName + "/";
-            folder.setPhysical_path(defaultPath);
-            folder.setParent_folder_id(folderId);
+            folder.setPhysicalPath(defaultPath);
+            folder.setParentFolderId(folderId);
+
         }
         return folder;
     }
@@ -68,10 +72,15 @@ public class FolderUtils {
     }
 
     public void changeFolderPath(Integer userId, Integer folderId, String newPath) throws FolderNotFoundException {
-        String physicalPath = this.folderService.getPhysicalPathByFolderId(folderId) + this.folderService.getFolderNameByFolderId(folderId);
+
+        String physicalPath = this.folderService.getPhysicalPathByFolderId(folderId)
+                                + this.folderService.getFolderNameByFolderId(folderId);
         List<Folder> folders = this.folderService.findFoldersByUserId(userId);
+
         for (Folder folder : folders) {
-            String tempPath = folder.getPhysical_path();
+
+            String tempPath = folder.getPhysicalPath();
+
             if (tempPath.contains(physicalPath)) {
                 tempPath = tempPath.replace(physicalPath, newPath);
                 this.folderService.updateFolderPathById(tempPath, folder.getId());

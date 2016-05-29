@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name = "folder")
+@Table(name = "folder_temp")
 public class Folder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,16 +17,16 @@ public class Folder {
 
     @NotNull
     @Column(name = "folder_name")
-    private String folder_name;
+    private String folderName;
 
     @Column(name = "parent_folder_id")
     @JsonIgnore
-    private Integer parent_folder_id;
+    private Integer parentFolderId;
 
     @NotNull
     @Column(name = "physical_path")
     @JsonIgnore
-    private String physical_path;
+    private String physicalPath;
 
     @OneToOne
     @JoinColumn(name = "fk_owner_id")
@@ -45,30 +45,30 @@ public class Folder {
         this.id = id;
     }
 
-    public String getFolder_name() {
-        return folder_name;
+    public String getFolderName() {
+        return folderName;
     }
 
-    public void setFolder_name(String folder_name) {
-        this.folder_name = folder_name;
+    public void setFolderName(String folderName) {
+        this.folderName = folderName;
     }
 
-    public int getParent_folder_id() {
-        if(parent_folder_id==null)
+    public int getParentFolderId() {
+        if(parentFolderId == null)
             return 999999999;
         else
-            return parent_folder_id; }
+            return parentFolderId; }
 
-    public void setParent_folder_id(int parent_folder_id) {
-        this.parent_folder_id = parent_folder_id;
+    public void setParentFolderId(int parentFolderId) {
+        this.parentFolderId = parentFolderId;
     }
 
-    public String getPhysical_path() {
-        return physical_path;
+    public String getPhysicalPath() {
+        return physicalPath;
     }
 
-    public void setPhysical_path(String physical_path) {
-        this.physical_path = physical_path;
+    public void setPhysicalPath(String physicalPath) {
+        this.physicalPath = physicalPath;
     }
 
     public User getUser() {

@@ -56,9 +56,9 @@ public class FolderServiceTests {
         userService.registerUser(testUser);
 
         testFolder = new Folder();
-        testFolder.setFolder_name("test");
-        testFolder.setPhysical_path("uploads/test");
-        testFolder.setParent_folder_id(0);
+        testFolder.setFolderName("test");
+        testFolder.setPhysicalPath("uploads/test");
+        testFolder.setParentFolderId(0);
         testFolder.setUser(testUser);
         this.folderService.saveFolder(testFolder);
     }
@@ -73,16 +73,16 @@ public class FolderServiceTests {
         }
 
         assertNotNull(newFolder);
-        assertEquals("test", newFolder.getFolder_name());
-        assertEquals("uploads/test", newFolder.getPhysical_path());
-        assertEquals(0, newFolder.getParent_folder_id());
+        assertEquals("test", newFolder.getFolderName());
+        assertEquals("uploads/test", newFolder.getPhysicalPath());
+        assertEquals(0, newFolder.getParentFolderId());
         assertEquals(testUser, newFolder.getUser());
     }
 
     @Test
     public void updateFolder() {
 
-        testFolder.setFolder_name("newFolderName");
+        testFolder.setFolderName("newFolderName");
 
         folderService.updateFolder(testFolder);
 
@@ -94,15 +94,15 @@ public class FolderServiceTests {
         }
 
         assertNotNull(newFolder);
-        assertEquals("newFolderName", newFolder.getFolder_name());
+        assertEquals("newFolderName", newFolder.getFolderName());
     }
 
     @Test
     public void updateFolderById() {
 
-        testFolder.setFolder_name("FolderTest");
+        testFolder.setFolderName("FolderTest");
 
-        folderService.updateFolderById(testFolder.getId(),testFolder.getFolder_name());
+        folderService.updateFolderById(testFolder.getId(),testFolder.getFolderName());
 
         Folder newFolder = null;
         try {
@@ -112,15 +112,15 @@ public class FolderServiceTests {
         }
 
         assertNotNull(newFolder);
-        assertEquals("FolderTest", newFolder.getFolder_name());
+        assertEquals("FolderTest", newFolder.getFolderName());
     }
 
     @Test
     public void updateFolderPathById() {
 
-        testFolder.setPhysical_path("newTestPath");
+        testFolder.setPhysicalPath("newTestPath");
 
-        folderService.updateFolderPathById(testFolder.getPhysical_path(),testFolder.getId());
+        folderService.updateFolderPathById(testFolder.getPhysicalPath(),testFolder.getId());
 
         Folder newFolder = null;
         try {
@@ -130,7 +130,7 @@ public class FolderServiceTests {
         }
 
         assertNotNull(newFolder);
-        assertEquals("newTestPath", newFolder.getPhysical_path());
+        assertEquals("newTestPath", newFolder.getPhysicalPath());
     }
 
     @Test(expected = FolderNotFoundException.class)
@@ -145,9 +145,9 @@ public class FolderServiceTests {
     @Test
     public void checkIfParentIdExists() throws FolderNotFoundException {
         Folder testFolder2 = new Folder();
-        testFolder2.setFolder_name("test2");
-        testFolder2.setPhysical_path("uploads/test2");
-        testFolder2.setParent_folder_id(2);
+        testFolder2.setFolderName("test2");
+        testFolder2.setPhysicalPath("uploads/test2");
+        testFolder2.setParentFolderId(2);
         testFolder2.setUser(testUser);
         this.folderService.saveFolder(testFolder2);
 
@@ -160,9 +160,9 @@ public class FolderServiceTests {
     @Test
     public void checkIfFolderWithNameExists() throws FolderNotFoundException {
         Folder testFolder2 = new Folder();
-        testFolder2.setFolder_name("test2");
-        testFolder2.setPhysical_path("uploads/test2");
-        testFolder2.setParent_folder_id(2);
+        testFolder2.setFolderName("test2");
+        testFolder2.setPhysicalPath("uploads/test2");
+        testFolder2.setParentFolderId(2);
         testFolder2.setUser(testUser);
         this.folderService.saveFolder(testFolder2);
 
@@ -175,9 +175,9 @@ public class FolderServiceTests {
     @Test
     public void getPhysicalPathByFolderId() throws FolderNotFoundException {
         Folder testFolder2 = new Folder();
-        testFolder2.setFolder_name("test2");
-        testFolder2.setPhysical_path("uploads/test2");
-        testFolder2.setParent_folder_id(2);
+        testFolder2.setFolderName("test2");
+        testFolder2.setPhysicalPath("uploads/test2");
+        testFolder2.setParentFolderId(2);
         testFolder2.setUser(testUser);
         this.folderService.saveFolder(testFolder2);
 
@@ -189,9 +189,9 @@ public class FolderServiceTests {
     @Test
     public void getFolderNameByFolderId() throws FolderNotFoundException {
         Folder testFolder2 = new Folder();
-        testFolder2.setFolder_name("test2");
-        testFolder2.setPhysical_path("uploads/test2");
-        testFolder2.setParent_folder_id(2);
+        testFolder2.setFolderName("test2");
+        testFolder2.setPhysicalPath("uploads/test2");
+        testFolder2.setParentFolderId(2);
         testFolder2.setUser(testUser);
         this.folderService.saveFolder(testFolder2);
 
@@ -203,14 +203,14 @@ public class FolderServiceTests {
     @Test
     public void findFolderById() throws FolderNotFoundException {
         Folder testFolder2 = new Folder();
-        testFolder2.setFolder_name("test2");
-        testFolder2.setPhysical_path("uploads/test2");
-        testFolder2.setParent_folder_id(2);
+        testFolder2.setFolderName("test2");
+        testFolder2.setPhysicalPath("uploads/test2");
+        testFolder2.setParentFolderId(2);
         testFolder2.setUser(testUser);
         this.folderService.saveFolder(testFolder2);
 
         try {
-            assertEquals("test2", folderService.findFolderById(testFolder2.getId()).getFolder_name());
+            assertEquals("test2", folderService.findFolderById(testFolder2.getId()).getFolderName());
         } catch (FolderNotFoundException e) {
             fail("Folder not found.");
         }
@@ -221,14 +221,15 @@ public class FolderServiceTests {
     @Test
     public void findFolderByPhysicalPath() throws FolderNotFoundException {
         Folder testFolder2 = new Folder();
-        testFolder2.setFolder_name("test2");
-        testFolder2.setPhysical_path("uploads/test2");
-        testFolder2.setParent_folder_id(2);
+        testFolder2.setFolderName("test2");
+        testFolder2.setPhysicalPath("uploads/test2");
+        testFolder2.setParentFolderId(2);
         testFolder2.setUser(testUser);
         this.folderService.saveFolder(testFolder2);
 
         try {
-            assertEquals("test2", folderService.findFolderByPhysicalPath(testFolder2.getPhysical_path()).getFolder_name());
+            assertEquals("test2", folderService.
+                    findFolderByPhysicalPath(testFolder2.getPhysicalPath()).getFolderName());
         } catch (FolderNotFoundException e) {
             fail("Folder not found.");
         }
@@ -239,9 +240,9 @@ public class FolderServiceTests {
     @Test
     public void findFoldersByPhysicalPath() throws FolderNotFoundException {
         Folder testFolder2 = new Folder();
-        testFolder2.setFolder_name("test2");
-        testFolder2.setPhysical_path("uploads/test2");
-        testFolder2.setParent_folder_id(2);
+        testFolder2.setFolderName("test2");
+        testFolder2.setPhysicalPath("uploads/test2");
+        testFolder2.setParentFolderId(2);
         testFolder2.setUser(testUser);
         this.folderService.saveFolder(testFolder2);
 
