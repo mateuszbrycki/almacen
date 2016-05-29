@@ -11,9 +11,7 @@ public class FolderFactory implements FolderAbstractFactory {
     public Folder createFromDTO(FolderDTO folderDTO) {
 
         Folder folder = new Folder();
-
         folder.setFolderName(folderDTO.getFolder_name());
-        folder.setParentFolderId(folderDTO.getParent_folder_id());
         folder.setPhysicalPath(folderDTO.getPhysical_path());
 
         return folder;
