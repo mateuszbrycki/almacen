@@ -39,4 +39,6 @@ public interface FolderService {
     Folder findUserDefaultFolder(Integer userId);
 
     List<Folder> findFoldersFromUserDefaultFolder(Integer folderId);
+
+    List<Folder> findFoldersByParentFolderId(Integer folderId);
 }

@@ -22,9 +22,8 @@
                             <input type="text" name="folder_name" class="form-control"/>
                         </div>
 
-                        <input type="hidden" name="parent_folder_id" value="${parent_folder.id}">
-                        <input type="hidden" name="physical_path" value="${parent_folder.physicalPath}">
-                        <input type="hidden" name="folder_id" value="${parent_folder.id}">
+                        <input type="hidden" name="physical_path" value="${parentFolder.physicalPath}">
+                        <input type="hidden" name="folder_id" value="${parentFolder.id}">
                         <input type="submit" id="folder-name" name="submit" value="<spring:message code="button.add" />"
                                class="btn btn-primary"/>
                     </div>

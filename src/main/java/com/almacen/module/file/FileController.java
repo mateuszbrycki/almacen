@@ -4,6 +4,11 @@ import com.almacen.module.base.BaseUrls;
 import com.almacen.module.file.service.FileService;
 import com.almacen.module.file.specification.UserFileSpecification;
 import com.almacen.module.file.utils.FileUtils;
+import com.almacen.module.folder.Folder;
+import com.almacen.module.folder.exception.FolderNotFoundException;
+import com.almacen.module.folder.service.FolderService;
+import com.almacen.module.storage.FileFolder;
+import com.almacen.module.storage.service.FileFolderService;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
@@ -12,6 +17,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,15 +51,23 @@ public class FileController {
     @Inject
     private MessageSource messageSource;
 
+    @Inject
+    private FolderService folderService;
+
+    @Inject
+    private FileFolderService fileFolderService;
+
     private FileUtils fileUtils = new FileUtils();
 
     private String[] args = {};
 
     @RequestMapping(value = FileUrls.FILE_UPLOAD, method = RequestMethod.POST)
     public String uploadFile(HttpServletRequest request, HttpServletResponse response,
+                             @RequestParam("folderId") Integer folderId,
                              @RequestParam("file") MultipartFile file,
+                             ModelMap modelMap,
                              RedirectAttributes attributes, Locale locale)
-                            throws UserNotFoundException, FileNotFoundException, UnsupportedEncodingException {
+            throws UserNotFoundException, FileNotFoundException, UnsupportedEncodingException, FolderNotFoundException {
 
         request.setCharacterEncoding("UTF-8");
         Integer userId = UserUtils.getUserId(request, response);
@@ -81,8 +95,12 @@ public class FileController {
         }
 
         fileService.saveFile(userFile);
-
+        this.setFileFolder(userFile, folderId);
         fileUtils.saveFile(file, filePath);
+
+        modelMap.addAttribute("parentFolder", this.folderService.findFolderById(folderId));
+        modelMap.addAttribute("files", this.fileFolderService.findFilesInFolder(folderId));
+        modelMap.addAttribute("folders");
 
         return "redirect:" + BaseUrls.APPLICATION;
     }
@@ -125,5 +143,20 @@ public class FileController {
 
         FileCopyUtils.copy(inputStream, response.getOutputStream());
         response.flushBuffer();
+    }
+
+    private void setFileFolder(UserFile file, Integer folderId) {
+        FileFolder fileFolder = new FileFolder();
+
+        try {
+            fileFolder.setFolder(this.folderService.findFolderById(folderId));
+            fileFolder.setUserFile(file);
+
+            fileFolderService.save(fileFolder);
+
+        } catch (FolderNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }

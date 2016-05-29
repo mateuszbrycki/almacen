@@ -144,6 +144,11 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    public List<Folder> findFoldersByParentFolderId(Integer folderId) {
+        return this.folderRepository.findByParentFolderId(folderId);
+    }
+
+    @Override
     public List<Folder> findFoldersByUserId(Integer userId) {
         List<Folder> folders = this.folderRepository.findByUserId(userId);
 
