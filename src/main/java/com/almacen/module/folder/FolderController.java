@@ -114,11 +114,10 @@ public class FolderController {
             folder.setIsDefaultFolder(false);
 
             String defaultPath = folder.getPhysicalPath();
-            String uploadPath = defaultPath + folderName;
 
             if (!this.folderService.checkIfFolderWithNameExists(defaultPath, folderName)) {
 
-                this.folderUtils.saveFolder(uploadPath, folder, path);
+                this.folderUtils.saveFolder(defaultPath, folder, path);
                 attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.create", args, locale));
 
             } else

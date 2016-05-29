@@ -30,25 +30,16 @@ public class FolderUtils {
     public Folder createPath(Integer userId, Integer folderId, FolderDTO folderDTO) throws UserNotFoundException, FolderNotFoundException {
         String defaultPath;
         User user = this.userService.findUserById(userId);
-        String parentFolderName = this.folderService.getFolderNameByFolderId(folderId);
 
         String physicalPath = folderDTO.getPhysical_path();
         Folder folder = folderFactory.createFromDTO(folderDTO);
         folder.setUser(user);
 
-        if (!this.folderService.checkIfParentIdExists(userId, folderId)) {
 
-            defaultPath = physicalPath + "/";
+            defaultPath = physicalPath + "/" + folder.getFolderName();
             folder.setPhysicalPath(defaultPath);
             folder.setParentFolderId(folderId);
 
-        } else {
-
-            defaultPath = physicalPath + parentFolderName + "/";
-            folder.setPhysicalPath(defaultPath);
-            folder.setParentFolderId(folderId);
-
-        }
         return folder;
     }
 
