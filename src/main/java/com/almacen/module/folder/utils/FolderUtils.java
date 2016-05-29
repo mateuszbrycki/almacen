@@ -62,10 +62,11 @@ public class FolderUtils {
         return true;
     }
 
-    public void changeFolderPath(Integer userId, Integer folderId, String newPath) throws FolderNotFoundException {
+    public void changeFolderPath(Integer userId, Integer folderId, String folderName) throws FolderNotFoundException {
 
-        String physicalPath = this.folderService.getPhysicalPathByFolderId(folderId)
-                                + this.folderService.getFolderNameByFolderId(folderId);
+        String physicalPath = this.folderService.getPhysicalPathByFolderId(folderId);
+        String oldFolderName = this.folderService.getFolderNameByFolderId(folderId);
+        String newPath = physicalPath.substring(0,physicalPath.length()-oldFolderName.length());
         List<Folder> folders = this.folderService.findFoldersByUserId(userId);
 
         for (Folder folder : folders) {
@@ -73,7 +74,7 @@ public class FolderUtils {
             String tempPath = folder.getPhysicalPath();
 
             if (tempPath.contains(physicalPath)) {
-                tempPath = tempPath.replace(physicalPath, newPath);
+                tempPath = tempPath.replace(physicalPath, (newPath+folderName));
                 this.folderService.updateFolderPathById(tempPath, folder.getId());
             }
         }
@@ -86,7 +87,7 @@ public class FolderUtils {
         else {
             File newDir = new File(dir.getParent() + "\\" + folderName);
             this.folderService.updateFolderById(folderId, folderName);
-            changeFolderPath(userId, folderId, path + folderName);
+            changeFolderPath(userId, folderId, folderName);
             dir.renameTo(newDir);
             return true;
         }

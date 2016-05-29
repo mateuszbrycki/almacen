@@ -14,7 +14,7 @@ public class FolderCreationPolicy {
         return FolderCreationPolicy.UPLOAD_PATH + "/" + userId;
     }
 
-    public String generateFolderEditablePath(String path, String folder_name) {
-        return FolderCreationPolicy.UPLOAD_PATH_TO_EDIT + path + folder_name;
+    public String generateFolderEditablePath(String path) {
+        return FolderCreationPolicy.UPLOAD_PATH_TO_EDIT + path;
     }
 }

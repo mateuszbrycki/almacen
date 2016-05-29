@@ -62,8 +62,7 @@ public class FolderController {
                                RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException, IOException {
 
         String path = this.folderService.getPhysicalPathByFolderId(folderId);
-        String folderName = this.folderService.getFolderNameByFolderId(folderId);
-        String deletePath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path, folderName);
+        String deletePath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path);
         File dir = new File(deletePath);
         this.folderService.deleteFolderById(folderId);
         if (this.folderUtils.folderDelete(dir))
@@ -80,16 +79,20 @@ public class FolderController {
                              @RequestParam("folder_name") String folderName,
                              @RequestParam("folder_id") Integer folderId,
                              RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException, IOException {
+        Folder folder = new Folder();
+        folder.setFolderName(folderName);
 
-        Integer userId = UserUtils.getUserId(request, response);
-        String path = this.folderService.getPhysicalPathByFolderId(folderId);
-        String oldFolderName = this.folderService.getFolderNameByFolderId(folderId);
-        String editPath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path, oldFolderName);
-        if (this.folderUtils.changeFolderName(path, editPath, folderName, folderId, userId))
-            attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.edit", args, locale));
-        else
-            attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.edit", args, locale));
-
+        if (specification.isSatisfiedBy(folder)) {
+            attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.name", args, locale));
+        } else {
+            Integer userId = UserUtils.getUserId(request, response);
+            String path = this.folderService.getPhysicalPathByFolderId(folderId);
+            String editPath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path);
+            if (this.folderUtils.changeFolderName(path, editPath, folderName, folderId, userId))
+                attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.edit", args, locale));
+            else
+                attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.edit", args, locale));
+        }
         return "redirect:" + BaseUrls.APPLICATION;
     }
 
