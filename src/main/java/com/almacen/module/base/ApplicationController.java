@@ -52,12 +52,12 @@ public class ApplicationController {
 
         Folder defaultFolder = folderService.findUserDefaultFolder(userId);
 
-        if (folderService.findUserDefaultFolder(userId) == null) {
+        if (defaultFolder == null) {
             String path = request.getContextPath();
 
             Folder folder = new Folder();
             folder.setUser(user);
-            folder.setPhysicalPath(path);
+            folder.setPhysicalPath(path + "/" + userPath);
             folder.setFolderName(userId.toString());
             folder.setIsDefaultFolder(true);
             this.folderService.saveFolder(folder);
@@ -68,13 +68,16 @@ public class ApplicationController {
             defaultFolder = folderService.findUserDefaultFolder(userId);
         }
 
+        System.out.println(userId);
+        System.out.println(defaultFolder.getFolderName());
+        System.out.println(defaultFolder.getId());
 
         List<Folder> folders = folderService.findFoldersFromUserDefaultFolder(defaultFolder.getId());
 
         if(folders != null)
             model.addAttribute("folders", folders);
 
-        model.addAttribute("parent_folder", defaultFolder.getId());
+        model.addAttribute("parent_folder", defaultFolder);
         model.addAttribute("files", fileService.findUserFilesByUserId(userId));
 
         return "controller/default/logged";

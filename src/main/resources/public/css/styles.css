@@ -53,11 +53,17 @@
     background-color: #fcf8e3;
 }
 
-#object-content .file .file-ico {
+/*
+    FILES
+*/
+
+#object-content-file .file .file-ico {
     font-size: 40px;
+    display: block;
+    text-align: center;
 }
 
-#object-content .file {
+#object-content-file .file {
     margin-bottom: 20px;
     height: 115px;
 }
@@ -77,8 +83,32 @@
     width: 65px;
 }
 
-.file-ico {
+/*
+    FOLDERS
+*/
+
+#object-content-folder .folder .folder-ico {
+    font-size: 40px;
     display: block;
     text-align: center;
-    font-size: 40px;
+}
+
+#object-content-folder .folder {
+    margin-bottom: 20px;
+    height: 115px;
+}
+
+.delete-folder {
+    padding: 4px 6px;
+    margin-right: 5px;
+}
+
+.edit-folder {
+    padding: 4px 6px;
+}
+
+.button-bar {
+    display: block;
+    margin: 0px auto;
+    width: 65px;
 }

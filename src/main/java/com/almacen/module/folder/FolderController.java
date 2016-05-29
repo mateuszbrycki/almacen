@@ -111,17 +111,22 @@ public class FolderController {
 
             String path = request.getContextPath();
             folder = this.folderUtils.createPath(userId, folderId, folderDTO);
+            folder.setIsDefaultFolder(false);
+
             String defaultPath = folder.getPhysicalPath();
             String uploadPath = defaultPath + folderName;
 
             if (!this.folderService.checkIfFolderWithNameExists(defaultPath, folderName)) {
+
                 this.folderUtils.saveFolder(uploadPath, folder, path);
                 attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.create", args, locale));
+
             } else
                 attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.create", args, locale));
 
         }
-        return "redirect:" + FolderUrls.FOLDER_SHOW_FULL + "/" + folderId;
+
+        return "redirect:" + BaseUrls.APPLICATION;
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_SHOW, method = RequestMethod.GET)
