@@ -7,8 +7,8 @@ import com.almacen.module.file.utils.FileUtils;
 import com.almacen.module.folder.Folder;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.service.FolderService;
-import com.almacen.module.storage.FileFolder;
-import com.almacen.module.storage.service.FileFolderService;
+//import com.almacen.module.storage.FileFolder;
+//import com.almacen.module.storage.service.FileFolderService;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
@@ -54,8 +54,8 @@ public class FileController {
     @Inject
     private FolderService folderService;
 
-    @Inject
-    private FileFolderService fileFolderService;
+//    @Inject
+//    private FileFolderService fileFolderService;
 
     private FileUtils fileUtils = new FileUtils();
 
@@ -94,12 +94,18 @@ public class FileController {
             return "redirect:" + BaseUrls.APPLICATION;
         }
 
+        //Dodawanie do encji slabej
         fileService.saveFile(userFile);
-        this.setFileFolder(userFile, folderId);
+        List<UserFile> files = this.fileService.findUserFilesByFolderId(folderId);
+        Folder folder = this.folderService.findFolderById(folderId);
+        files.add(userFile);
+        folder.setFiles(files);
+//        this.setFileFolder(userFile, folderId);
         fileUtils.saveFile(file, filePath);
+        this.folderService.updateFolder(folder);
 
         modelMap.addAttribute("parentFolder", this.folderService.findFolderById(folderId));
-        modelMap.addAttribute("files", this.fileFolderService.findFilesInFolder(folderId));
+//        modelMap.addAttribute("files", this.fileFolderService.findFilesInFolder(folderId));
         modelMap.addAttribute("folders");
 
         return "redirect:" + BaseUrls.APPLICATION;
@@ -145,18 +151,18 @@ public class FileController {
         response.flushBuffer();
     }
 
-    private void setFileFolder(UserFile file, Integer folderId) {
-        FileFolder fileFolder = new FileFolder();
-
-        try {
-            fileFolder.setFolder(this.folderService.findFolderById(folderId));
-            fileFolder.setUserFile(file);
-
-            fileFolderService.save(fileFolder);
-
-        } catch (FolderNotFoundException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    private void setFileFolder(UserFile file, Integer folderId) {
+//        FileFolder fileFolder = new FileFolder();
+//
+//        try {
+//            fileFolder.setFolder(this.folderService.findFolderById(folderId));
+//            fileFolder.setUserFile(file);
+//
+//            fileFolderService.save(fileFolder);
+//
+//        } catch (FolderNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }
