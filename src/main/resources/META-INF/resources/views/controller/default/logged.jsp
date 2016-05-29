@@ -28,41 +28,10 @@
     </c:forEach>
 </section>
 
-<!--<section id="object-content-folder" class="container">
-    <c:choose>
-        <c:when test="${fn:length(folders) gt 0}">
-            <div class="folder col-xs-12 col-sm-6">
-                <table class="table table-hover">
-                    <c:forEach items="${folders}" var="folder">
-                        <c:if test="${folder.folder_name ne folder.user.id}">
-                        <tr>
-                            <td>
-
-                            </td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}<%=FolderUrls.FOLDER_SHOW_FULL%>/${folder.id}">
-                                        ${folder.folder_name}
-
-                                </a>
-                            </td>
-                        </tr>
-                        </c:if>
-                    </c:forEach>
-                </table>
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div class="logs-alert alert alert-info" role="alert">
-                <spring:message code="folder.empty"/>
-            </div>
-        </c:otherwise>
-    </c:choose>
-</section>-->
-
-<section id="object-content-file" class="container clearfix">
+<section id="object-content-folder" class="container clearfix">
 <c:choose>
     <c:when test="${fn:length(folders) gt 0}">
-        <c:forEach items="${folders}" var="file">
+        <c:forEach items="${folders}" var="folder">
             <div class="folder col-xs-6 col-sm-3 col-md-2">
                 <div class="folder-ico glyphicon glyphicon-folder-close"></div>
                 <h5 style="text-align: center">${folder.folderName}</h5>
