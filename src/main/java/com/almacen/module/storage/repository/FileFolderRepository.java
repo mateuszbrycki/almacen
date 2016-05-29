@@ -13,5 +13,5 @@ import java.util.List;
 public interface FileFolderRepository extends JpaRepository<FileFolder, Integer> {
 
     @Query("SELECT f FROM FileFolder f WHERE Folder.id = :folderId")
-    List<UserFile> findUserFiles(@Param("folderId") Integer folderId);
+    List<FileFolder> findByFolderId(@Param("folderId") Integer folderId);
 }

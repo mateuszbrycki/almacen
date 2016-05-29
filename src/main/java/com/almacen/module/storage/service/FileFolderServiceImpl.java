@@ -5,6 +5,7 @@ import com.almacen.module.storage.FileFolder;
 import com.almacen.module.storage.repository.FileFolderRepository;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileFolderServiceImpl implements FileFolderService {
@@ -24,6 +25,18 @@ public class FileFolderServiceImpl implements FileFolderService {
 
     @Override
     public List<UserFile> findFilesInFolder(Integer folderId) {
-        return fileFolderRepository.findUserFiles(folderId);
+        List<FileFolder> fileFolders = (List<FileFolder>) fileFolderRepository.findByFolderId(folderId);
+
+        return this.mapUserFileList(fileFolders);
+    }
+
+    private List<UserFile> mapUserFileList(List<FileFolder> fileFolders) {
+        List<UserFile> userFiles = new ArrayList<>();
+
+        for(FileFolder f: fileFolders) {
+            userFiles.add(f.getUserFile());
+        }
+
+        return userFiles;
     }
 }
