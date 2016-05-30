@@ -205,7 +205,6 @@ public class FolderController {
                                       @PathVariable("folderHash") String folderHash) throws FolderNotFoundException {
 
         Integer hashEncode = Integer.parseInt(shareService.decode(folderHash));
-        System.out.println(hashEncode);
         return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + hashEncode;
     }
 

@@ -31,8 +31,8 @@ public class ShareServiceImpl implements ShareService {
     }
 
     @Override
-    public String decode(String hash) {
-        byte[] decodedBytes = Base64.decode(hash.getBytes());
+    public String decode(String token) {
+        byte[] decodedBytes = Base64.decode(token.getBytes());
         String decodedHash = new String(decodedBytes, Charset.forName("UTF-8"));
         return decodedHash.replace(hash, "");
     }
