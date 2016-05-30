@@ -3,7 +3,6 @@ package com.almacen.module.folder.service;
 import com.almacen.config.test.TestAppConfig;
 import com.almacen.module.folder.Folder;
 import com.almacen.module.folder.exception.FolderNotFoundException;
-import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.user.User;
 import com.almacen.module.user.service.UserService;
 import com.almacen.module.userrole.UserRole;
@@ -17,8 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import javax.validation.constraints.AssertTrue;
-
 import java.util.List;
 
 import static org.junit.Assert.*;

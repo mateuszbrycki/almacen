@@ -45,6 +45,14 @@ function showEditFolderForm() {
     modalElement.modal('show');
 }
 
+function showShareFolderForm() {
+
+    var modalElement = $('#share-folder-modal');
+
+    modalElement.modal({keyboard: true});
+    modalElement.modal('show');
+}
+
 function showDeleteFolderForm() {
 
     var modalElement = $('#delete-folder-modal');
@@ -87,6 +95,16 @@ $(document).ready(function () {
         $('#folder_edit_id').attr("value",temp);
         console.log(temp);
         showEditFolderForm();
+
+    });
+
+    $(document).on('click', '#folder-share-button', function(e){
+        e.preventDefault();
+
+        var temp= $(this).attr('href');
+        $('#folder_share_id').attr("value",temp);
+        console.log(temp);
+        showShareFolderForm();
 
     });
 

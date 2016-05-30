@@ -1,15 +1,18 @@
 package com.almacen.module.folder;
 
 import com.almacen.module.base.BaseUrls;
-import com.almacen.module.file.service.FileService;
 import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.folder.utils.FolderUtils;
+import com.almacen.module.mail.Mail;
+import com.almacen.module.mail.service.MailService;
+import com.almacen.module.share.service.ShareService;
 import com.almacen.module.storage.StorageUrls;
 import com.almacen.module.user.exception.UserNotFoundException;
+import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -52,6 +54,15 @@ public class FolderController {
 
     @Inject
     private FolderUtils folderUtils;
+
+    @Inject
+    private MailService mailService;
+
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private ShareService shareService;
 
     private String[] args = {};
 
@@ -170,4 +181,31 @@ public class FolderController {
 
         return "controller/default/logged";
     }
-}
+
+    @RequestMapping(value = FolderUrls.FOLDER_SHARE, method = RequestMethod.POST)
+    public String shareFolder(HttpServletRequest request,
+                              HttpServletResponse response,
+                              @RequestParam("share_email") String shareEmail,
+                              @RequestParam("folder_id") Integer folderId,
+                              RedirectAttributes attributes, Locale locale) throws FolderNotFoundException, UserNotFoundException {
+
+        Integer userId = UserUtils.getUserId(request, response);
+        Mail mail = mailService.createBody(userId, folderId, request);
+        boolean mailSent = mailService.send(shareEmail, mail.getSubject(), mail.getBody());
+        if(mailSent)
+            attributes.addFlashAttribute("success", messageSource.getMessage("share.send.success", args, locale));
+        else
+            attributes.addFlashAttribute("error", messageSource.getMessage("share.send.error", args, locale));
+        return "redirect:" + BaseUrls.APPLICATION;
+    }
+
+    @RequestMapping(value = FolderUrls.FOLDER_SHARE_RESOLVER, method = RequestMethod.GET)
+    public String shareFolderResolver(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      @PathVariable("folderHash") String folderHash) throws FolderNotFoundException {
+
+        Integer hashEncode = Integer.parseInt(shareService.decode(folderHash));
+        return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + hashEncode;
+    }
+
+    }

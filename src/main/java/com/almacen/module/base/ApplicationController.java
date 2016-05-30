@@ -1,7 +1,6 @@
 package com.almacen.module.base;
 
 import com.almacen.module.file.service.FileService;
-import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.folder.Folder;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.policy.FolderCreationPolicy;
@@ -76,7 +75,7 @@ public class ApplicationController {
         model.addAttribute("parentFolder", defaultFolder);
         model.addAttribute("files", fileService.findUserFilesByFolderId(defaultFolder.getId()));
 
-        return "redirect:" + BaseUrls.APPLICATION;
+        return "controller/default/logged";
     }
 
 }

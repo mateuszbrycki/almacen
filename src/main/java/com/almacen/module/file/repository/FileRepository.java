@@ -13,7 +13,7 @@ public interface FileRepository extends JpaRepository<UserFile, Integer> {
 
    List<UserFile> findByUserId(Integer userId);
 
-   @Query(value = "SELECT * FROM file where file_id = (SELECT fk_file_id FROM file_folder WHERE fk_folder_id = :folderId)", nativeQuery = true)
+   @Query(value = "SELECT * FROM file where file_id IN (SELECT fk_file_id FROM file_folder WHERE fk_folder_id = :folderId)", nativeQuery = true)
    List<UserFile> findByFolderId(@Param("folderId") Integer folderId);
 
    UserFile findOneByNameAndUserId(String name, Integer userId);
