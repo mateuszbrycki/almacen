@@ -1,5 +1,6 @@
 <%@ page import="com.almacen.module.file.FileUrls" %>
 <%@ page import="com.almacen.module.folder.FolderUrls" %>
+<%@ page import="com.almacen.module.storage.StorageUrls" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -13,13 +14,13 @@
             <h5 style="text-align: center">${file.name}</h5>
             <div class="button-bar">
                 <button type="button"
-                        href="${pageContext.request.contextPath}<%=FileUrls.Api.FILE_DOWNLOAD_FULL%>/${file.fileId}"
+                        href="${pageContext.request.contextPath}<%=FileUrls.Api.FILE_DOWNLOAD_FULL%>/${file.fileId}/${parentFolder.id}"
                         class="download-file btn btn-info">
                     <span class="glyphicon glyphicon-save"></span>
                 </button>
 
                 <button type="button"
-                        href="${pageContext.request.contextPath}<%=FileUrls.Api.FILE_DELETE_FULL%>/${file.fileId}"
+                        href="${pageContext.request.contextPath}<%=FileUrls.Api.FILE_DELETE_FULL%>/${file.fileId}/${parentFolder.id}"
                         class="delete-file btn btn-danger">
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
@@ -33,8 +34,11 @@
     <c:when test="${fn:length(folders) gt 0}">
         <c:forEach items="${folders}" var="folder">
             <div class="folder col-xs-6 col-sm-3 col-md-2">
-                <div class="folder-ico glyphicon glyphicon-folder-close"></div>
+                <a href="${pageContext.request.contextPath}<%=StorageUrls.Api.FOLDER_CONTENT%>/${folder.id}"
+                   class="folder-ico glyphicon glyphicon-folder-close">
+                </a>
                 <h5 style="text-align: center">${folder.folderName}</h5>
+                <h5>${parentFolder.folderName}</h5>
                 <div class="button-bar">
                     <button type="button" id="folder-delete-button" href="${folder.id}"
                             class="delete-folder btn btn-danger" style="padding: 2px 2px">

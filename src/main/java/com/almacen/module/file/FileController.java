@@ -70,10 +70,11 @@ public class FileController {
             throws UserNotFoundException, FileNotFoundException, UnsupportedEncodingException, FolderNotFoundException {
 
         request.setCharacterEncoding("UTF-8");
+        Folder folder = this.folderService.findFolderById(folderId);
         Integer userId = UserUtils.getUserId(request, response);
         UserFile temp;
         //TODO M Bryzik - do zrobienia po skonfigurowaniu plików i folderów
-        File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId);
+        File filePath = new File(request.getContextPath() + "/" + this.folderService.findFolderById(folderId).getPhysicalPath());
 
         if (file.isEmpty())
             return "redirect:" + BaseUrls.APPLICATION;
@@ -83,6 +84,7 @@ public class FileController {
 
             temp.setSize(file.getSize());
             fileService.saveFile(temp);
+            fileUtils.saveFile(file, filePath);
 
             return "redirect:" + BaseUrls.APPLICATION;
         }
@@ -97,29 +99,30 @@ public class FileController {
         //Dodawanie do encji slabej
         fileService.saveFile(userFile);
         List<UserFile> files = this.fileService.findUserFilesByFolderId(folderId);
-        Folder folder = this.folderService.findFolderById(folderId);
         files.add(userFile);
+
         folder.setFiles(files);
-//        this.setFileFolder(userFile, folderId);
+
         fileUtils.saveFile(file, filePath);
         this.folderService.updateFolder(folder);
 
         modelMap.addAttribute("parentFolder", this.folderService.findFolderById(folderId));
-//        modelMap.addAttribute("files", this.fileFolderService.findFilesInFolder(folderId));
-        modelMap.addAttribute("folders");
+        modelMap.addAttribute("files", files);
+        //modelMap.addAttribute("folders");
 
         return "redirect:" + BaseUrls.APPLICATION;
     }
 
     @RequestMapping(value = FileUrls.Api.FILE_DELETE_ID, method = RequestMethod.DELETE)
     public ResponseEntity<List<UserFile>> deleteFile(@PathVariable("fileId") Integer fileId,
+                                                     @PathVariable("folderId") Integer folderId,
                                                      HttpServletRequest request,
-                                                     HttpServletResponse response) throws FileNotFoundException {
+                                                     HttpServletResponse response) throws FileNotFoundException, FolderNotFoundException {
 
         Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
         //TODO M Bryzik - do zrobienia po skonfigurowaniu plików i folderów
-        File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
+        File filePath = new File(request.getContextPath() + "/" + this.folderService.findFolderById(folderId).getPhysicalPath() + "/" + filename);
 
         fileService.deleteFileByFileIdAndUserId(fileId, userId);
 
@@ -131,12 +134,13 @@ public class FileController {
 
     @RequestMapping(value = FileUrls.Api.FILE_DOWNLOAD_ID, method = RequestMethod.GET)
     public void downloadFile(HttpServletRequest request, HttpServletResponse response,
-                             @PathVariable("fileId") Integer fileId) throws IOException {
+                             @PathVariable("fileId") Integer fileId,
+                             @PathVariable("folderId") Integer folderId) throws IOException, FolderNotFoundException {
 
         Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
         //TODO M Bryzik - do zrobienia po skonfigurowaniu plików i folderów
-        File filePath = new File(request.getContextPath() + FileUrls.FILE_UPLOAD + "/" + userId + "/" + filename);
+        File filePath = new File(request.getContextPath() + "/" + this.folderService.findFolderById(folderId).getPhysicalPath() + "/" + filename);
 
         if (!filePath.exists())
             return;
@@ -151,18 +155,4 @@ public class FileController {
         response.flushBuffer();
     }
 
-//    private void setFileFolder(UserFile file, Integer folderId) {
-//        FileFolder fileFolder = new FileFolder();
-//
-//        try {
-//            fileFolder.setFolder(this.folderService.findFolderById(folderId));
-//            fileFolder.setUserFile(file);
-//
-//            fileFolderService.save(fileFolder);
-//
-//        } catch (FolderNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 }

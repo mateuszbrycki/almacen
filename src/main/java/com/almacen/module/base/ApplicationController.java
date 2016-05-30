@@ -78,7 +78,7 @@ public class ApplicationController {
             model.addAttribute("folders", folders);
 
         model.addAttribute("parentFolder", defaultFolder);
-        model.addAttribute("files", fileService.findUserFilesByUserId(userId));
+        model.addAttribute("files", fileService.findUserFilesByFolderId(defaultFolder.getId()));
 
         return "controller/default/logged";
     }
