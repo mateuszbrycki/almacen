@@ -80,7 +80,7 @@ public class FileController {
         File filePath = fileUtils.createFolderPath(request.getContextPath(), folder.getPhysicalPath());
 
         if (file.isEmpty())
-            return "redirect:" + BaseUrls.APPLICATION;
+            return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + folderId;
 
 
         if ((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {

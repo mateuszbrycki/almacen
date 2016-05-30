@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(AdminUrls.ADMIN)
-public class    AdminController  {
+public class AdminController  {
 
     @Inject
     private LoggerAbstract userActionLogger;

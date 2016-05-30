@@ -1,7 +1,6 @@
 package com.almacen.module.folder;
 
 import com.almacen.module.base.BaseUrls;
-import com.almacen.module.file.service.FileService;
 import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.policy.FolderCreationPolicy;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -203,14 +201,12 @@ public class FolderController {
 
     @RequestMapping(value = FolderUrls.FOLDER_SHARE_RESOLVER, method = RequestMethod.GET)
     public String shareFolderResolver(HttpServletRequest request,
-                              HttpServletResponse response,
-                              @RequestParam("folderHash") String folderHash,RedirectAttributes attributes, Locale locale) throws FolderNotFoundException {
+                                      HttpServletResponse response,
+                                      @PathVariable("folderHash") String folderHash) throws FolderNotFoundException {
 
-        String hashEncode = shareService.decode(folderHash);
-        folderService.findFolderById(Integer.parseInt(hashEncode));
-        // TODO wait for showing files in folder ;)
-        attributes.addFlashAttribute("success", messageSource.getMessage(hashEncode, args, locale));
-        return "redirect:" + BaseUrls.APPLICATION;
+        Integer hashEncode = Integer.parseInt(shareService.decode(folderHash));
+        System.out.println(hashEncode);
+        return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + hashEncode;
     }
 
     }
