@@ -33,15 +33,6 @@ public class Folder {
     @JsonIgnore
     private User user;
 
-    /*@OneToMany
-    @JoinTable
-            (
-                    name = "file_folder",
-                    joinColumns = { @JoinColumn(name = "fk_folder_id", referencedColumnName = "folder_id")},
-                    inverseJoinColumns = { @JoinColumn(name = "fk_file_id", referencedColumnName = "file_id", unique = true)}
-            )
-    private List<UserFile> files;*/
-
     @Column(name = "is_default_folder")
     private Boolean isDefaultFolder;
 
@@ -93,12 +84,4 @@ public class Folder {
     public void setIsDefaultFolder(Boolean isDefaultFolder) {
         this.isDefaultFolder = isDefaultFolder;
     }
-
-   /* public List<UserFile> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<UserFile> files) {
-        this.files = files;
-    }*/
 }

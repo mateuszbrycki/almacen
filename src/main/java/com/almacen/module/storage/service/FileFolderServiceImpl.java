@@ -21,6 +21,6 @@ public class FileFolderServiceImpl implements FileFolderService {
 
     @Override
     public void delete(FileFolder fileFolder) {
-        fileFolderRepository.save(fileFolder);
+        fileFolderRepository.delete(fileFolder);
     }
 }

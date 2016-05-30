@@ -1,12 +1,7 @@
 package com.almacen.module.storage;
 
-import com.almacen.module.file.UserFile;
-import com.almacen.module.folder.Folder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Embeddable

@@ -1,6 +1,7 @@
 package com.almacen.module.folder;
 
 import com.almacen.module.base.BaseUrls;
+import com.almacen.module.file.service.FileService;
 import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.policy.FolderCreationPolicy;
@@ -10,6 +11,7 @@ import com.almacen.module.folder.utils.FolderUtils;
 import com.almacen.module.mail.Mail;
 import com.almacen.module.mail.service.MailService;
 import com.almacen.module.share.service.ShareService;
+import com.almacen.module.storage.FileFolder;
 import com.almacen.module.storage.StorageUrls;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
@@ -59,10 +61,10 @@ public class FolderController {
     private MailService mailService;
 
     @Inject
-    private UserService userService;
+    private ShareService shareService;
 
     @Inject
-    private ShareService shareService;
+    private FileService fileService;
 
     private String[] args = {};
 
@@ -79,7 +81,10 @@ public class FolderController {
         String path = this.folderService.getPhysicalPathByFolderId(folderId);
         String deletePath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path);
         File dir = new File(deletePath);
+
+        this.fileService.deleteFilesInFolder(folderId);
         this.folderService.deleteFolderById(folderId);
+
         if (this.folderUtils.folderDelete(dir))
             attributes.addFlashAttribute("success", messageSource.getMessage("folder.message.success.delete", args, locale));
         else
@@ -189,6 +194,7 @@ public class FolderController {
                               @RequestParam("folder_id") Integer folderId,
                               RedirectAttributes attributes, Locale locale) throws FolderNotFoundException, UserNotFoundException {
 
+        Folder folder = folderService.findFolderById(folderId);
         Integer userId = UserUtils.getUserId(request, response);
         Mail mail = mailService.createBody(userId, folderId, request);
         boolean mailSent = mailService.send(shareEmail, mail.getSubject(), mail.getBody());
@@ -196,7 +202,8 @@ public class FolderController {
             attributes.addFlashAttribute("success", messageSource.getMessage("share.send.success", args, locale));
         else
             attributes.addFlashAttribute("error", messageSource.getMessage("share.send.error", args, locale));
-        return "redirect:" + BaseUrls.APPLICATION;
+
+        return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" +folder.getParentFolderId();
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_SHARE_RESOLVER, method = RequestMethod.GET)

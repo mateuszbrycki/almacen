@@ -27,4 +27,8 @@ public interface FileService {
     List<String> getUserFilesAllExtension(Integer userId);
 
     HashMap<String, Integer> getUserFilesAllQuantity(Integer userId);
+
+    void deleteFilesInFolder(Integer folderId);
+
+    UserFile findFileInFolder(String filename, Integer folderId);
 }

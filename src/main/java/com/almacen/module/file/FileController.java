@@ -71,47 +71,38 @@ public class FileController {
                              @RequestParam("file") MultipartFile file,
                              ModelMap modelMap,
                              RedirectAttributes attributes, Locale locale)
-            throws UserNotFoundException, FileNotFoundException, UnsupportedEncodingException, FolderNotFoundException {
+            throws UserNotFoundException, FileNotFoundException,
+            UnsupportedEncodingException, FolderNotFoundException {
 
-        request.setCharacterEncoding("UTF-8");
         Folder folder = this.folderService.findFolderById(folderId);
         Integer userId = UserUtils.getUserId(request, response);
         UserFile temp;
         File filePath = fileUtils.createFolderPath(request.getContextPath(), folder.getPhysicalPath());
 
         if (file.isEmpty())
-            return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + folderId;
+            return this.getRedirectPath(folderId);
 
-
-        if ((temp = fileService.findUserFileByName(file.getOriginalFilename(), userId)) != null) {
+        if ((temp = fileService.findFileInFolder(file.getOriginalFilename(), folderId)) != null) {
 
             temp.setSize(file.getSize());
             fileService.saveFile(temp);
             fileUtils.saveFile(file, filePath);
 
-            return "redirect:" + BaseUrls.APPLICATION;
+            return this.getRedirectPath(folderId);
         }
 
         UserFile userFile = fileUtils.mapUserFileObject(file, userService.findUserById(userId));
 
         if (!specification.isSatisfiedBy(userFile)) {
             attributes.addFlashAttribute("error", messageSource.getMessage("file.extension.blocked", args, locale));
-            return "redirect:" + BaseUrls.APPLICATION;
+            return this.getRedirectPath(folderId);
         }
 
         fileService.saveFile(userFile);
         List<UserFile> files = this.fileService.findUserFilesByFolderId(folderId);
         files.add(userFile);
-        //folder.setFiles(files);
 
-        FileFolderKey fileFolderKey = new FileFolderKey();
-        fileFolderKey.setFolder(folderId);
-        fileFolderKey.setUserFile(userFile.getFileId());
-
-        FileFolder fileFolder = new FileFolder();
-        fileFolder.setFileFolderKey(fileFolderKey);
-
-        fileFolderService.save(fileFolder);
+        this.saveFileFolderEntity(userFile.getFileId(), folderId);
 
         fileUtils.saveFile(file, filePath);
         this.folderService.updateFolder(folder);
@@ -120,7 +111,7 @@ public class FileController {
         modelMap.addAttribute("files", files);
         modelMap.addAttribute("folders", folderService.findFoldersByParentFolderId(folderId));
 
-        return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + folderId;
+        return this.getRedirectPath(folderId);
     }
 
     @RequestMapping(value = FileUrls.Api.FILE_DELETE_ID, method = RequestMethod.DELETE)
@@ -147,7 +138,6 @@ public class FileController {
                              @PathVariable("fileId") Integer fileId,
                              @PathVariable("folderId") Integer folderId) throws IOException, FolderNotFoundException {
 
-        Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
         Folder folder = this.folderService.findFolderById(folderId);
         File filePath = fileUtils.createFilePath(request.getContextPath(), folder.getPhysicalPath(), filename);
@@ -165,4 +155,19 @@ public class FileController {
         response.flushBuffer();
     }
 
+    private void saveFileFolderEntity(Integer fileId, Integer folderId) {
+
+        FileFolderKey fileFolderKey = new FileFolderKey();
+        fileFolderKey.setFolder(folderId);
+        fileFolderKey.setUserFile(fileId);
+
+        FileFolder fileFolder = new FileFolder();
+        fileFolder.setFileFolderKey(fileFolderKey);
+
+        fileFolderService.save(fileFolder);
+    }
+
+    private String getRedirectPath(Integer folderId) {
+        return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + folderId;
+    }
 }

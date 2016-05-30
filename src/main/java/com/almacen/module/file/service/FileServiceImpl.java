@@ -55,8 +55,8 @@ public class FileServiceImpl implements FileService {
     public UserFile findUserFileByFileId(Integer fileId) throws FileNotFoundException {
         UserFile userFile = fileRepository.findOneByFileId(fileId);
 
-            if(userFile == null)
-                throw new FileNotFoundException();
+        if (userFile == null)
+            throw new FileNotFoundException();
 
         return userFile;
     }
@@ -69,8 +69,9 @@ public class FileServiceImpl implements FileService {
             wholeSize += userFile.getSize();
         return wholeSize;
     }
+
     @Override
-    public List<String> getUserFilesAllExtension(Integer userId){
+    public List<String> getUserFilesAllExtension(Integer userId) {
         List<UserFile> userFiles = fileRepository.findByUserId(userId);
         ArrayList<String> extensionList = new ArrayList<>();
         for (UserFile userFile : userFiles)
@@ -78,6 +79,7 @@ public class FileServiceImpl implements FileService {
         return extensionList;
 
     }
+
     @Override
     public HashMap<String, Integer> getUserFilesAllQuantity(Integer userId) {
         List<String> extensionList = getUserFilesAllExtension(userId);
@@ -91,5 +93,15 @@ public class FileServiceImpl implements FileService {
                 quantity.put(extension, 1);
         }
         return quantity;
+    }
+
+    @Override
+    public void deleteFilesInFolder(Integer folderId) {
+        fileRepository.deleteFilesInFolder(folderId);
+    }
+
+    @Override
+    public UserFile findFileInFolder(String filename, Integer folderId) {
+        return fileRepository.findUserFileInFolder(filename, folderId);
     }
 }
