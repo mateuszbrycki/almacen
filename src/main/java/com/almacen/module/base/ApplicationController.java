@@ -68,10 +68,6 @@ public class ApplicationController {
             defaultFolder = folderService.findUserDefaultFolder(userId);
         }
 
-        System.out.println(userId);
-        System.out.println(defaultFolder.getFolderName());
-        System.out.println(defaultFolder.getId());
-
         List<Folder> folders = folderService.findFoldersFromUserDefaultFolder(defaultFolder.getId());
 
         if(folders != null)
