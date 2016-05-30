@@ -76,7 +76,7 @@ public class ApplicationController {
         model.addAttribute("parentFolder", defaultFolder);
         model.addAttribute("files", fileService.findUserFilesByFolderId(defaultFolder.getId()));
 
-        return "controller/default/logged";
+        return "redirect:" + BaseUrls.APPLICATION;
     }
 
 }
