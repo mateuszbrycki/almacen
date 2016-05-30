@@ -27,13 +27,13 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    public void updateFolderById(Integer folder_id, String folder_name) {
-        this.folderRepository.updateFolderById(folder_id, folder_name);
+    public void updateFolderById(Integer folderId, String folderName) {
+        this.folderRepository.updateFolderById(folderId, folderName);
     }
 
     @Override
-    public void updateFolderPathById(String physical_path, Integer folderId) {
-        this.folderRepository.updateFolderPathById(physical_path,folderId);
+    public void updateFolderPathById(String physicalPath, Integer folderId) {
+        this.folderRepository.updateFolderPathById(physicalPath, folderId);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class FolderServiceImpl implements FolderService {
     public Boolean checkIfParentIdExists(Integer userId, Integer folderId) {
         Folder folder = this.folderRepository.findOneByUserIdAndFolderId(userId, folderId);
 
-        if (folder.getParent_folder_id() != 0) {
+        if (folder.getParentFolderId() != 0) {
             return true;
         }
 
@@ -53,8 +53,8 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    public Boolean checkIfFolderWithNameExists(String physical_path, String folder_name) {
-        Folder folder = this.folderRepository.findOneByFolderNameAndPhysicalPath(physical_path, folder_name);
+    public Boolean checkIfFolderWithNameExists(String physicalPath, String folderName) {
+        Folder folder = this.folderRepository.findOneByFolderNameAndPhysicalPath(physicalPath, folderName);
 
         if (folder != null) {
             return true;
@@ -65,8 +65,9 @@ public class FolderServiceImpl implements FolderService {
 
 
     @Override
-    public Integer getFolderIdByPhysicalPath(String physical_path) throws FolderNotFoundException {
-        Folder folder = this.folderRepository.findOneByPhysicalPath(physical_path);
+    public Integer getFolderIdByPhysicalPath(String physicalPath) throws FolderNotFoundException {
+
+        Folder folder = this.folderRepository.findOneByPhysicalPath(physicalPath);
 
         if (folder == null) {
             throw new FolderNotFoundException();
@@ -76,41 +77,30 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    public String getPhysicalPathByFolderId(Integer folder_id) throws FolderNotFoundException {
-        Folder folder = this.folderRepository.findOneByFolderId(folder_id);
+    public String getPhysicalPathByFolderId(Integer folderId) throws FolderNotFoundException {
+        Folder folder = this.folderRepository.findOneByFolderId(folderId);
 
         if (folder == null) {
             throw new FolderNotFoundException();
         }
 
-        return folder.getPhysical_path();
+        return folder.getPhysicalPath();
     }
 
     @Override
-    public String getFolderNameByFolderId(Integer folder_id) throws FolderNotFoundException {
-        Folder folder = this.folderRepository.findOneByFolderId(folder_id);
+    public String getFolderNameByFolderId(Integer folderId) throws FolderNotFoundException {
+        Folder folder = this.folderRepository.findOneByFolderId(folderId);
 
         if (folder == null) {
             throw new FolderNotFoundException();
         }
 
-        return folder.getFolder_name();
+        return folder.getFolderName();
     }
 
     @Override
-    public Folder findFolderById(Integer folder_id) throws FolderNotFoundException {
-        Folder folder = this.folderRepository.findOne(folder_id);
-
-        if (folder == null) {
-            throw new FolderNotFoundException();
-        }
-
-        return folder;
-    }
-
-    @Override
-    public Folder findFolderByPhysicalPath(String physical_path) throws FolderNotFoundException {
-        Folder folder = this.folderRepository.findOneByPhysicalPath(physical_path);
+    public Folder findFolderById(Integer folderId) throws FolderNotFoundException {
+        Folder folder = this.folderRepository.findOne(folderId);
 
         if (folder == null) {
             throw new FolderNotFoundException();
@@ -120,15 +110,42 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    public List<Folder> findFoldersByPhysicalPath(String physical_path) throws FolderNotFoundException {
+    public Folder findFolderByPhysicalPath(String physicalPath) throws FolderNotFoundException {
+        Folder folder = this.folderRepository.findOneByPhysicalPath(physicalPath);
 
-        List<Folder> folders = this.folderRepository.findAllByPhysicalPath(physical_path);
+        if (folder == null) {
+            throw new FolderNotFoundException();
+        }
+
+        return folder;
+    }
+
+    @Override
+    public List<Folder> findFoldersByPhysicalPath(String physicalPath) throws FolderNotFoundException {
+
+        List<Folder> folders = this.folderRepository.findAllByPhysicalPath(physicalPath);
 
         if (folders == null) {
             throw new FolderNotFoundException();
         }
 
         return folders;
+    }
+
+    @Override
+    public Folder findUserDefaultFolder(Integer userId) {
+
+        return folderRepository.findUserDefaultFolder(userId, "" + userId);
+    }
+
+    @Override
+    public List<Folder> findFoldersFromUserDefaultFolder(Integer folderId) {
+        return folderRepository.findFoldersFromDefaultUserFolder(folderId);
+    }
+
+    @Override
+    public List<Folder> findFoldersByParentFolderId(Integer folderId) {
+        return this.folderRepository.findByParentFolderId(folderId);
     }
 
     @Override

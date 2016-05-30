@@ -12,9 +12,9 @@ public interface FolderService {
 
     void updateFolder(Folder folder);
 
-    void updateFolderById(Integer folder_id, String folder_name);
+    void updateFolderById(Integer folderId, String folderName);
 
-    void updateFolderPathById(String physical_path, Integer folderId);
+    void updateFolderPathById(String physicalPath, Integer folderId);
 
     void deleteFolderById(Integer id);
 
@@ -22,18 +22,23 @@ public interface FolderService {
 
     Boolean checkIfParentIdExists(Integer userId, Integer folderId);
 
-    Boolean checkIfFolderWithNameExists(String physical_path, String folder_name);
+    Boolean checkIfFolderWithNameExists(String physicalPath, String folderName);
 
-    Integer getFolderIdByPhysicalPath(String physical_path) throws FolderNotFoundException;
+    Integer getFolderIdByPhysicalPath(String physicalPath) throws FolderNotFoundException;
 
-    String getPhysicalPathByFolderId(Integer folder_id) throws FolderNotFoundException;
+    String getPhysicalPathByFolderId(Integer folderId) throws FolderNotFoundException;
 
-    String getFolderNameByFolderId(Integer folder_id) throws FolderNotFoundException;
+    String getFolderNameByFolderId(Integer folderId) throws FolderNotFoundException;
 
-    Folder findFolderById(Integer folder_id) throws FolderNotFoundException;
+    Folder findFolderById(Integer folderId) throws FolderNotFoundException;
 
-    Folder findFolderByPhysicalPath(String physical_path) throws FolderNotFoundException;
+    Folder findFolderByPhysicalPath(String physicalPath) throws FolderNotFoundException;
 
-    List<Folder> findFoldersByPhysicalPath(String physical_path) throws FolderNotFoundException;
+    List<Folder> findFoldersByPhysicalPath(String physicalPath) throws FolderNotFoundException;
 
+    Folder findUserDefaultFolder(Integer userId);
+
+    List<Folder> findFoldersFromUserDefaultFolder(Integer folderId);
+
+    List<Folder> findFoldersByParentFolderId(Integer folderId);
 }

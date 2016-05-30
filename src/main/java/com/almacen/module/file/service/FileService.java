@@ -14,6 +14,8 @@ public interface FileService {
 
     List<UserFile> findUserFilesByUserId(Integer userId);
 
+    List<UserFile> findUserFilesByFolderId(Integer folderId);
+
     UserFile findUserFileByName(String name, Integer userId);
 
     void deleteFileByFileIdAndUserId(Integer fileId, Integer userId);
