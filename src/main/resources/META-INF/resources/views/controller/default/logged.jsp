@@ -9,7 +9,7 @@
 
 <section id="object-content-file" class="container">
     <c:forEach items="${files}" var="file">
-        <div class="file col-xs-6 col-sm-3 col-md-2">
+        <div class="file col-xs-6 col-sm-3 col-md-3">
             <div class="file-ico glyphicon glyphicon-file"></div>
             <h5 style="text-align: center">${file.name}</h5>
             <div class="button-bar">
@@ -33,29 +33,27 @@
     <c:choose>
         <c:when test="${fn:length(folders) gt 0}">
             <c:forEach items="${folders}" var="folder">
-                <div class="folder col-xs-6 col-sm-3 col-md-2">
+                <div class="folder col-xs-6 col-sm-3 col-md-3">
                     <a href="${pageContext.request.contextPath}<%=StorageUrls.Api.FOLDER_CONTENT%>/${folder.id}"
                        class="folder-ico glyphicon glyphicon-folder-close">
                     </a>
                     <h5 style="text-align: center">${folder.folderName}</h5>
                     <div class="button-bar">
-                        <button type="button" id="folder-delete-button" href="${folder.id}"
-                                class="delete-folder btn btn-danger" style="padding: 2px 2px">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
 
                         <button type="button" id="folder-edit-button" href="${folder.id}"
-                                class="edit-folder btn btn-default" style="padding: 2px 3px">
+                                class="edit-folder btn btn-default">
                             <span class="glyphicon glyphicon-edit"></span>
                         </button>
 
-                        <div style="float: right;">
-                            <button type="button" id="folder-share-button" href="${folder.id}"
-                                    class="share-folder btn btn-default" style="padding: 2px 3px">
-                                <span class="glyphicon glyphicon-share"></span>
-                                <spring:message code="share.title"/>
-                            </button>
-                        </div>
+                        <button type="button" id="folder-delete-button" href="${folder.id}"
+                                class="delete-folder btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+
+                        <button type="button" id="folder-share-button" href="${folder.id}"
+                                class="share-folder btn btn-success">
+                            <span class="glyphicon glyphicon-share"></span>
+                        </button>
                     </div>
                 </div>
             </c:forEach>

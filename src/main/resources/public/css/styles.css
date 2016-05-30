@@ -77,12 +77,6 @@
     padding: 4px 6px;
 }
 
-.button-bar {
-    display: block;
-    margin: 0px auto;
-    width: 65px;
-}
-
 /*
     FOLDERS
 */
@@ -100,15 +94,19 @@
 
 .delete-folder {
     padding: 4px 6px;
-    margin-right: 5px;
 }
 
 .edit-folder {
     padding: 4px 6px;
 }
 
+.share-folder {
+    padding: 4px 6px;
+}
+
 .button-bar {
     display: block;
     margin: 0px auto;
-    width: 65px;
+    width: 150px;
+    text-align: center
 }
