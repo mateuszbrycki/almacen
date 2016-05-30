@@ -38,7 +38,6 @@
                    class="folder-ico glyphicon glyphicon-folder-close">
                 </a>
                 <h5 style="text-align: center">${folder.folderName}</h5>
-                <h5>${parentFolder.folderName}</h5>
                 <div class="button-bar">
                     <button type="button" id="folder-delete-button" href="${folder.id}"
                             class="delete-folder btn btn-danger" style="padding: 2px 2px">

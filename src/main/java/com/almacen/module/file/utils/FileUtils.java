@@ -59,4 +59,12 @@ public class FileUtils {
 
         return fileArray[fileArray.length - 1];
     }
+
+    public File createFolderPath(String requestPath, String folderPath) {
+        return new File(requestPath + "/" + folderPath);
+    }
+
+    public File createFilePath(String requestPath, String folderPath, String filename) {
+        return new File(requestPath + "/" + folderPath + "/" + filename);
+    }
 }

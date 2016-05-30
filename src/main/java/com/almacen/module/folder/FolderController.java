@@ -1,12 +1,14 @@
 package com.almacen.module.folder;
 
 import com.almacen.module.base.BaseUrls;
+import com.almacen.module.file.service.FileService;
 import com.almacen.module.folder.dto.FolderDTO;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.policy.FolderCreationPolicy;
 import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.folder.specification.FolderSpecification;
 import com.almacen.module.folder.utils.FolderUtils;
+import com.almacen.module.storage.StorageUrls;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.util.UserUtils;
 import org.apache.log4j.Logger;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -61,6 +64,7 @@ public class FolderController {
                                @RequestParam("folder_id") Integer folderId,
                                RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException, IOException {
 
+        Folder folder = folderService.findFolderById(folderId);
         String path = this.folderService.getPhysicalPathByFolderId(folderId);
         String deletePath = request.getContextPath() + this.folderCreationPolicy.generateFolderEditablePath(path);
         File dir = new File(deletePath);
@@ -70,7 +74,7 @@ public class FolderController {
         else
             attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.delete", args, locale));
 
-        return "redirect:" + BaseUrls.APPLICATION;
+        return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + folder.getParentFolderId();
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_EDIT, method = RequestMethod.POST)
@@ -79,8 +83,11 @@ public class FolderController {
                              @RequestParam("folder_name") String folderName,
                              @RequestParam("folder_id") Integer folderId,
                              RedirectAttributes attributes, Locale locale) throws UserNotFoundException, FolderNotFoundException, IOException {
+
         Folder folder = new Folder();
         folder.setFolderName(folderName);
+
+        Folder temp = folderService.findFolderById(folderId);
 
         if (specification.isSatisfiedBy(folder)) {
             attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.name", args, locale));
@@ -93,7 +100,8 @@ public class FolderController {
             else
                 attributes.addFlashAttribute("error", messageSource.getMessage("folder.message.error.edit", args, locale));
         }
-        return "redirect:" + BaseUrls.APPLICATION;
+
+        return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + temp.getParentFolderId();
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_CREATE, method = RequestMethod.POST)
@@ -128,7 +136,7 @@ public class FolderController {
 
         }
 
-        return "redirect:" + BaseUrls.APPLICATION;
+        return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + folderId;
     }
 
     @RequestMapping(value = FolderUrls.FOLDER_SHOW, method = RequestMethod.GET)
@@ -159,6 +167,7 @@ public class FolderController {
         Folder parentFolder = this.folderService.findFolderById(folderId);
         model.addAttribute("folders", folders);
         model.addAttribute("parent_folder", parentFolder);
+
         return "controller/default/logged";
     }
 }

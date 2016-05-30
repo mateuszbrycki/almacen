@@ -9,6 +9,10 @@ import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.service.FolderService;
 //import com.almacen.module.storage.FileFolder;
 //import com.almacen.module.storage.service.FileFolderService;
+import com.almacen.module.storage.FileFolder;
+import com.almacen.module.storage.FileFolderKey;
+import com.almacen.module.storage.StorageUrls;
+import com.almacen.module.storage.service.FileFolderService;
 import com.almacen.module.user.exception.UserNotFoundException;
 import com.almacen.module.user.service.UserService;
 import com.almacen.util.UserUtils;
@@ -54,8 +58,8 @@ public class FileController {
     @Inject
     private FolderService folderService;
 
-//    @Inject
-//    private FileFolderService fileFolderService;
+    @Inject
+    private FileFolderService fileFolderService;
 
     private FileUtils fileUtils = new FileUtils();
 
@@ -73,8 +77,7 @@ public class FileController {
         Folder folder = this.folderService.findFolderById(folderId);
         Integer userId = UserUtils.getUserId(request, response);
         UserFile temp;
-        //TODO M Bryzik - do zrobienia po skonfigurowaniu plików i folderów
-        File filePath = new File(request.getContextPath() + "/" + this.folderService.findFolderById(folderId).getPhysicalPath());
+        File filePath = fileUtils.createFolderPath(request.getContextPath(), folder.getPhysicalPath());
 
         if (file.isEmpty())
             return "redirect:" + BaseUrls.APPLICATION;
@@ -96,21 +99,28 @@ public class FileController {
             return "redirect:" + BaseUrls.APPLICATION;
         }
 
-        //Dodawanie do encji slabej
         fileService.saveFile(userFile);
         List<UserFile> files = this.fileService.findUserFilesByFolderId(folderId);
         files.add(userFile);
+        //folder.setFiles(files);
 
-        folder.setFiles(files);
+        FileFolderKey fileFolderKey = new FileFolderKey();
+        fileFolderKey.setFolder(folderId);
+        fileFolderKey.setUserFile(userFile.getFileId());
+
+        FileFolder fileFolder = new FileFolder();
+        fileFolder.setFileFolderKey(fileFolderKey);
+
+        fileFolderService.save(fileFolder);
 
         fileUtils.saveFile(file, filePath);
         this.folderService.updateFolder(folder);
 
         modelMap.addAttribute("parentFolder", this.folderService.findFolderById(folderId));
         modelMap.addAttribute("files", files);
-        //modelMap.addAttribute("folders");
+        modelMap.addAttribute("folders", folderService.findFoldersByParentFolderId(folderId));
 
-        return "redirect:" + BaseUrls.APPLICATION;
+        return "redirect:" + StorageUrls.Api.FOLDER_CONTENT + "/" + folderId;
     }
 
     @RequestMapping(value = FileUrls.Api.FILE_DELETE_ID, method = RequestMethod.DELETE)
@@ -121,8 +131,8 @@ public class FileController {
 
         Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
-        //TODO M Bryzik - do zrobienia po skonfigurowaniu plików i folderów
-        File filePath = new File(request.getContextPath() + "/" + this.folderService.findFolderById(folderId).getPhysicalPath() + "/" + filename);
+        Folder folder = this.folderService.findFolderById(folderId);
+        File filePath = fileUtils.createFilePath(request.getContextPath(), folder.getPhysicalPath(), filename);
 
         fileService.deleteFileByFileIdAndUserId(fileId, userId);
 
@@ -139,8 +149,8 @@ public class FileController {
 
         Integer userId = UserUtils.getUserId(request, response);
         String filename = fileService.findUserFileByFileId(fileId).getName();
-        //TODO M Bryzik - do zrobienia po skonfigurowaniu plików i folderów
-        File filePath = new File(request.getContextPath() + "/" + this.folderService.findFolderById(folderId).getPhysicalPath() + "/" + filename);
+        Folder folder = this.folderService.findFolderById(folderId);
+        File filePath = fileUtils.createFilePath(request.getContextPath(), folder.getPhysicalPath(), filename);
 
         if (!filePath.exists())
             return;
