@@ -19,17 +19,25 @@ CREATE TABLE user_account (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE folder (
-	folder_id INTEGER AUTO_INCREMENT,
-	folder_name VARCHAR(255) NOT NULL,
-	parent_folder_id INTEGER NOT NULL,
-	physical_path VARCHAR(255) NOT NULL,
-	fk_owner_id INTEGER NOT NULL,
-	PRIMARY KEY (folder_id,parent_folder_id),
-	CONSTRAINT fk_owner_id_key FOREIGN KEY (fk_owner_id)
-		REFERENCES user_account (user_id)
-		ON UPDATE CASCADE
-);
+
+CREATE TABLE `file_folder` (
+  `fk_folder_id` int(11) NOT NULL,
+  `fk_file_id` varchar(255) COLLATE utf8_polish_ci NOT NULL,
+  PRIMARY KEY (`fk_folder_id`,`fk_file_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+
+CREATE TABLE `folder` (
+  `folder_id` int(11) NOT NULL AUTO_INCREMENT,
+  `folder_name` varchar(255) COLLATE utf8_polish_ci NOT NULL,
+  `parent_folder_id` int(11) DEFAULT NULL,
+  `physical_path` varchar(255) COLLATE utf8_polish_ci NOT NULL,
+  `fk_owner_id` int(11) NOT NULL,
+  `is_default_folder` int(1) DEFAULT NULL,
+  PRIMARY KEY (`folder_id`),
+  KEY `fk_owner_id_key_temp` (`fk_owner_id`),
+  CONSTRAINT `fk_owner_id_key_temp` FOREIGN KEY (`fk_owner_id`) REFERENCES `user_account` (`user_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 CREATE TABLE logger_message (
   message_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -43,7 +51,7 @@ CREATE TABLE logger_message (
 );
 
 --DATA
-INSERT INTO `user_role` (`id`, `role_id`) VALUES
+INSERT INTO `user_role` (`role_id`, `role`) VALUES
 (1, 'ROLE_ADMIN'),
 (2, 'ROLE_MODERATOR'),
 (3, 'ROLE_USER');
@@ -67,6 +75,11 @@ CREATE TABLE system_configuration (
   property_value VARCHAR(255) NOT NULL,
   audit_cd TIMESTAMP NOT NULL
 );
+
+INSERT INTO `system_configuration` (`property_name`, `property_value`) VALUES
+('file.blocked.extensions', 'exe'),
+('file.maximum_size', '100000000'),
+('folder.illegal_characters', '(');
 
 --DROP TABLE user_account;
 --DROP TABLE user_role;

@@ -1,1 +1,1 @@
-mvn clean spring-boot:run  -Djavax.net.ssl.trustStore=.keystore -Djavax.net.ssl.trustStorePassword=mateusz3
+mvn clean spring-boot:run -Djavax.net.ssl.trustStore=/vagrant/.keystore -Djavax.net.ssl.trustStorePassword=mateusz3
