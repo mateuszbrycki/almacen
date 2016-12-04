@@ -1,7 +1,6 @@
 package com.almacen.module.base;
 
 import com.almacen.module.file.service.FileService;
-import com.almacen.module.folder.service.FolderService;
 import com.almacen.module.folder.Folder;
 import com.almacen.module.folder.exception.FolderNotFoundException;
 import com.almacen.module.folder.policy.FolderCreationPolicy;
@@ -48,27 +47,33 @@ public class ApplicationController {
         logger.debug(userId);
 
         User user = this.userService.findUserById(userId);
-        String user_path = this.folderCreationPolicy.generateFolderPath(userId);
+        String userPath = this.folderCreationPolicy.generateFolderPath(userId);
 
-        if (!this.folderService.checkIfFolderWithNameExists(user_path, "0")) {
+        Folder defaultFolder = folderService.findUserDefaultFolder(userId);
+
+        if (defaultFolder == null) {
             String path = request.getContextPath();
-            Folder mFolder = new Folder();
-            mFolder.setUser(user);
-            mFolder.setPhysical_path(user_path);
-            mFolder.setFolder_name("0");
-            this.folderService.saveFolder(mFolder);
-            File file = new File(path + "/" + user_path);
+
+            Folder folder = new Folder();
+            folder.setUser(user);
+            folder.setPhysicalPath(path + userPath);
+            folder.setFolderName(userId.toString());
+            folder.setIsDefaultFolder(true);
+            this.folderService.saveFolder(folder);
+            System.out.println(request.getContextPath());
+            File file = new File(request.getContextPath() + userPath);
             file.mkdirs();
+
+            defaultFolder = folderService.findUserDefaultFolder(userId);
         }
 
-        Folder folder=this.folderService.findFolderByPhysicalPath("uploads/" + userId);
-        String fullPath = this.folderService.getPhysicalPathByFolderId(folder.getId()) + this.folderService.getFolderNameByFolderId(folder.getId()) + "/";
-        List<Folder> folders = this.folderService.findFoldersByPhysicalPath(fullPath);
-        Folder parentFolder = this.folderService.findFolderById(folder.getId());
-        model.addAttribute("folders", folders);
-        model.addAttribute("parent_folder", parentFolder);
-        model.addAttribute("files", fileService.findUserFilesByUserId(userId));
+        List<Folder> folders = folderService.findFoldersFromUserDefaultFolder(defaultFolder.getId());
 
+        if(folders != null)
+            model.addAttribute("folders", folders);
+
+        model.addAttribute("parentFolder", defaultFolder);
+        model.addAttribute("files", fileService.findUserFilesByFolderId(defaultFolder.getId()));
 
         return "controller/default/logged";
     }

@@ -16,10 +16,12 @@ public class FolderNameSpecification extends AbstractSpecification<Folder> {
     @Override
     public Boolean isSatisfiedBy(Folder candidate) {
         String[] illegalCharacters = propertyService.findIllegalCharacters().getPropertyValue().split(";");
+
         for (int i = 0; i < illegalCharacters.length; i++) {
-            if ((candidate.getFolder_name()).contains(illegalCharacters[i]))
+            if ((candidate.getFolderName()).contains(illegalCharacters[i]))
                 return true;
         }
+
         return false;
     }
 }

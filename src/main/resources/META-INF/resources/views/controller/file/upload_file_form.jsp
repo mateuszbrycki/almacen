@@ -14,7 +14,7 @@
                 <form method="POST" enctype="multipart/form-data" id="upload-file-form"
                       action="${pageContext.request.contextPath}<%=FileUrls.FILE_UPLOAD_FULL%>/" class="form-horizontal"
                       style="width: 300px; margin-bottom: 0px">
-
+                    <input type="hidden" name="folderId" value="${parentFolder.id}">
                     <input type="file" name="file" />
                     <h4>${error}</h4>
                     <input type="submit" id="upload-file-submit" value="<spring:message code="button.send" />"

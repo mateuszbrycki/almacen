@@ -5,7 +5,7 @@ import com.almacen.api.UrlSpace;
 public class FileUrls implements UrlSpace {
 
     public static final String FILE = "/file";
-    public static final String FILE_ID = "/{fileId}";
+    public static final String FILE_ID = "/{fileId}/{folderId}";
     public static final String FILE_DELETE = "/delete";
 
     public static final String FILE_UPLOAD = "/upload";
