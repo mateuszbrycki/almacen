@@ -11,13 +11,13 @@
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap_3_2_0_min.css" />">
+    <%--<link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap_3_2_0_min.css" />">
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/msdropdown_dd.css" />">
-    <link rel="stylesheet" type="text/css" href="<c:url value="/css/styles.css" />">
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap-glyphicons.css" />">
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/spinners.css" />">
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap-colorpicker.min.css" />">
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/select2.min.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/styles.css" />">
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/context.bootstrap.css" />">
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap-tagsinput.css" />">
 
@@ -32,7 +32,21 @@
     <script src="<c:url value="/js/lib/context.js" />" type="text/javascript"></script>
     <script src="<c:url value="/js/lib/sidebar.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/js/lib/bootstrap-tagsinput.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/js/common.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/js/common.js" />" type="text/javascript"></script>--%>
+
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cuprum:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<c:url value="css/font-awesome.min.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="css/styles-new.css" />">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          type="text/css"/>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/common-new.js"></script>
 
 
     <script>
