@@ -46,7 +46,7 @@
             crossorigin="anonymous"></script>
     <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="js/common-new.js"></script>
+    <script src="<c:url value="js/common-new.js" />"></script>
 
 
     <script>
