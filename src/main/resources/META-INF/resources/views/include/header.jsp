@@ -31,13 +31,17 @@
     <script src="<c:url value="/js/lib/select2.full.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/js/lib/context.js" />" type="text/javascript"></script>
     <script src="<c:url value="/js/lib/sidebar.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/js/lib/bootstrap-tagsinput.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/js/common.js" />" type="text/javascript"></script>--%>
+    <script src="<c:url value="/js/lib/bootstrap-tagsinput.js" />" type="text/javascript"></script>--%>
+
+    <!-- TEST -->
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/msdropdown_dd.css" />">
+
+    <!-- END TEST -->
 
     <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cuprum:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="<c:url value="css/font-awesome.min.css" />">
-    <link rel="stylesheet" type="text/css" href="<c:url value="css/styles-new.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/font-awesome.min.css" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/styles-new.css" />">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           type="text/css"/>
 
@@ -46,8 +50,14 @@
             crossorigin="anonymous"></script>
     <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="<c:url value="js/common-new.js" />"></script>
+    <script src="<c:url value="/js/common-new.js" />"></script>
 
+    <!-- TEST -->
+    <script src="<c:url value="/js/common.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/js/lib/jquery_cookie_1_4_1.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/js/lib/jquery_msdropdown_dd.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/js/lib/bootstrap-tagsinput.js" />" type="text/javascript"></script>
+    <!-- END TEST -->
 
     <script>
         var ctx = "${pageContext.request.contextPath}";

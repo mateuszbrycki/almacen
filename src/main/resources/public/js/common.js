@@ -1,3 +1,5 @@
+var languageCookieName = "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE";
+
 function changeLanguage(data) {
 
     $.ajax({

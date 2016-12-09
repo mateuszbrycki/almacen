@@ -25,30 +25,6 @@ $(document).ready(function () {
     });
 
 
-    $('#btn-logout').on('click', function (e) {
-        e.preventDefault();
-
-        window.location.href = "index.html";
-    });
-
-    $('.delete-folder').on('click', function () {
-        var temp = $(this);
-
-        temp.closest('.folder').remove();
-    });
-
-    $('.delete-file').on('click', function () {
-        var temp = $(this);
-
-        temp.closest('.file').remove();
-    });
-
-    $('#btn-edit').on('click', function (e) {
-        e.preventDefault();
-
-        $('#modal-edit').modal('show');
-    });
-
     $('#btn-upload').on('click', function (e) {
         e.preventDefault();
 

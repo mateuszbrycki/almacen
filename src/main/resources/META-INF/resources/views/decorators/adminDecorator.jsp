@@ -8,4 +8,5 @@
 
 <jsp:include page="../include/admin_navbar.jsp" />
 
-<jsp:include page="../include/footer.jsp" />
+</body>
+</html>

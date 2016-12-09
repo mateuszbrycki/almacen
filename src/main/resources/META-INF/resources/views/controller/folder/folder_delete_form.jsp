@@ -19,8 +19,7 @@
                         <div class="col-sm-12">
                             <label class="control-label" for="folderName"><spring:message
                                     code="folder.message.info"/></label><br/><br/></div>
-                        <div class="col-sm-7"></div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-12" style="text-align: right">
                             <input type="hidden" id="folder_delete_id" name="folder_id" value="">
                             <input type="submit" id="folder-name" name="submit"
                                    value="<spring:message code="button.yes" />"
