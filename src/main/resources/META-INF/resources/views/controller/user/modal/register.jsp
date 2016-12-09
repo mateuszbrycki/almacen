@@ -14,50 +14,47 @@
                 </button>
                 <h4 class="modal-title"><spring:message code="user.register"/></h4>
             </div>
-            <div class="modal-body">
-                <div class="col-xs-12 col-md-8 col-md-offset-2" style="margin-top: 25px">
-                    <form id='user-register-form'
-                          action="${pageContext.request.contextPath}<%=UserUrls.USER_REGISTER_FORM%>"
-                          method='POST' class="form-horizontal">
+            <form id='user-register-form'
+                  action="${pageContext.request.contextPath}<%=UserUrls.USER_REGISTER_FORM%>"
+                  method='POST' class="form-horizontal">
+                <div class="modal-body">
 
-                        <div class="form-group">
-                            <div>
-                                <input type="text" name="username" placeholder="<spring:message
+                    <div class="form-group">
+                        <div>
+                            <input type="text" name="username" placeholder="<spring:message
                                     code="user.username"/>*" required/>
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <div>
-                                <input type="text" name="mail" placeholder="<spring:message
+                    <div class="form-group">
+                        <div>
+                            <input type="text" name="mail" placeholder="<spring:message
                                     code="user.mail"/>*" required>
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <div>
-                                <input type="password" name="password" id="password" placeholder="<spring:message
+                    <div class="form-group">
+                        <div>
+                            <input type="password" name="password" id="password" placeholder="<spring:message
                                     code="user.password"/>*" required/>
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <div>
-                                <input type="password" name="passwordRepeat" placeholder="<spring:message
+                    <div class="form-group">
+                        <div>
+                            <input type="password" name="passwordRepeat" placeholder="<spring:message
                                     code="user.repeatPassword"/>*" required/>
-                            </div>
                         </div>
-
-                    </form>
-
+                    </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><spring:message
+                            code="button.close"/></button>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><spring:message code="button.close" /></button>
-
-                <input type="submit" id="register-user" name="submit"
-                       value="<spring:message code="user.register" />" class="btn btn-primary"/></div>
+                    <input type="submit" id="register-user" name="submit"
+                           value="<spring:message code="user.register" />" class="btn btn-primary"/>
+                </div>
+            </form>
         </div>
     </div>
 </div>

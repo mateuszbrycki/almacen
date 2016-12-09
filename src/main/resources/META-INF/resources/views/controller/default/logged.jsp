@@ -8,6 +8,10 @@
 <jsp:include page="../../include/header.jsp"/>
 
 <jsp:include page="../../include/user_header.jsp"/>
+<!--<select id="language-select" onchange="changeLanguage(this.value)">
+    <option value="en" data-image="<c:url value="/img/language/en.png" />"></option>
+    <option value="pl_PL" data-image="<c:url value="/img/language/pl_PL.png" />"></option>
+</select>-->
 <section id="herobanner" class="dashboard">
     <div class="herobanner__header">
         <h1><spring:message code="dashboard.header" /></h1>

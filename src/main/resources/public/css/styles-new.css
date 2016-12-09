@@ -538,6 +538,10 @@ body::-webkit-scrollbar-thumb {
     display: inline-block;
 }
 
+.form-horizontal .form-group {
+    margin: 0 !important;
+}
+
 #footer {
     padding: 60px 0;
     background-color: #111;
