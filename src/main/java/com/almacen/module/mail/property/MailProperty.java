@@ -2,9 +2,6 @@ package com.almacen.module.mail.property;
 
 import java.util.Properties;
 
-/**
- * Created by Brolly on 18.05.2016.
- */
 public class MailProperty {
 
     public static Properties set()
