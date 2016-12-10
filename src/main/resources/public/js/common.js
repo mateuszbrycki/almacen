@@ -1,4 +1,6 @@
 var languageCookieName = "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE";
+var percentageArray = new Array();
+var answerArray = new Array();
 
 function changeLanguage(data) {
 

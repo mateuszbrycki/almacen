@@ -611,4 +611,44 @@ body::-webkit-scrollbar-thumb {
     }
 }
 
+
+.logs-status-info:before{
+    content:"\e086";
+    font-family:"Glyphicons Halflings";
+    line-height:1;
+    margin:5px;
+    display:inline-block;
+    font-size:20px;
+}
+
+.logs-status-warning:before{
+    content:"\e085";
+    font-family:"Glyphicons Halflings";
+    line-height:1;
+    margin:5px;
+    display:inline-block;
+    font-size:20px;
+}
+
+.logs-status-error:before{
+    content:"\e083";
+    font-family:"Glyphicons Halflings";
+    line-height:1;
+    margin:5px;
+    display:inline-block;
+    font-size:20px;
+}
+
+.logs-element-info {
+    background-color: #d9edf7;
+}
+
+.logs-element-error {
+    background-color: #f2dede;
+}
+
+.logs-element-warning {
+    background-color: #fcf8e3;
+}
+
 /*# sourceMappingURL=styles.css.map */

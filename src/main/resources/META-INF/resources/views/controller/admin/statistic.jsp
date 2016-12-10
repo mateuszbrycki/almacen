@@ -16,10 +16,6 @@
             </div>
             <br>
             <h5><b><spring:message code="statistic.extension"/>:</b></h5><br>
-            <script>
-                var percentageArray = new Array();
-                var answerArray = new Array();
-            </script>
 
             <c:forEach items="${percentageExtension}" var="percentage">
                 <script>
